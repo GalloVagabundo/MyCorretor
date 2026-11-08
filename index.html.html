@@ -750,7 +750,7 @@
         </div>
 
         <!-- Nível de Acesso (Gestor vs Corretor) -->
-        <div class="arounda-card p-3.5 flex justify-between items-center border border-white/10">
+        <div class="arounda-card p-3.5 flex justify-between items-center border border-white/10" id="profile-role-switcher-card">
           <div class="space-y-0.5">
             <span class="text-[9px] uppercase tracking-wider font-extrabold text-[#BABABA] block">Seu Nível de Acesso</span>
             <span class="text-xs font-bold text-white block" id="profile-role-status-desc">Gestor (Painel da Equipe Liberado)</span>
@@ -1877,6 +1877,7 @@
       const btnToggleManager = document.getElementById('btn-toggle-manager-mode');
       const painelGestorSec = document.getElementById('tab-painel-gestor');
       const profileRoleTag = document.getElementById('profile-role-tag');
+      const roleSwitcherCard = document.getElementById('profile-role-switcher-card');
       const profileRoleDesc = document.getElementById('profile-role-status-desc');
       const btnToggleRoleLabel = document.getElementById('btn-toggle-role-label');
       
@@ -1888,9 +1889,11 @@
       if (anchorLink) anchorLink.href = inviteUrl;
 
       if (isCorretor) {
-        // Corretor: remove botão do topo e oculta painel do gestor
+        // Corretor: remove botão do topo, oculta painel do gestor e oculta 100% qualquer opção de mudar para gestor
         if (btnToggleManager) btnToggleManager.classList.add('hidden');
         if (painelGestorSec) painelGestorSec.classList.add('hidden');
+        if (roleSwitcherCard) roleSwitcherCard.classList.add('hidden');
+
         appState.isManagerView = false;
         const missaoSec = document.getElementById('tab-missao');
         if (missaoSec) missaoSec.classList.remove('hidden');
@@ -1898,18 +1901,14 @@
         if (topTitle) topTitle.textContent = 'Execução Diária';
 
         if (profileRoleTag) {
-          profileRoleTag.textContent = '🎯 Corretor';
+          profileRoleTag.textContent = '🎯 Corretor de Imóveis';
           profileRoleTag.className = 'inline-block text-[9px] uppercase tracking-wider font-extrabold text-emerald-400 bg-emerald-950/40 border border-emerald-500/40 px-2 py-0.5 rounded-full';
         }
-        if (profileRoleDesc) {
-          profileRoleDesc.textContent = 'Corretor (Foco individual no seu funil diário)';
-        }
-        if (btnToggleRoleLabel) {
-          btnToggleRoleLabel.textContent = 'Mudar para Gestor';
-        }
       } else {
-        // Gestor: exibe botão do topo
+        // Gestor: exibe botão de comando e painel da equipe
         if (btnToggleManager) btnToggleManager.classList.remove('hidden');
+        if (roleSwitcherCard) roleSwitcherCard.classList.remove('hidden');
+
         if (profileRoleTag) {
           profileRoleTag.textContent = '👑 Gestor da Equipe';
           profileRoleTag.className = 'inline-block text-[9px] uppercase tracking-wider font-extrabold text-[#FF6D29] bg-[#FF6D29]/15 border border-[#FF6D29]/40 px-2 py-0.5 rounded-full';
