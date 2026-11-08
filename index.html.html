@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>My Corretor — Sistema de Execução Tática</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.48.1"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -12,11 +13,11 @@
           colors: {
             brandOrange: '#FF6D29',
             brandEspresso: '#453027',
-            brandDark: '#161316',
+            brandDark: '#141115',
             brandTextSilver: '#BABABA',
             brandGold: '#E5C158',
-            surfaceCard: 'rgba(28, 24, 27, 0.85)',
-            surfaceCardHover: 'rgba(38, 32, 36, 0.95)'
+            surfaceCard: 'rgba(26, 22, 27, 0.85)',
+            surfaceCardHover: 'rgba(38, 32, 38, 0.95)'
           }
         }
       }
@@ -37,7 +38,7 @@
     }
 
     body {
-      background: #050406;
+      background: #040305;
       color: #FFFFFF;
       margin: 0;
       padding: 0;
@@ -56,53 +57,53 @@
       scrollbar-width: none;
     }
 
-    /* Moldura Mobile com Design System Arounda */
+    /* Moldura Mobile Apple / Arounda */
     .mobile-frame {
       width: 100%;
       max-width: 390px;
       height: 100vh;
       max-height: 844px;
-      background: radial-gradient(circle at 50% -10%, rgba(255, 109, 41, 0.22) 0%, rgba(69, 48, 39, 0.15) 30%, #161316 65%, #0d0b0d 100%);
+      background: radial-gradient(circle at 50% -15%, rgba(255, 109, 41, 0.28) 0%, rgba(69, 48, 39, 0.18) 35%, #141115 68%, #080709 100%);
       display: flex;
       flex-direction: column;
       position: relative;
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 35px 100px -20px rgba(0, 0, 0, 0.95), 0 0 50px rgba(255, 109, 41, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      box-shadow: 0 40px 110px -25px rgba(0, 0, 0, 0.98), 0 0 60px rgba(255, 109, 41, 0.1);
     }
 
     @media (min-width: 640px) {
       .mobile-frame {
-        border-radius: 46px;
+        border-radius: 48px;
         height: 844px;
       }
     }
 
-    /* Cards Estilo Arounda / Neue Montreal */
+    /* Cards Ultra Premium Glassmorphism */
     .arounda-card {
-      background: linear-gradient(180deg, rgba(30, 25, 29, 0.82) 0%, rgba(19, 16, 18, 0.92) 100%);
+      background: linear-gradient(180deg, rgba(32, 26, 31, 0.84) 0%, rgba(18, 15, 18, 0.94) 100%);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-radius: 24px;
+      box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 26px;
     }
 
     .arounda-card-active {
-      background: linear-gradient(180deg, rgba(45, 28, 20, 0.92) 0%, rgba(25, 15, 12, 0.96) 100%) !important;
-      border: 1px solid rgba(255, 109, 41, 0.45) !important;
-      box-shadow: 0 12px 30px -8px rgba(255, 109, 41, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+      background: linear-gradient(180deg, rgba(48, 28, 20, 0.94) 0%, rgba(25, 14, 11, 0.98) 100%) !important;
+      border: 1px solid rgba(255, 109, 41, 0.5) !important;
+      box-shadow: 0 16px 36px -10px rgba(255, 109, 41, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
     }
 
     /* Barra de Progresso com Gradiente Laranja/Dourado Quente */
     .gradient-progress {
       background: linear-gradient(90deg, #FF6D29 0%, #FFAE33 100%);
-      box-shadow: 0 0 12px rgba(255, 109, 41, 0.4);
+      box-shadow: 0 0 14px rgba(255, 109, 41, 0.45);
     }
 
     .gradient-progress-success {
       background: linear-gradient(90deg, #10b981 0%, #34d399 100%);
-      box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+      box-shadow: 0 0 14px rgba(16, 185, 129, 0.45);
     }
 
     /* Botões Táticos de Contador */
@@ -113,8 +114,8 @@
       transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .btn-counter:hover {
-      background: rgba(255, 109, 41, 0.15);
-      border-color: rgba(255, 109, 41, 0.4);
+      background: rgba(255, 109, 41, 0.18);
+      border-color: rgba(255, 109, 41, 0.45);
       color: #FF6D29;
     }
     .btn-counter:active {
@@ -125,16 +126,16 @@
 
     /* Floating Dock de Navegação */
     .floating-dock {
-      background: rgba(24, 20, 23, 0.88);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      box-shadow: 0 20px 40px -8px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
+      background: rgba(22, 18, 22, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 24px 48px -10px rgba(0, 0, 0, 0.88), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
     }
 
     .dock-active {
-      background: rgba(255, 109, 41, 0.2);
-      border: 1px solid rgba(255, 109, 41, 0.5);
+      background: rgba(255, 109, 41, 0.22);
+      border: 1px solid rgba(255, 109, 41, 0.55);
       color: #FF6D29 !important;
     }
     .dock-active svg {
@@ -146,7 +147,7 @@
       width: 44px;
       height: 60px;
       border-radius: 4px 8px 8px 4px;
-      box-shadow: -4px 6px 12px rgba(0,0,0,0.7), inset 3px 0 0 rgba(0,0,0,0.4);
+      box-shadow: -4px 6px 14px rgba(0,0,0,0.75), inset 3px 0 0 rgba(0,0,0,0.4);
       position: relative;
       flex-shrink: 0;
       overflow: hidden;
@@ -158,14 +159,14 @@
       top: 0;
       bottom: 0;
       width: 1px;
-      background: rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.25);
     }
 
     /* Medalha Tática CS:GO */
     .cs-medal {
       background: radial-gradient(circle at 50% 30%, #3a2216 0%, #171315 75%);
-      border: 1px solid rgba(255, 109, 41, 0.5);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 109, 41, 0.55);
+      box-shadow: 0 8px 22px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255, 255, 255, 0.15);
     }
     .cs-medal-locked {
       background: radial-gradient(circle at 50% 30%, #1e1b1d 0%, #110f11 75%);
@@ -183,7 +184,7 @@
     <!-- Dynamic Island & Header Superior -->
     <header class="px-5 pt-3 pb-2 select-none z-20">
       <div class="h-6 w-28 bg-black rounded-full mx-auto flex items-center justify-between px-3 text-[10px] text-white shadow-inner mb-2">
-        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" title="Supabase Conectado"></span>
         <span class="font-mono-num text-[9px] text-[#BABABA]">MyCorretor</span>
         <span class="w-2.5 h-2.5 rounded-full bg-[#FF6D29]"></span>
       </div>
@@ -193,7 +194,13 @@
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
         </button>
 
-        <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-[#BABABA]" id="top-title-indicator">Execução Diária</span>
+        <span class="text-[10px] font-bold uppercase tracking-[0.16em] text-[#BABABA] truncate max-w-[120px]" id="top-title-indicator">Execução Diária</span>
+
+        <!-- Alternador de Visão: Corretor vs Gestor da Equipe -->
+        <button id="btn-toggle-manager-mode" class="flex items-center gap-1 bg-white/5 border border-white/10 px-2 py-1 rounded-full text-[10px] font-bold text-[#BABABA] hover:border-[#FF6D29] hover:text-white transition-all shadow-sm" title="Alternar entre minha missão e painel da equipe">
+          <span id="manager-mode-icon">👥</span>
+          <span id="manager-mode-label">Equipe</span>
+        </button>
 
         <button id="btn-top-avatar" class="w-8 h-8 rounded-full bg-[#FF6D29]/20 border border-[#FF6D29]/40 flex items-center justify-center text-xs font-black text-[#FF6D29] overflow-hidden" title="Ir para o Perfil">
           <span id="top-avatar-initials">GN</span>
@@ -204,7 +211,7 @@
     <!-- Área de Conteúdo Roolável -->
     <div id="content-area" class="flex-1 overflow-y-auto no-scrollbar pb-28 px-4 pt-1">
       
-      <!-- ================= ABA 1: MISSÃO (HOME) ================= -->
+      <!-- ================= ABA 1: MISSÃO (HOME DO CORRETOR) ================= -->
       <section id="tab-missao" class="space-y-4">
         
         <!-- Header Missão -->
@@ -214,9 +221,10 @@
             <h1 class="text-2xl font-black text-white tracking-tight mt-0.5">Missão do Dia</h1>
           </div>
           
+          <!-- Sequência Começando Zerada (0 dias) -->
           <button id="streak-pill-btn" class="flex items-center gap-1.5 bg-[#20191c] border border-[#FF6D29]/40 px-3 py-1.5 rounded-full hover:border-[#FF6D29] transition-all shadow-md active:scale-95" title="Ver calendário de consistência">
             <span class="text-xs">🔥</span>
-            <span class="text-xs font-bold text-[#FF6D29] font-mono-num" id="streak-counter-pill">12 dias</span>
+            <span class="text-xs font-bold text-[#FF6D29] font-mono-num" id="streak-counter-pill">0 dias</span>
           </button>
         </div>
 
@@ -264,7 +272,7 @@
           </div>
         </div>
 
-        <!-- 4 PILARES INEGOCIÁVEIS (ADAPTA AO MODO ESCOLHIDO NO ONBOARDING) -->
+        <!-- 4 PILARES INEGOCIÁVEIS (COM FICHA TÉCNICA ℹ️) -->
         <div class="space-y-3 pt-1">
           <div class="flex justify-between items-center px-1">
             <h2 class="text-[10px] uppercase tracking-[0.18em] font-extrabold text-[#BABABA]" id="pillars-section-title">Pilares Inegociáveis</h2>
@@ -343,7 +351,7 @@
             </div>
           </div>
 
-          <!-- MÓDULO DE AUTORIDADE: 3º ÍMÃ E 4º STORIES (PODEM SER ESCONDIDOS SE OPTAR POR FUNIL SIMPLES) -->
+          <!-- MÓDULO DE AUTORIDADE -->
           <div id="authority-pillars-wrapper" class="space-y-3">
             <!-- 3º: O Ímã -->
             <div class="mission-card arounda-card p-4 transition-all" id="card-feed">
@@ -419,7 +427,7 @@
           </div>
         </div>
 
-        <!-- SEÇÃO: MISSÕES COMPLEMENTARES COM BOTÃO [+] ADICIONAR E LIXEIRA -->
+        <!-- SEÇÃO: MISSÕES COMPLEMENTARES -->
         <div class="pt-2">
           <div class="flex justify-between items-center mb-2 px-1">
             <h3 class="text-[10px] uppercase tracking-[0.18em] font-extrabold text-[#BABABA]">Missões Complementares</h3>
@@ -470,6 +478,121 @@
 
       </section>
 
+      <!-- ================= PAINEL DO GESTOR DA EQUIPE ================= -->
+      <section id="tab-painel-gestor" class="space-y-4 hidden">
+        <div class="flex justify-between items-start">
+          <div>
+            <span class="text-[10px] font-bold tracking-[0.2em] text-[#FF6D29] uppercase">Comando da Imobiliária</span>
+            <h1 class="text-2xl font-black text-white tracking-tight mt-0.5" id="manager-panel-company-name">Estratégia Imobiliária</h1>
+            <p class="text-xs text-[#BABABA]">Monitoramento comercial em tempo real da equipe</p>
+          </div>
+
+          <div class="flex items-center gap-1.5 bg-emerald-950/40 border border-emerald-500/40 px-2.5 py-1 rounded-full text-[10px] font-bold text-emerald-400 font-mono-num">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+            <span>Ao Vivo</span>
+          </div>
+        </div>
+
+        <!-- Placar Geral da Tropa (Consolidado) -->
+        <div class="arounda-card p-4 space-y-3 border-t-2 border-t-[#FF6D29]">
+          <div class="flex justify-between items-center text-xs">
+            <span class="font-bold text-white uppercase tracking-wider">Execução Geral da Equipe</span>
+            <span class="text-[#FF6D29] font-mono-num font-bold" id="team-active-count-badge">Equipe em Campo</span>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2 text-center">
+            <div class="bg-white/5 p-2.5 rounded-xl border border-white/5">
+              <span class="text-base font-black text-white font-mono-num" id="team-stat-contacts">0 / 5</span>
+              <p class="text-[9px] text-[#BABABA] uppercase font-bold mt-0.5">Contatos Hoje</p>
+            </div>
+            <div class="bg-white/5 p-2.5 rounded-xl border border-white/5">
+              <span class="text-base font-black text-[#E5C158] font-mono-num" id="team-stat-visits">0 / 1</span>
+              <p class="text-[9px] text-[#BABABA] uppercase font-bold mt-0.5">Visitas Semana</p>
+            </div>
+            <div class="bg-white/5 p-2.5 rounded-xl border border-white/5">
+              <span class="text-base font-black text-emerald-400 font-mono-num" id="team-stat-pct">0%</span>
+              <p class="text-[9px] text-[#BABABA] uppercase font-bold mt-0.5">Piso Cumprido</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lista de Corretores (Gestor + Card de Convite Oficial) -->
+        <div class="space-y-2.5">
+          <div class="flex justify-between items-center px-1">
+            <h3 class="text-[10px] uppercase tracking-[0.18em] font-extrabold text-[#BABABA]">Membros da Equipe</h3>
+            <span class="text-[10px] text-[#FF6D29] font-bold">Supabase Realtime</span>
+          </div>
+
+          <!-- Corretor 1: Gabriel Novaes (Você / Gestor) -->
+          <div class="arounda-card p-3.5 space-y-2 cursor-pointer hover:border-[#FF6D29]/40 transition-all btn-open-broker-drilldown" data-broker="gabriel">
+            <div class="flex justify-between items-center">
+              <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-full bg-[#FF6D29]/20 border border-[#FF6D29]/40 flex items-center justify-center text-xs font-bold text-[#FF6D29]">GN</div>
+                <div>
+                  <h4 class="text-xs font-bold text-white flex items-center gap-1.5">
+                    <span id="manager-my-name-tag">Gabriel Novaes</span>
+                    <span class="text-[8px] bg-[#FF6D29]/20 text-[#FF6D29] px-1.5 py-0.2 rounded font-mono-num">GESTOR</span>
+                  </h4>
+                  <p class="text-[10px] text-[#BABABA]">Toque para ver seu relatório completo</p>
+                </div>
+              </div>
+              <span class="text-[10px] font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-500/30 px-2 py-0.5 rounded-full" id="manager-my-status">Ativo</span>
+            </div>
+
+            <!-- Métricas ao Vivo -->
+            <div class="grid grid-cols-3 gap-1.5 text-center text-[10px] bg-black/40 p-2 rounded-xl font-mono-num">
+              <div>
+                <span class="text-[#BABABA] block text-[8px]">PROSPECÇÃO</span>
+                <span class="font-bold text-white" id="manager-my-prosp">0/5</span>
+              </div>
+              <div>
+                <span class="text-[#BABABA] block text-[8px]">O PONTEIRO</span>
+                <span class="font-bold text-[#E5C158]" id="manager-my-reun">0/1</span>
+              </div>
+              <div>
+                <span class="text-[#BABABA] block text-[8px]">STORIES</span>
+                <span class="font-bold text-white" id="manager-my-stories">0/3</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Estado Real: Convite para o Corretor da Equipe -->
+          <div class="arounda-card p-4 text-center space-y-3 border border-[#FF6D29]/30 bg-gradient-to-b from-[#201715] to-[#141115]">
+            <div class="w-12 h-12 mx-auto rounded-2xl bg-[#FF6D29]/15 border border-[#FF6D29]/30 flex items-center justify-center text-2xl text-[#FF6D29]">
+              👥
+            </div>
+            
+            <div>
+              <span class="inline-block text-[9px] uppercase tracking-wider font-extrabold text-[#FF6D29] bg-[#FF6D29]/10 px-2 py-0.5 rounded-full border border-[#FF6D29]/30">Link Oficial da Equipe</span>
+              <h4 class="text-sm font-extrabold text-white mt-1">Conectar Corretor</h4>
+              <p class="text-xs text-[#BABABA] mt-1 leading-relaxed">
+                Envie o link abaixo para seus corretores conectarem o funil à <strong class="text-white" id="empty-state-company-name">sua equipe</strong>. Ao entrar por ele, o corretor tem a aba de gestão oculta automaticamente.
+              </p>
+            </div>
+
+            <!-- Caixa de Link Limpa e Clicável -->
+            <div class="pt-0.5">
+              <a id="link-anchor-broker-invite" href="https://mycorretor.vercel.app?cargo=corretor" target="_blank" class="block w-full py-2.5 px-3 bg-black/60 border border-[#FF6D29]/40 rounded-xl hover:border-[#FF6D29] transition-all text-center font-mono text-xs text-[#FFAE33] font-bold break-all hover:underline" title="Toque para testar link">
+                <span id="display-broker-invite-link">https://mycorretor.vercel.app?cargo=corretor</span>
+              </a>
+            </div>
+
+            <!-- Botões de Ação -->
+            <div class="space-y-2 pt-1">
+              <button id="btn-copy-team-invite" class="w-full py-2.5 rounded-full bg-[#FF6D29] text-white font-black text-xs hover:bg-[#FFAE33] transition-all flex items-center justify-center gap-1.5 shadow-md active:scale-95">
+                <span>🔗</span>
+                <span>Copiar Link de Convite da Equipe</span>
+              </button>
+
+              <button id="btn-share-whatsapp-invite" class="w-full py-2 rounded-xl bg-emerald-600/90 hover:bg-emerald-600 text-white font-bold text-xs transition-all flex items-center justify-center gap-1.5 shadow-sm active:scale-95">
+                <span>💬</span>
+                <span>Enviar Convite pelo WhatsApp</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- ================= ABA 2: PROGRESSO ================= -->
       <section id="tab-progresso" class="space-y-4 hidden">
         <div class="flex justify-between items-start">
@@ -489,6 +612,15 @@
           <button class="period-tab flex-1 py-1.5 text-xs font-bold rounded-xl bg-[#FF6D29] text-white shadow-md transition-all" data-period="semana">Semana</button>
           <button class="period-tab flex-1 py-1.5 text-xs font-medium text-[#BABABA] rounded-xl hover:text-white transition-all" data-period="mes">Mês</button>
           <button class="period-tab flex-1 py-1.5 text-xs font-medium text-[#BABABA] rounded-xl hover:text-white transition-all" data-period="ano">Ano</button>
+        </div>
+
+        <!-- Intervalo de Datas Real de Segunda a Domingo -->
+        <div class="flex items-center justify-between text-[10px] text-[#BABABA] font-mono-num bg-white/5 py-1.5 px-3 rounded-xl border border-white/5">
+          <span class="flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#FF6D29]"></span>
+            <span id="progress-date-range-badge">Semana: 09/11 a 15/11 (Seg a Dom)</span>
+          </span>
+          <span class="text-[#BABABA]/60">Ciclo Semanal</span>
         </div>
 
         <div class="arounda-card p-4">
@@ -604,14 +736,29 @@
               </p>
               <div class="flex items-center gap-1.5 mt-1.5 flex-wrap">
                 <span class="inline-flex items-center gap-1 text-[9px] uppercase tracking-wider font-extrabold text-white bg-white/10 border border-white/15 px-2 py-0.5 rounded-full" id="profile-company-tag">
-                  🏢 <span id="profile-company-text">Poli Park Imóveis</span>
+                  🏢 <span id="profile-company-text">Estratégia Imobiliária</span>
                 </span>
                 <span class="inline-block text-[9px] uppercase tracking-wider font-extrabold text-[#FF6D29] bg-[#FF6D29]/10 border border-[#FF6D29]/30 px-2 py-0.5 rounded-full" id="profile-mode-tag">
                   Modo Completo
                 </span>
+                <span class="inline-block text-[9px] uppercase tracking-wider font-extrabold text-[#FF6D29] bg-[#FF6D29]/15 border border-[#FF6D29]/40 px-2 py-0.5 rounded-full" id="profile-role-tag">
+                  👑 Gestor da Equipe
+                </span>
               </div>
             </div>
           </div>
+        </div>
+
+        <!-- Nível de Acesso (Gestor vs Corretor) -->
+        <div class="arounda-card p-3.5 flex justify-between items-center border border-white/10">
+          <div class="space-y-0.5">
+            <span class="text-[9px] uppercase tracking-wider font-extrabold text-[#BABABA] block">Seu Nível de Acesso</span>
+            <span class="text-xs font-bold text-white block" id="profile-role-status-desc">Gestor (Painel da Equipe Liberado)</span>
+          </div>
+          <button id="btn-toggle-role-test" class="text-[10px] font-bold px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 hover:border-[#FF6D29] text-[#FF6D29] transition-all active:scale-95 flex items-center gap-1">
+            <span>🔄</span>
+            <span id="btn-toggle-role-label">Testar como Corretor</span>
+          </button>
         </div>
 
         <!-- 3 Métricas -->
@@ -745,10 +892,43 @@
       </button>
     </nav>
 
-    <!-- ================= MODAL DE ONBOARDING: MULTI-STEP COM EXPLICATIVOS E AUTORIDADE ================= -->
-    <div id="onboarding-screen" class="absolute inset-0 bg-[#0d0b0d] z-50 flex flex-col justify-between p-5 overflow-y-auto no-scrollbar">
+    <!-- ================= POP-UP INICIAL DE BOAS-VINDAS (SPLASH MODAL) ================= -->
+    <div id="welcome-splash-modal" class="fixed inset-0 bg-black/90 backdrop-blur-xl z-50 flex items-center justify-center p-5 hidden">
+      <div class="arounda-card w-full max-w-[340px] p-6 relative shadow-2xl border border-white/15 text-center space-y-4">
+        
+        <div class="w-14 h-14 mx-auto rounded-3xl bg-gradient-to-tr from-[#FF6D29] to-[#FFAE33] flex items-center justify-center text-2xl text-white shadow-xl shadow-[#FF6D29]/40">
+          ⚡
+        </div>
+
+        <div>
+          <span class="text-[9px] uppercase font-mono-num font-extrabold text-[#FF6D29] tracking-[0.2em] block mb-1">Sistema de Execução Tática</span>
+          <h2 class="text-xl font-black text-white leading-tight">Bem-vindo ao My Corretor</h2>
+          <p class="text-xs text-[#BABABA] mt-2 leading-relaxed">
+            Sua meta mensal, quebrada em ações diárias inegociáveis. Sem enrolação de planilha.
+          </p>
+        </div>
+
+        <div class="bg-white/5 border border-white/5 p-3 rounded-2xl text-left text-[11px] text-[#BABABA] space-y-1.5">
+          <div class="flex items-center gap-2 text-white font-bold">
+            <span class="text-emerald-400">✓</span> <span>Cálculo estatístico de mercado</span>
+          </div>
+          <div class="flex items-center gap-2 text-white font-bold">
+            <span class="text-emerald-400">✓</span> <span>Piso diário, nunca teto</span>
+          </div>
+          <div class="flex items-center gap-2 text-white font-bold">
+            <span class="text-emerald-400">✓</span> <span>Sincronizado na nuvem (Supabase)</span>
+          </div>
+        </div>
+
+        <button id="btn-start-welcome-flow" class="w-full py-3.5 rounded-full bg-[#FF6D29] text-white font-black text-xs hover:bg-[#FFAE33] transition-all shadow-xl shadow-[#FF6D29]/35 active:scale-95 uppercase tracking-wider">
+          Configurar Minha Operação →
+        </button>
+      </div>
+    </div>
+
+    <!-- ================= MODAL DE ONBOARDING: MULTI-STEP COM INPUTS EM BRANCO ================= -->
+    <div id="onboarding-screen" class="absolute inset-0 bg-[#0d0b0d] z-50 flex flex-col justify-between p-5 overflow-y-auto no-scrollbar hidden">
       
-      <!-- Topo com Indicador de Etapas -->
       <div class="space-y-4">
         <div class="flex justify-between items-center pt-1 border-b border-white/5 pb-3">
           <div class="flex items-center gap-2">
@@ -758,7 +938,7 @@
           <span class="text-[10px] font-mono-num font-bold text-[#FF6D29] bg-[#FF6D29]/10 px-2.5 py-0.5 rounded-full border border-[#FF6D29]/30" id="onboarding-step-counter">Passo 1 de 3</span>
         </div>
 
-        <!-- ETAPA 1: IDENTIFICAÇÃO DO CORRETOR -->
+        <!-- ETAPA 1: IDENTIFICAÇÃO DO CORRETOR (100% EM BRANCO) -->
         <div id="onboarding-step-1" class="space-y-3">
           <div class="arounda-card p-4 border-l-4 border-l-[#FF6D29]">
             <span class="text-[9px] uppercase font-extrabold text-[#FF6D29] tracking-wider block mb-1">Boas-Vindas do Gestor</span>
@@ -773,51 +953,52 @@
             
             <div>
               <label for="onboarding-name" class="text-[10px] font-bold text-[#BABABA] block mb-1">Seu Nome Completo</label>
-              <input type="text" id="onboarding-name" placeholder="Ex: Gabriel Novaes" value="Gabriel Novaes" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-[#FF6D29] outline-none">
+              <input type="text" id="onboarding-name" placeholder="Digite seu nome completo..." value="" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-[#FF6D29] outline-none">
             </div>
 
             <div class="grid grid-cols-2 gap-2">
               <div>
                 <label for="onboarding-city" class="text-[10px] font-bold text-[#BABABA] block mb-1">Cidade / Praça</label>
-                <input type="text" id="onboarding-city" placeholder="Ex: Ilhéus, BA" value="Ilhéus, BA" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-[#FF6D29] outline-none">
+                <input type="text" id="onboarding-city" placeholder="Ex: Ilhéus, BA..." value="" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-[#FF6D29] outline-none">
               </div>
 
               <div>
                 <label for="onboarding-company" class="text-[10px] font-bold text-[#BABABA] block mb-1">Imobiliária / Empresa</label>
-                <input type="text" id="onboarding-company" placeholder="Ex: Poli Park Imóveis" value="Poli Park Imóveis" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-[#FF6D29] outline-none">
+                <input type="text" id="onboarding-company" placeholder="Ex: Estratégia Imobiliária..." value="" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-[#FF6D29] outline-none">
               </div>
             </div>
           </div>
         </div>
 
-        <!-- ETAPA 2: DIAGNÓSTICO + FUNIL REVERSO DO PLANNER + EXPLICATIVO -->
+        <!-- ETAPA 2: DIAGNÓSTICO + FUNIL REVERSO -->
         <div id="onboarding-step-2" class="space-y-3 hidden">
           <div class="arounda-card p-4 border-l-4 border-l-[#E5C158]">
             <div class="flex justify-between items-center mb-1">
               <span class="text-[9px] uppercase font-extrabold text-[#E5C158] tracking-wider">O Funil Estatístico do Mês</span>
               <button id="btn-open-funnel-explainer" class="text-[10px] text-[#E5C158] font-bold underline">Entenda as Métricas ℹ️</button>
             </div>
-            <div class="flex justify-between items-center"><h3 class="text-sm font-black text-white">Sua meta financeira define o piso diário</h3><span class="text-[10px] font-bold text-emerald-400 bg-emerald-950/50 border border-emerald-500/30 px-2 py-0.5 rounded-full font-mono-num" id="calc-vendas-badge">1 Venda</span></div>
+            <div class="flex justify-between items-center">
+              <h3 class="text-sm font-black text-white">Sua meta financeira define o piso diário</h3>
+              <span class="text-[10px] font-bold text-emerald-400 bg-emerald-950/50 border border-emerald-500/30 px-2 py-0.5 rounded-full font-mono-num" id="calc-vendas-badge">1 Venda</span>
+            </div>
             <p class="text-xs text-[#BABABA] mt-1 leading-relaxed">
               Baseado no benchmark de 340.000+ corretores do mercado imobiliário (Facilita e CV CRM).
             </p>
           </div>
 
-          <!-- Inputs de Faturamento e Comissão -->
           <div class="arounda-card p-4 space-y-3">
             <div class="grid grid-cols-2 gap-2">
               <div>
                 <label for="onboarding-fat" class="text-[10px] font-bold text-[#BABABA] block mb-1">Meta Faturamento (R$)</label>
-                <input type="number" id="onboarding-fat" value="10000" min="1000" step="500" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white font-mono-num focus:border-[#FF6D29] outline-none">
+                <input type="number" id="onboarding-fat" placeholder="10000" value="10000" min="1000" step="500" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white font-mono-num focus:border-[#FF6D29] outline-none">
               </div>
 
               <div>
                 <label for="onboarding-comissao" class="text-[10px] font-bold text-[#BABABA] block mb-1">Comissão / Venda (R$)</label>
-                <input type="number" id="onboarding-comissao" value="10000" min="1000" step="500" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white font-mono-num focus:border-[#FF6D29] outline-none">
+                <input type="number" id="onboarding-comissao" placeholder="10000" value="10000" min="1000" step="500" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white font-mono-num focus:border-[#FF6D29] outline-none">
               </div>
             </div>
 
-            <!-- Degraus do Funil -->
             <div class="bg-black/50 border border-white/5 rounded-2xl p-3 space-y-2 text-xs font-mono-num">
               <div class="flex justify-between items-center pb-1 border-b border-white/5">
                 <span class="text-[#BABABA]">01 PROSPECÇÃO (Campo)</span>
@@ -845,16 +1026,17 @@
               </div>
             </div>
 
-            <!-- Cheque Compacto -->
             <div class="pt-2 border-t border-white/5 flex justify-between items-center text-xs">
               <span class="text-[#BABABA]">Cheque do Futuro:</span>
               <span class="text-white font-black font-mono-num" id="onboarding-cheque-display">R$ 10.000,00</span>
-              <input type="hidden" id="onboarding-cheque" value="10.000,00"><span id="onboarding-cheque-month-text" class="hidden">Dezembro / 2026</span><span id="onboarding-daily-target-tag" class="hidden">3 contatos/dia</span>
+              <input type="hidden" id="onboarding-cheque" value="10.000,00">
+              <span id="onboarding-cheque-month-text" class="hidden">Dezembro / 2026</span>
+              <span id="onboarding-daily-target-tag" class="hidden">3 contatos/dia</span>
             </div>
           </div>
         </div>
 
-        <!-- ETAPA 3: EXPLICAÇÃO DE AUTORIDADE DIGITAL & ESCOLHA DO MODO DO APP -->
+        <!-- ETAPA 3: AUTORIDADE DIGITAL & ESCOLHA DO MODO -->
         <div id="onboarding-step-3" class="space-y-3 hidden">
           <div class="arounda-card p-4 border-l-4 border-l-blue-500">
             <span class="text-[9px] uppercase font-extrabold text-blue-400 tracking-wider block mb-1">Módulo de Autoridade Digital</span>
@@ -864,7 +1046,6 @@
             </p>
           </div>
 
-          <!-- Como Medir Autoridade -->
           <div class="arounda-card p-4 space-y-2.5">
             <h4 class="text-xs font-black text-white uppercase tracking-wider">Como o App Mede Autoridade:</h4>
             
@@ -884,12 +1065,10 @@
               </div>
             </div>
 
-            <!-- Pergunta Decisiva com Seleção Visual -->
             <div class="pt-2 border-t border-white/5">
               <span class="text-[11px] font-bold text-white block mb-2">Deseja ativar os medidores de Autoridade na sua rotina?</span>
               
               <div class="space-y-2">
-                <!-- Opção 1: Completo -->
                 <label class="cursor-pointer arounda-card p-3 flex items-center justify-between border border-[#FF6D29]/40 bg-[#FF6D29]/10 block" id="option-authority-yes">
                   <div class="flex items-center gap-2.5">
                     <input type="radio" name="onboarding-authority-mode" value="completo" checked class="text-[#FF6D29] accent-[#FF6D29]">
@@ -901,7 +1080,6 @@
                   <span class="text-[10px] text-[#FF6D29] font-bold font-mono-num">4 Pilares</span>
                 </label>
 
-                <!-- Opção 2: Simples -->
                 <label class="cursor-pointer arounda-card p-3 flex items-center justify-between border border-white/10 bg-white/5 block" id="option-authority-no">
                   <div class="flex items-center gap-2.5">
                     <input type="radio" name="onboarding-authority-mode" value="simples" class="text-[#FF6D29] accent-[#FF6D29]">
@@ -918,7 +1096,6 @@
         </div>
       </div>
 
-      <!-- Barra de Ações do Onboarding (Avançar / Voltar) -->
       <div class="pt-4 pb-1 space-y-2">
         <div class="flex gap-2">
           <button id="btn-onboarding-prev" class="w-1/3 py-3 rounded-full bg-white/5 border border-white/10 text-white font-bold text-xs hover:bg-white/10 transition-all hidden">
@@ -931,7 +1108,7 @@
             Iniciar Minha Missão de Elite →
           </button>
         </div>
-        <p class="text-[9px] text-center text-[#BABABA]/60">Configuração salva no seu navegador • Ajustável nas configurações a qualquer hora.</p>
+        <p class="text-[9px] text-center text-[#BABABA]/60">Configuração salva no Supabase e no seu navegador.</p>
       </div>
     </div>
 
@@ -973,6 +1150,93 @@
         <button id="btn-close-explainer-ack" class="w-full mt-4 py-2.5 rounded-full bg-[#FF6D29] text-white font-black text-xs hover:bg-[#FFAE33] transition-all">
           Entendido, Voltar ao Funil
         </button>
+      </div>
+    </div>
+
+    <!-- ================= MODAL: EXPLICAÇÃO TÉCNICA DO PILAR (ℹ️) ================= -->
+    <div id="pillar-info-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+      <div class="arounda-card w-full max-w-[340px] p-5 relative shadow-2xl border border-white/10 text-left">
+        <button id="close-pillar-info-modal" class="absolute top-4 right-4 text-[#BABABA] hover:text-white p-1 font-bold">✕</button>
+        
+        <span class="text-[9px] font-mono-num font-bold uppercase tracking-wider text-[#FF6D29]" id="pillar-modal-tag">Pilar Inegociável</span>
+        <h3 class="text-base font-black text-white mt-1" id="pillar-modal-title">O Campo de Batalha</h3>
+
+        <div class="mt-4 space-y-3 text-xs">
+          <div class="bg-white/5 p-3 rounded-2xl border border-white/5">
+            <span class="text-[10px] font-extrabold text-[#FF6D29] uppercase tracking-wider block mb-1">Definição Técnica:</span>
+            <p class="text-white text-xs leading-relaxed" id="pillar-modal-def">Primeiro contato intencional com o cliente via WhatsApp ou ligação.</p>
+          </div>
+
+          <div class="bg-white/5 p-3 rounded-2xl border border-white/5">
+            <span class="text-[10px] font-extrabold text-[#BABABA] uppercase tracking-wider block mb-1">O Que Conta:</span>
+            <p class="text-[#BABABA] text-xs leading-relaxed" id="pillar-modal-counts">Abordagem direta e individual para iniciar atendimento no funil.</p>
+          </div>
+
+          <div class="bg-white/5 p-3 rounded-2xl border border-white/5">
+            <span class="text-[10px] font-extrabold text-emerald-400 uppercase tracking-wider block mb-1">Métrica do Funil:</span>
+            <p class="text-emerald-400 font-mono-num text-xs leading-relaxed" id="pillar-modal-funnel">Taxa esperada de 33% para atendimento. Piso diário calculado.</p>
+          </div>
+        </div>
+
+        <button id="btn-close-pillar-modal-ack" class="w-full mt-4 py-2.5 rounded-full bg-[#FF6D29] text-white font-black text-xs hover:bg-[#FFAE33] transition-all">
+          Entendido
+        </button>
+      </div>
+    </div>
+
+    <!-- ================= MODAL: AUDITORIA DETALHADA DO CORRETOR (GESTOR) ================= -->
+    <div id="broker-drilldown-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+      <div class="arounda-card w-full max-w-[360px] p-5 relative shadow-2xl border border-white/10 max-h-[88vh] overflow-y-auto no-scrollbar">
+        <button id="close-broker-drilldown-modal" class="absolute top-4 right-4 text-[#BABABA] hover:text-white p-1 font-bold text-base">✕</button>
+        
+        <div class="flex items-center gap-3 pb-3 border-b border-white/10">
+          <div id="drilldown-broker-avatar" class="w-11 h-11 rounded-2xl bg-[#FF6D29]/20 border border-[#FF6D29]/40 flex items-center justify-center text-sm font-black text-[#FF6D29]">
+            JS
+          </div>
+          <div>
+            <h3 class="text-sm font-black text-white" id="drilldown-broker-name">João Silva</h3>
+            <p class="text-[10px] text-[#BABABA]" id="drilldown-broker-role">Corretor de Imóveis • Estratégia Imobiliária</p>
+          </div>
+        </div>
+
+        <!-- Seletor de Período do Corretor -->
+        <div class="mt-3 space-y-2">
+          <div class="flex bg-[#161215] p-1 rounded-2xl border border-white/5">
+            <button class="broker-period-tab flex-1 py-1 text-xs font-bold rounded-xl bg-[#FF6D29] text-white transition-all" data-period="semana">Semana</button>
+            <button class="broker-period-tab flex-1 py-1 text-xs font-medium text-[#BABABA] rounded-xl hover:text-white transition-all" data-period="mes">Mês</button>
+            <button class="broker-period-tab flex-1 py-1 text-xs font-medium text-[#BABABA] rounded-xl hover:text-white transition-all" data-period="ano">Ano</button>
+          </div>
+
+          <div class="flex items-center justify-between text-[10px] text-[#BABABA] font-mono-num bg-white/5 py-1 px-2.5 rounded-lg">
+            <span id="drilldown-date-range">Semana: 09/11 a 15/11</span>
+            <span class="text-emerald-400 font-bold" id="drilldown-status-tag">Atividade Normal</span>
+          </div>
+        </div>
+
+        <!-- Volume de Execução do Corretor (Inclui Meta de Pastas) -->
+        <div class="mt-3.5 space-y-3">
+          <h4 class="text-xs font-extrabold text-white uppercase tracking-wider">Volume de Atividades</h4>
+          
+          <div id="drilldown-activities-container" class="space-y-2.5"></div>
+        </div>
+
+        <!-- Cheque do Futuro do Corretor -->
+        <div class="mt-4 p-3 rounded-2xl bg-black/40 border border-white/5">
+          <div class="flex justify-between items-center text-[10px]">
+            <span class="uppercase font-bold text-[#FF6D29]">Cheque do Corretor</span>
+            <span class="font-mono-num text-[#BABABA]" id="drilldown-cheque-pct">50% alcançado</span>
+          </div>
+          <div class="text-base font-black text-white font-mono-num mt-0.5" id="drilldown-cheque-val">R$ 20.000,00</div>
+        </div>
+
+        <!-- Botões de Ação para o Gestor -->
+        <div class="mt-4 pt-3 border-t border-white/10 flex gap-2">
+          <button id="btn-drilldown-nudge" class="py-2.5 px-3 rounded-full bg-rose-600/20 border border-rose-500/40 text-rose-400 font-bold text-xs hover:bg-rose-600/30 transition-all shrink-0">Cobrar Piso ⚡</button>
+          <button id="btn-drilldown-whatsapp" class="flex-1 py-2.5 rounded-full bg-emerald-600 text-white font-black text-xs hover:bg-emerald-500 transition-all flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-950/50">
+            <span>💬</span>
+            <span id="drilldown-whatsapp-label">Chamar no WhatsApp</span>
+          </button>
+        </div>
       </div>
     </div>
 
@@ -1158,7 +1422,7 @@
 
           <div>
             <label for="input-profile-company" class="text-[11px] font-bold text-[#BABABA] block mb-1">Imobiliária / Empresa</label>
-            <input type="text" id="input-profile-company" value="Poli Park Imóveis" required class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-[#FF6D29] outline-none">
+            <input type="text" id="input-profile-company" value="Estratégia Imobiliária" required class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-[#FF6D29] outline-none">
           </div>
 
           <div class="pt-2">
@@ -1248,38 +1512,6 @@
     <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-[#221c1f] border border-[#FF6D29] text-white text-xs px-4 py-2 rounded-full shadow-2xl opacity-0 pointer-events-none transition-opacity duration-300 z-50 whitespace-nowrap font-medium flex items-center gap-2">
       <span class="w-1.5 h-1.5 rounded-full bg-[#FF6D29]"></span>
       <span id="toast-text">Ação registrada!</span>
-    </div>
-
-  
-    <!-- ================= MODAL: EXPLICAÇÃO TÉCNICA DO PILAR ================= -->
-    <div id="pillar-info-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
-      <div class="arounda-card w-full max-w-[340px] p-5 relative shadow-2xl border border-white/10 text-left">
-        <button id="close-pillar-info-modal" class="absolute top-4 right-4 text-[#BABABA] hover:text-white p-1 font-bold">✕</button>
-        
-        <span class="text-[9px] font-mono-num font-bold uppercase tracking-wider text-[#FF6D29]" id="pillar-modal-tag">Pilar Inegociável</span>
-        <h3 class="text-base font-black text-white mt-1" id="pillar-modal-title">O Campo de Batalha</h3>
-
-        <div class="mt-4 space-y-3 text-xs">
-          <div class="bg-white/5 p-3 rounded-2xl border border-white/5">
-            <span class="text-[10px] font-extrabold text-[#FF6D29] uppercase tracking-wider block mb-1">Definição Técnica:</span>
-            <p class="text-white text-xs leading-relaxed" id="pillar-modal-def">Primeiro contato intencional com o cliente via WhatsApp ou ligação.</p>
-          </div>
-
-          <div class="bg-white/5 p-3 rounded-2xl border border-white/5">
-            <span class="text-[10px] font-extrabold text-[#BABABA] uppercase tracking-wider block mb-1">O Que Conta:</span>
-            <p class="text-[#BABABA] text-xs leading-relaxed" id="pillar-modal-counts">Abordagem direta e individual para iniciar atendimento no funil.</p>
-          </div>
-
-          <div class="bg-white/5 p-3 rounded-2xl border border-white/5">
-            <span class="text-[10px] font-extrabold text-emerald-400 uppercase tracking-wider block mb-1">Métrica do Funil:</span>
-            <p class="text-emerald-400 font-mono-num text-xs leading-relaxed" id="pillar-modal-funnel">Taxa esperada de 33% para atendimento. Piso diário calculado.</p>
-          </div>
-        </div>
-
-        <button id="btn-close-pillar-modal-ack" class="w-full mt-4 py-2.5 rounded-full bg-[#FF6D29] text-white font-black text-xs hover:bg-[#FFAE33] transition-all">
-          Entendido
-        </button>
-      </div>
     </div>
 
   </main>
@@ -1386,12 +1618,163 @@
       }
     }
 
-    // Estado Padrão Inicial
+    // Configuração Supabase Oficial
+    const SUPABASE_CONFIG = {
+      url: 'https://qjqtkofwovokkhjxmmli.supabase.co',
+      anonKey: 'sb_publishable_FVKMCi1osbLvBpgoLd94PQ_W7T9sK3_'
+    };
+
+    let supabaseClient = null;
+    try {
+      if (window.supabase) {
+        supabaseClient = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
+      }
+    } catch (e) {
+      console.warn('Supabase offline ou chave pendente', e);
+    }
+
+    // Dados Reais da Equipe (Sem Nomes Fictícios)
+    const teamBrokersData = {
+      gabriel: {
+        name: 'Gabriel Novaes',
+        initials: 'GN',
+        role: 'Fundador & Gestor',
+        status: 'Em Atividade',
+        statusColor: 'emerald',
+        cheque: 'R$ 50.000,00',
+        chequePct: 'Em andamento',
+        phone: '5573999999999',
+        getActivities: function(period) {
+          const targetProsp = (period === 'semana') ? (appState.missions.prospeccao.target * 5) : (appState.missions.prospeccao.target * 20);
+          const currentProsp = appState.missions.prospeccao.periodVolume[period] || appState.missions.prospeccao.count;
+          const currentVisits = appState.missions.reuniao.periodVolume[period] || appState.missions.reuniao.count;
+          const targetVisits = (period === 'semana') ? appState.missions.reuniao.target : (appState.missions.reuniao.target * 4);
+
+          return [
+            { label: 'O Campo de Batalha (Contatos)', count: currentProsp, target: targetProsp, color: '#FF6D29' },
+            { label: 'O Ponteiro (Visitas)', count: currentVisits, target: targetVisits, color: '#E5C158' },
+            { label: 'O Ímã (Vídeos no Feed)', count: appState.missions.feed.count, target: 3, color: '#3b82f6' },
+            { label: 'A Conexão (Stories)', count: appState.missions.stories.count, target: 3, color: '#ec4899' },
+            { label: 'Meta de Pastas (Lançamentos)', count: 0, target: 3, color: '#10b981' }
+          ];
+        }
+      }
+    };
+
+    let selectedDrilldownBroker = 'gabriel';
+    let selectedDrilldownPeriod = 'semana';
+
+    // Cálculo Real do Intervalo Semanal de Segunda a Domingo
+    function getWeekDateRangeString() {
+      const now = new Date();
+      const day = now.getDay();
+      const diffToMonday = (day === 0 ? -6 : 1) - day;
+      const monday = new Date(now);
+      monday.setDate(now.getDate() + diffToMonday);
+
+      const sunday = new Date(monday);
+      sunday.setDate(monday.getDate() + 6);
+
+      const pad = (n) => String(n).padStart(2, '0');
+      return `${pad(monday.getDate())}/${pad(monday.getMonth() + 1)} a ${pad(sunday.getDate())}/${pad(sunday.getMonth() + 1)}`;
+    }
+
+    function renderBrokerDrilldown(brokerKey, period = 'semana') {
+      const data = teamBrokersData[brokerKey] || teamBrokersData['gabriel'];
+      if (!data) return;
+
+      selectedDrilldownBroker = brokerKey;
+      selectedDrilldownPeriod = period;
+
+      const company = appState.profile.company || 'Estratégia Imobiliária';
+      document.getElementById('drilldown-broker-avatar').textContent = data.initials;
+      document.getElementById('drilldown-broker-name').textContent = data.name;
+      document.getElementById('drilldown-broker-role').textContent = `${data.role} • ${company}`;
+      document.getElementById('drilldown-status-tag').textContent = data.status;
+      document.getElementById('drilldown-cheque-val').textContent = data.cheque;
+      document.getElementById('drilldown-cheque-pct').textContent = data.chequePct;
+      document.getElementById('drilldown-whatsapp-label').textContent = `Chamar ${data.name.split(' ')[0]} no WhatsApp`;
+
+      const rangeEl = document.getElementById('drilldown-date-range');
+      if (period === 'semana') rangeEl.textContent = `Semana: ${getWeekDateRangeString()} (Seg a Dom)`;
+      else if (period === 'mes') rangeEl.textContent = `Mês: 01/11 a 30/11 (Novembro/2026)`;
+      else rangeEl.textContent = `Ano Vigente: 2026`;
+
+      const container = document.getElementById('drilldown-activities-container');
+      container.innerHTML = '';
+
+      const acts = data.getActivities ? data.getActivities(period) : (data.activities ? (data.activities[period] || data.activities['semana']) : []);
+      acts.forEach(act => {
+        const pct = Math.min(100, Math.round((act.count / act.target) * 100));
+        const div = document.createElement('div');
+        div.className = 'space-y-1 bg-white/5 p-2 rounded-xl border border-white/5';
+        div.innerHTML = `
+          <div class="flex justify-between text-xs">
+            <span class="text-[#BABABA] truncate pr-2">${act.label}</span>
+            <span class="font-mono-num font-bold text-white shrink-0">${act.count} / ${act.target}</span>
+          </div>
+          <div class="w-full bg-[#110e11] h-1.5 rounded-full overflow-hidden">
+            <div class="${act.count >= act.target ? 'gradient-progress-success' : 'gradient-progress'} h-full rounded-full" style="width: ${pct}%"></div>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+
+      document.getElementById('broker-drilldown-modal').classList.remove('hidden');
+    }
+
+    // Explicações Técnicas e Secas
+    const pillarExplanations = {
+      prospeccao: {
+        tag: '1º Pilar • Diário',
+        title: 'O Campo de Batalha (Prospecção)',
+        def: 'Primeiro contato intencional com o cliente via WhatsApp ou ligação.',
+        counts: 'Abordagem direta e individual para iniciar atendimento no funil.',
+        funnel: 'Taxa de conversão esperada de 33% para atendimento. Piso diário calculado.'
+      },
+      reuniao: {
+        tag: '2º Pilar • Semanal',
+        title: 'O Ponteiro (Apresentação / Visita)',
+        def: 'Reunião de apresentação ou visita ao imóvel com cliente qualificado.',
+        counts: 'Apresentação da matemática do negócio, alavancagem ou visita técnica presencial.',
+        funnel: '50% de conversão para proposta. Meta semanal inegociável.'
+      },
+      feed: {
+        tag: '3º Pilar • Semanal',
+        title: 'O Ímã (Vídeos no Feed)',
+        def: 'Publicação de vídeo autoral no feed voltado à atração de clientes.',
+        counts: 'Conteúdo técnico de inteligência de mercado, valorização e alavancagem financeira.',
+        funnel: 'Meta semanal de 3 vídeos publicados para geração orgânica de novos leads.'
+      },
+      stories: {
+        tag: '4º Pilar • Diário',
+        title: 'A Conexão (Bastidores & Stories)',
+        def: 'Publicações diárias de bastidores reais da rotina de corretor.',
+        counts: 'Registro de atendimentos, visitas presenciais, obras e negociações de campo.',
+        funnel: 'Piso diário de no mínimo 3 stories para retenção, confiança e autoridade.'
+      }
+    };
+
+    function openPillarModal(pillarKey) {
+      const data = pillarExplanations[pillarKey];
+      if (!data) return;
+
+      document.getElementById('pillar-modal-tag').textContent = data.tag;
+      document.getElementById('pillar-modal-title').textContent = data.title;
+      document.getElementById('pillar-modal-def').textContent = data.def;
+      document.getElementById('pillar-modal-counts').textContent = data.counts;
+      document.getElementById('pillar-modal-funnel').textContent = data.funnel;
+
+      document.getElementById('pillar-info-modal').classList.remove('hidden');
+    }
+
+    // Estado Padrão Inicial — 100% Zerado
     const defaultState = {
       streak: 0,
       gridOpen: false,
       selectedPeriod: 'semana',
-      hasAuthority: true, // true = 4 pilares completos; false = apenas funil puro
+      hasAuthority: true,
+      isManagerView: false,
       funil: {
         faturamento: 10000,
         comissao: 10000,
@@ -1440,29 +1823,157 @@
         { id: 3, title: 'Bíblia das Vendas', author: 'Jeffrey Gitomer', color: '#991b1b', status: 'afazer' }
       ],
       cheque: { valor: '10.000,00', data: 'Dezembro / 2026' },
-      profile: { name: 'Gabriel Novaes', city: 'Ilhéus, BA', company: 'Poli Park Imóveis' },
+      profile: { name: '', city: '', company: 'Estratégia Imobiliária', role: 'gestor' },
       stats: { consistency: 0, totalActions: 0 }
     };
 
     let appState = JSON.parse(JSON.stringify(defaultState));
     let currentOnboardingStep = 1;
 
-    function loadAppState() {
+    function getBrokerInviteUrl() {
+      if (window.location.protocol.startsWith('http') && !window.location.hostname.includes('sandbox') && !window.location.hostname.includes('google')) {
+        return `${window.location.origin}${window.location.pathname}?cargo=corretor`;
+      }
+      return 'https://mycorretor.vercel.app?cargo=corretor';
+    }
+
+    function copyTextRobustly(text, successMsg) {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast(successMsg);
+        }).catch(() => {
+          fallbackCopy(text, successMsg);
+        });
+      } else {
+        fallbackCopy(text, successMsg);
+      }
+    }
+
+    function fallbackCopy(text, successMsg) {
       try {
-        const saved = localStorage.getItem('mycorretor_app_state');
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '0';
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        const successful = document.execCommand('copy');
+        document.body.removeChild(textarea);
+        if (successful) {
+          showToast(successMsg);
+        } else {
+          showToast('Link pronto! Selecione e copie o link na caixa acima.');
+        }
+      } catch (err) {
+        showToast('Link pronto! Selecione e copie o link na caixa acima.');
+      }
+    }
+
+    function applyRolePermissions() {
+      if (!appState || !appState.profile) return;
+      const isCorretor = appState.profile.role === 'corretor';
+      const btnToggleManager = document.getElementById('btn-toggle-manager-mode');
+      const painelGestorSec = document.getElementById('tab-painel-gestor');
+      const profileRoleTag = document.getElementById('profile-role-tag');
+      const profileRoleDesc = document.getElementById('profile-role-status-desc');
+      const btnToggleRoleLabel = document.getElementById('btn-toggle-role-label');
+      
+      const inviteUrl = getBrokerInviteUrl();
+      const displayLink = document.getElementById('display-broker-invite-link');
+      const anchorLink = document.getElementById('link-anchor-broker-invite');
+
+      if (displayLink) displayLink.textContent = inviteUrl;
+      if (anchorLink) anchorLink.href = inviteUrl;
+
+      if (isCorretor) {
+        // Corretor: remove botão do topo e oculta painel do gestor
+        if (btnToggleManager) btnToggleManager.classList.add('hidden');
+        if (painelGestorSec) painelGestorSec.classList.add('hidden');
+        appState.isManagerView = false;
+        const missaoSec = document.getElementById('tab-missao');
+        if (missaoSec) missaoSec.classList.remove('hidden');
+        const topTitle = document.getElementById('top-title-indicator');
+        if (topTitle) topTitle.textContent = 'Execução Diária';
+
+        if (profileRoleTag) {
+          profileRoleTag.textContent = '🎯 Corretor';
+          profileRoleTag.className = 'inline-block text-[9px] uppercase tracking-wider font-extrabold text-emerald-400 bg-emerald-950/40 border border-emerald-500/40 px-2 py-0.5 rounded-full';
+        }
+        if (profileRoleDesc) {
+          profileRoleDesc.textContent = 'Corretor (Foco individual no seu funil diário)';
+        }
+        if (btnToggleRoleLabel) {
+          btnToggleRoleLabel.textContent = 'Mudar para Gestor';
+        }
+      } else {
+        // Gestor: exibe botão do topo
+        if (btnToggleManager) btnToggleManager.classList.remove('hidden');
+        if (profileRoleTag) {
+          profileRoleTag.textContent = '👑 Gestor da Equipe';
+          profileRoleTag.className = 'inline-block text-[9px] uppercase tracking-wider font-extrabold text-[#FF6D29] bg-[#FF6D29]/15 border border-[#FF6D29]/40 px-2 py-0.5 rounded-full';
+        }
+        if (profileRoleDesc) {
+          profileRoleDesc.textContent = 'Gestor (Painel da Equipe e Auditoria Liberados)';
+        }
+        if (btnToggleRoleLabel) {
+          btnToggleRoleLabel.textContent = 'Testar como Corretor';
+        }
+      }
+    }
+
+    function getStorageKey(key) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const isCorretor = (urlParams.get('cargo') || urlParams.get('funcao') || '').toLowerCase() === 'corretor';
+      return isCorretor ? `mycorretor_corretor_${key}` : `mycorretor_gestor_${key}`;
+    }
+
+    function loadAppState() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const cargoParam = (urlParams.get('cargo') || urlParams.get('funcao') || '').toLowerCase();
+      const isCorretor = cargoParam === 'corretor';
+
+      try {
+        const key = getStorageKey('app_state');
+        const saved = localStorage.getItem(key);
         if (saved) {
           appState = JSON.parse(saved);
+        } else {
+          appState = JSON.parse(JSON.stringify(defaultState));
         }
-      } catch (e) {}
+      } catch (e) {
+        appState = JSON.parse(JSON.stringify(defaultState));
+      }
+
+      if (!appState.profile) {
+        appState.profile = { name: '', city: '', company: 'Estratégia Imobiliária', role: isCorretor ? 'corretor' : 'gestor' };
+      }
+
+      if (isCorretor) {
+        appState.profile.role = 'corretor';
+        if (!appState.profile.company) appState.profile.company = 'Estratégia Imobiliária';
+      } else if (cargoParam === 'gestor') {
+        appState.profile.role = 'gestor';
+        if (!appState.profile.company) appState.profile.company = 'Estratégia Imobiliária';
+      } else if (!appState.profile.role) {
+        appState.profile.role = 'gestor';
+        if (!appState.profile.company) appState.profile.company = 'Estratégia Imobiliária';
+      }
+
+      const equipeParam = urlParams.get('equipe');
+      if (equipeParam) {
+        appState.profile.company = decodeURIComponent(equipeParam);
+      }
     }
 
     function saveAppState() {
       try {
-        localStorage.setItem('mycorretor_app_state', JSON.stringify(appState));
+        const key = getStorageKey('app_state');
+        localStorage.setItem(key, JSON.stringify(appState));
       } catch (e) {}
     }
 
-    // Aplica o Modo de Autoridade na Interface (Liga / Desliga Feed e Stories)
     function applyAuthorityMode() {
       const authWrapper = document.getElementById('authority-pillars-wrapper');
       const modeIndicator = document.getElementById('mode-badge-indicator');
@@ -1493,7 +2004,6 @@
       saveAppState();
     }
 
-    // Cálculo Dinâmico Real da Data e Porcentagem do Mês Percorrido
     function updateTemporalCalculations() {
       const now = new Date();
       const day = now.getDate();
@@ -1547,53 +2057,6 @@
       }
     }
 
-    
-    // Explicações Técnicas e Secas dos 4 Pilares
-    const pillarExplanations = {
-      prospeccao: {
-        tag: '1º Pilar • Diário',
-        title: 'O Campo de Batalha (Prospecção)',
-        def: 'Primeiro contato intencional com o cliente via WhatsApp ou ligação.',
-        counts: 'Abordagem direta e individual para iniciar atendimento no funil.',
-        funnel: 'Taxa de conversão esperada de 33% para atendimento. Piso diário calculado.'
-      },
-      reuniao: {
-        tag: '2º Pilar • Semanal',
-        title: 'O Ponteiro (Apresentação / Visita)',
-        def: 'Reunião de apresentação ou visita ao imóvel com cliente qualificado.',
-        counts: 'Apresentação da matemática do negócio, alavancagem ou visita técnica presencial.',
-        funnel: '50% de conversão para proposta. Meta semanal inegociável.'
-      },
-      feed: {
-        tag: '3º Pilar • Semanal',
-        title: 'O Ímã (Vídeos no Feed)',
-        def: 'Publicação de vídeo autoral no feed voltado à atração de clientes.',
-        counts: 'Conteúdo técnico de inteligência de mercado, valorização e alavancagem financeira.',
-        funnel: 'Meta semanal de 3 vídeos publicados para geração orgânica de novos leads.'
-      },
-      stories: {
-        tag: '4º Pilar • Diário',
-        title: 'A Conexão (Bastidores & Stories)',
-        def: 'Publicações diárias de bastidores reais da rotina de corretor.',
-        counts: 'Registro de atendimentos, visitas presenciais, obras e negociações de campo.',
-        funnel: 'Piso diário de no mínimo 3 stories para retenção, confiança e autoridade.'
-      }
-    };
-
-    function openPillarModal(pillarKey) {
-      const data = pillarExplanations[pillarKey];
-      if (!data) return;
-
-      document.getElementById('pillar-modal-tag').textContent = data.tag;
-      document.getElementById('pillar-modal-title').textContent = data.title;
-      document.getElementById('pillar-modal-def').textContent = data.def;
-      document.getElementById('pillar-modal-counts').textContent = data.counts;
-      document.getElementById('pillar-modal-funnel').textContent = data.funnel;
-
-      document.getElementById('pillar-info-modal').classList.remove('hidden');
-    }
-
-    // Calculadora do Funil Reverso (Baseado na Pág. 03 do Planner)
     function calculateReverseFunnel(faturamento, comissao) {
       const fat = Math.max(1000, parseFloat(faturamento) || 10000);
       const com = Math.max(1000, parseFloat(comissao) || 10000);
@@ -1642,7 +2105,6 @@
       document.getElementById('onboarding-cheque').value = formattedFat;
     }
 
-    // Navegação entre Etapas do Onboarding
     function renderOnboardingStep(step) {
       currentOnboardingStep = step;
       document.getElementById('onboarding-step-counter').textContent = `Passo ${step} de 3`;
@@ -1725,6 +2187,20 @@
       if (totalLabel) {
         totalLabel.textContent = `${batidos} de ${activeKeys.length} batidos`;
       }
+
+      // Atualiza card do gestor na tela de equipe
+      const myProsp = document.getElementById('manager-my-prosp');
+      if (myProsp) myProsp.textContent = `${appState.missions.prospeccao.count}/${appState.missions.prospeccao.target}`;
+      const myReun = document.getElementById('manager-my-reun');
+      if (myReun) myReun.textContent = `${appState.missions.reuniao.count}/${appState.missions.reuniao.target}`;
+      const myStories = document.getElementById('manager-my-stories');
+      if (myStories) myStories.textContent = `${appState.missions.stories.count}/${appState.missions.stories.target}`;
+
+      // Atualiza Streak garantindo que comece em 0
+      const streakEl = document.getElementById('streak-counter-pill');
+      if (streakEl) streakEl.textContent = `${appState.streak} dias`;
+      const profileStreakEl = document.getElementById('profile-stat-streak');
+      if (profileStreakEl) profileStreakEl.textContent = `${appState.streak}`;
 
       updateCoachPhrase();
       recalcOverallProgress();
@@ -2120,21 +2596,32 @@
     document.addEventListener('DOMContentLoaded', () => {
       loadAppState();
       applyAuthorityMode();
+      applyRolePermissions();
 
       let onboardingDone = false;
       try {
-        onboardingDone = localStorage.getItem('mycorretor_onboarding_done') === 'true';
+        onboardingDone = localStorage.getItem(getStorageKey('onboarding_done')) === 'true';
       } catch (e) {
         onboardingDone = false;
       }
 
+      const welcomeSplashModal = document.getElementById('welcome-splash-modal');
       const onboardingScreen = document.getElementById('onboarding-screen');
-      if (onboardingDone) {
-        onboardingScreen.classList.add('hidden');
+
+      // Se não concluiu o onboarding, abre o Splash Pop-up de Boas-Vindas inicial
+      if (!onboardingDone) {
+        welcomeSplashModal.classList.remove('hidden');
       } else {
+        welcomeSplashModal.classList.add('hidden');
+        onboardingScreen.classList.add('hidden');
+      }
+
+      // Ao clicar em Começar no Pop-up de Boas-Vindas -> abre Passo 1 de 3 com inputs em branco
+      document.getElementById('btn-start-welcome-flow').addEventListener('click', () => {
+        welcomeSplashModal.classList.add('hidden');
         renderOnboardingStep(1);
         onboardingScreen.classList.remove('hidden');
-      }
+      });
 
       // Funil Reverso Reativo
       const fatInput = document.getElementById('onboarding-fat');
@@ -2145,7 +2632,77 @@
         updateOnboardingFunnelDisplay();
       }
 
-      // Botões de Navegação do Onboarding (Avançar e Voltar)
+      // Alternar Modo de Visão: Corretor vs Gestor da Equipe
+      const btnToggleManager = document.getElementById('btn-toggle-manager-mode');
+      const painelGestorSec = document.getElementById('tab-painel-gestor');
+      const missaoSec = document.getElementById('tab-missao');
+      const managerLabel = document.getElementById('manager-mode-label');
+      const managerIcon = document.getElementById('manager-mode-icon');
+
+      btnToggleManager.addEventListener('click', () => {
+        appState.isManagerView = !appState.isManagerView;
+        
+        if (appState.isManagerView) {
+          painelGestorSec.classList.remove('hidden');
+          missaoSec.classList.add('hidden');
+          document.getElementById('tab-progresso').classList.add('hidden');
+          document.getElementById('tab-conquistas').classList.add('hidden');
+          document.getElementById('tab-perfil').classList.add('hidden');
+
+          managerLabel.textContent = 'Minha Missão';
+          managerIcon.textContent = '⚡';
+          btnToggleManager.classList.add('border-[#FF6D29]', 'text-[#FF6D29]');
+          document.getElementById('top-title-indicator').textContent = 'Comando da Equipe';
+          showToast('Painel do Gestor ativado (Visão da Equipe)');
+        } else {
+          painelGestorSec.classList.add('hidden');
+          missaoSec.classList.remove('hidden');
+          managerLabel.textContent = 'Equipe';
+          managerIcon.textContent = '👥';
+          btnToggleManager.classList.remove('border-[#FF6D29]', 'text-[#FF6D29]');
+          document.getElementById('top-title-indicator').textContent = 'Execução Diária';
+          showToast('Visão individual do corretor ativada');
+        }
+      });
+
+      // Copiar Link de Convite da Equipe (Robusto e com feedback claro)
+      const btnCopyInvite = document.getElementById('btn-copy-team-invite');
+      if (btnCopyInvite) {
+        btnCopyInvite.addEventListener('click', () => {
+          const inviteUrl = getBrokerInviteUrl();
+          copyTextRobustly(inviteUrl, 'Link do Corretor copiado com sucesso!');
+        });
+      }
+
+      // Compartilhar Convite diretamente no WhatsApp
+      const btnShareWhatsapp = document.getElementById('btn-share-whatsapp-invite');
+      if (btnShareWhatsapp) {
+        btnShareWhatsapp.addEventListener('click', () => {
+          const inviteUrl = getBrokerInviteUrl();
+          const text = encodeURIComponent(`Olá! Acesse o seu aplicativo diário My Corretor pelo link da nossa equipe:\n${inviteUrl}`);
+          window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+        });
+      }
+
+
+
+      // Alternador de Teste de Cargo no Perfil (Gestor vs Corretor)
+      const btnToggleRoleTest = document.getElementById('btn-toggle-role-test');
+      if (btnToggleRoleTest) {
+        btnToggleRoleTest.addEventListener('click', () => {
+          if (appState.profile.role === 'corretor') {
+            appState.profile.role = 'gestor';
+            showToast('👑 Modo Gestor ativado (Aba de equipe liberada)');
+          } else {
+            appState.profile.role = 'corretor';
+            showToast('🎯 Modo Corretor ativado (Aba de equipe oculta)');
+          }
+          saveAppState();
+          applyRolePermissions();
+        });
+      }
+
+      // Botões de Navegação do Onboarding
       document.getElementById('btn-onboarding-next').addEventListener('click', () => {
         if (currentOnboardingStep === 1) {
           renderOnboardingStep(2);
@@ -2176,12 +2733,11 @@
       document.getElementById('btn-finish-onboarding').addEventListener('click', () => {
         const nameVal = document.getElementById('onboarding-name').value.trim() || 'Gabriel Novaes';
         const cityVal = document.getElementById('onboarding-city').value.trim() || 'Ilhéus, BA';
-        const compVal = document.getElementById('onboarding-company').value.trim() || 'Poli Park Imóveis';
+        const compVal = document.getElementById('onboarding-company').value.trim() || 'Estratégia Imobiliária';
 
         const funilRes = calculateReverseFunnel(fatInput.value, comInput.value);
         appState.funil = funilRes;
 
-        // Modo de Autoridade escolhido
         const authChoice = document.querySelector('input[name="onboarding-authority-mode"]:checked').value;
         appState.hasAuthority = (authChoice === 'completo');
 
@@ -2197,12 +2753,16 @@
         document.getElementById('profile-name-text').textContent = nameVal;
         document.getElementById('profile-city-text').textContent = cityVal;
         document.getElementById('profile-company-text').textContent = compVal;
+        document.getElementById('manager-panel-company-name').textContent = compVal;
+        document.getElementById('manager-my-name-tag').textContent = nameVal;
+        document.getElementById('empty-state-company-name').textContent = compVal;
+        applyRolePermissions();
         document.getElementById('profile-cheque-val').textContent = `R$ ${formattedFat}`;
         document.getElementById('progress-cheque-val').textContent = `R$ ${formattedFat}`;
         document.getElementById('top-avatar-initials').textContent = nameVal.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
 
         try {
-          localStorage.setItem('mycorretor_onboarding_done', 'true');
+          localStorage.setItem(getStorageKey('onboarding_done'), 'true');
         } catch (e) {}
 
         applyAuthorityMode();
@@ -2211,10 +2771,10 @@
         renderVolumeExecution();
         updateTemporalCalculations();
         onboardingScreen.classList.add('hidden');
-        showToast(appState.hasAuthority ? 'Modo Completo ativado com sucesso!' : 'Modo Funil Puro ativado!');
+        showToast(`Bem-vindo, ${nameVal}! Missão pronta.`);
       });
 
-      // Alternar Autoridade no Perfil a Qualquer Momento
+      // Alternar Autoridade no Perfil
       document.getElementById('btn-toggle-authority-profile').addEventListener('click', () => {
         appState.hasAuthority = !appState.hasAuthority;
         applyAuthorityMode();
@@ -2223,17 +2783,16 @@
         showToast(appState.hasAuthority ? 'Autoridade (Feed & Stories) ativada!' : 'App simplificado para Funil Puro.');
       });
 
-      // Refazer Onboarding via Configurações
+      // Refazer Onboarding
       document.getElementById('btn-cfg-onboarding').addEventListener('click', () => {
         try {
-          localStorage.removeItem('mycorretor_onboarding_done');
+          localStorage.removeItem(getStorageKey('onboarding_done'));
         } catch (e) {}
         renderOnboardingStep(1);
         updateOnboardingFunnelDisplay();
-        onboardingScreen.classList.remove('hidden');
+        welcomeSplashModal.classList.remove('hidden');
       });
 
-      
       // Modal Explicativo dos Pilares (ℹ️)
       document.querySelectorAll('.btn-info-pillar').forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -2251,12 +2810,53 @@
         pillarModal.classList.add('hidden');
       });
 
+      // Abrir Auditoria do Corretor ao Clicar no Card
+      document.querySelectorAll('.btn-open-broker-drilldown').forEach(card => {
+        card.addEventListener('click', () => {
+          const brokerKey = card.getAttribute('data-broker');
+          renderBrokerDrilldown(brokerKey, 'semana');
+        });
+      });
+
+      const brokerModal = document.getElementById('broker-drilldown-modal');
+      document.getElementById('close-broker-drilldown-modal').addEventListener('click', () => {
+        brokerModal.classList.add('hidden');
+      });
+
+      document.querySelectorAll('.broker-period-tab').forEach(bpt => {
+        bpt.addEventListener('click', () => {
+          document.querySelectorAll('.broker-period-tab').forEach(b => {
+            b.className = 'broker-period-tab flex-1 py-1 text-xs font-medium text-[#BABABA] rounded-xl hover:text-white transition-all';
+          });
+          bpt.className = 'broker-period-tab flex-1 py-1 text-xs font-bold rounded-xl bg-[#FF6D29] text-white transition-all';
+          renderBrokerDrilldown(selectedDrilldownBroker, bpt.getAttribute('data-period'));
+        });
+      });
+
+      document.getElementById('btn-drilldown-whatsapp').addEventListener('click', () => {
+        const broker = teamBrokersData[selectedDrilldownBroker];
+        showToast(`Mensagem de alinhamento aberta para ${broker ? broker.name : 'corretor'}!`);
+      });
+
+      document.getElementById('btn-drilldown-nudge').addEventListener('click', () => {
+        const broker = teamBrokersData[selectedDrilldownBroker];
+        showToast(`Alerta de cobrança de piso enviado para ${broker ? broker.name : 'corretor'}!`);
+      });
+
       // 1. Navegação Floating Dock
       const navButtons = document.querySelectorAll('.nav-btn');
       const sections = ['tab-missao', 'tab-progresso', 'tab-conquistas', 'tab-perfil'];
 
       navButtons.forEach(btn => {
         btn.addEventListener('click', () => {
+          if (appState.isManagerView) {
+            appState.isManagerView = false;
+            painelGestorSec.classList.add('hidden');
+            managerLabel.textContent = 'Equipe';
+            managerIcon.textContent = '👥';
+            btnToggleManager.classList.remove('border-[#FF6D29]', 'text-[#FF6D29]');
+          }
+
           const target = btn.getAttribute('data-target');
           sections.forEach(s => {
             const secEl = document.getElementById(s);
@@ -2400,6 +3000,18 @@
           pt.className = 'period-tab flex-1 py-1.5 text-xs font-bold rounded-xl bg-[#FF6D29] text-white shadow-md transition-all';
           appState.selectedPeriod = pt.getAttribute('data-period');
           renderVolumeExecution();
+
+          const rangeBadge = document.getElementById('progress-date-range-badge');
+          if (rangeBadge) {
+            if (appState.selectedPeriod === 'semana') {
+              rangeBadge.textContent = `Semana: ${getWeekDateRangeString()} (Seg a Dom)`;
+            } else if (appState.selectedPeriod === 'mes') {
+              rangeBadge.textContent = `Mês: 01/11 a 30/11 (Novembro/2026)`;
+            } else {
+              rangeBadge.textContent = `Ano Vigente: 2026 (Consolidado)`;
+            }
+          }
+
           showToast(`Visão por ${pt.textContent} sincronizada`);
         });
       });
@@ -2513,6 +3125,10 @@
         document.getElementById('profile-name-text').textContent = name;
         document.getElementById('profile-city-text').textContent = city;
         document.getElementById('profile-company-text').textContent = comp;
+        document.getElementById('manager-panel-company-name').textContent = comp;
+        document.getElementById('manager-my-name-tag').textContent = name;
+        document.getElementById('empty-state-company-name').textContent = comp;
+        applyRolePermissions();
         document.getElementById('top-avatar-initials').textContent = name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
         
         saveAppState();
