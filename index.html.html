@@ -1,0 +1,2571 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>My Corretor — Sistema de Execução Tática</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brandOrange: '#FF6D29',
+            brandEspresso: '#453027',
+            brandDark: '#161316',
+            brandTextSilver: '#BABABA',
+            brandGold: '#E5C158',
+            surfaceCard: 'rgba(28, 24, 27, 0.85)',
+            surfaceCardHover: 'rgba(38, 32, 36, 0.95)'
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap');
+    
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    .font-mono-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-feature-settings: "tnum";
+    }
+
+    body {
+      background: #050406;
+      color: #FFFFFF;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Moldura Mobile com Design System Arounda */
+    .mobile-frame {
+      width: 100%;
+      max-width: 390px;
+      height: 100vh;
+      max-height: 844px;
+      background: radial-gradient(circle at 50% -10%, rgba(255, 109, 41, 0.22) 0%, rgba(69, 48, 39, 0.15) 30%, #161316 65%, #0d0b0d 100%);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 35px 100px -20px rgba(0, 0, 0, 0.95), 0 0 50px rgba(255, 109, 41, 0.08);
+    }
+
+    @media (min-width: 640px) {
+      .mobile-frame {
+        border-radius: 46px;
+        height: 844px;
+      }
+    }
+
+    /* Cards Estilo Arounda / Neue Montreal */
+    .arounda-card {
+      background: linear-gradient(180deg, rgba(30, 25, 29, 0.82) 0%, rgba(19, 16, 18, 0.92) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 24px;
+    }
+
+    .arounda-card-active {
+      background: linear-gradient(180deg, rgba(45, 28, 20, 0.92) 0%, rgba(25, 15, 12, 0.96) 100%) !important;
+      border: 1px solid rgba(255, 109, 41, 0.45) !important;
+      box-shadow: 0 12px 30px -8px rgba(255, 109, 41, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+    }
+
+    /* Barra de Progresso com Gradiente Laranja/Dourado Quente */
+    .gradient-progress {
+      background: linear-gradient(90deg, #FF6D29 0%, #FFAE33 100%);
+      box-shadow: 0 0 12px rgba(255, 109, 41, 0.4);
+    }
+
+    .gradient-progress-success {
+      background: linear-gradient(90deg, #10b981 0%, #34d399 100%);
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+    }
+
+    /* Botões Táticos de Contador */
+    .btn-counter {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #BABABA;
+      transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-counter:hover {
+      background: rgba(255, 109, 41, 0.15);
+      border-color: rgba(255, 109, 41, 0.4);
+      color: #FF6D29;
+    }
+    .btn-counter:active {
+      transform: scale(0.92);
+      background: #FF6D29;
+      color: #FFFFFF;
+    }
+
+    /* Floating Dock de Navegação */
+    .floating-dock {
+      background: rgba(24, 20, 23, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 20px 40px -8px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+    }
+
+    .dock-active {
+      background: rgba(255, 109, 41, 0.2);
+      border: 1px solid rgba(255, 109, 41, 0.5);
+      color: #FF6D29 !important;
+    }
+    .dock-active svg {
+      stroke: #FF6D29 !important;
+    }
+
+    /* Mockup de Livro APE */
+    .book-mockup {
+      width: 44px;
+      height: 60px;
+      border-radius: 4px 8px 8px 4px;
+      box-shadow: -4px 6px 12px rgba(0,0,0,0.7), inset 3px 0 0 rgba(0,0,0,0.4);
+      position: relative;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .book-mockup::after {
+      content: '';
+      position: absolute;
+      left: 5px;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: rgba(255,255,255,0.2);
+    }
+
+    /* Medalha Tática CS:GO */
+    .cs-medal {
+      background: radial-gradient(circle at 50% 30%, #3a2216 0%, #171315 75%);
+      border: 1px solid rgba(255, 109, 41, 0.5);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    }
+    .cs-medal-locked {
+      background: radial-gradient(circle at 50% 30%, #1e1b1d 0%, #110f11 75%);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      opacity: 0.5;
+      filter: grayscale(0.9);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Mockup Mobile Frame -->
+  <main class="mobile-frame" role="region" aria-label="Aplicativo My Corretor">
+    
+    <!-- Dynamic Island & Header Superior -->
+    <header class="px-5 pt-3 pb-2 select-none z-20">
+      <div class="h-6 w-28 bg-black rounded-full mx-auto flex items-center justify-between px-3 text-[10px] text-white shadow-inner mb-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span class="font-mono-num text-[9px] text-[#BABABA]">MyCorretor</span>
+        <span class="w-2.5 h-2.5 rounded-full bg-[#FF6D29]"></span>
+      </div>
+
+      <div class="flex justify-between items-center text-xs">
+        <button id="btn-top-menu" class="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-[#BABABA] hover:text-white transition-colors" title="Visão Geral">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+        </button>
+
+        <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-[#BABABA]" id="top-title-indicator">Execução Diária</span>
+
+        <button id="btn-top-avatar" class="w-8 h-8 rounded-full bg-[#FF6D29]/20 border border-[#FF6D29]/40 flex items-center justify-center text-xs font-black text-[#FF6D29] overflow-hidden" title="Ir para o Perfil">
+          <span id="top-avatar-initials">GN</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Área de Conteúdo Roolável -->
+    <div id="content-area" class="flex-1 overflow-y-auto no-scrollbar pb-28 px-4 pt-1">
+      
+      <!-- ================= ABA 1: MISSÃO (HOME) ================= -->
+      <section id="tab-missao" class="space-y-4">
+        
+        <!-- Header Missão -->
+        <div class="flex justify-between items-start pt-1">
+          <div>
+            <span class="text-[10px] font-bold tracking-[0.2em] text-[#FF6D29] uppercase" id="current-date-display">DOM, 08 NOV</span>
+            <h1 class="text-2xl font-black text-white tracking-tight mt-0.5">Missão do Dia</h1>
+          </div>
+          
+          <button id="streak-pill-btn" class="flex items-center gap-1.5 bg-[#20191c] border border-[#FF6D29]/40 px-3 py-1.5 rounded-full hover:border-[#FF6D29] transition-all shadow-md active:scale-95" title="Ver calendário de consistência">
+            <span class="text-xs">🔥</span>
+            <span class="text-xs font-bold text-[#FF6D29] font-mono-num" id="streak-counter-pill">12 dias</span>
+          </button>
+        </div>
+
+        <!-- Grid de Consistência Retrátil (35 Dias) -->
+        <div id="consistency-grid-container" class="hidden arounda-card p-4 transition-all">
+          <div class="flex justify-between items-center mb-3">
+            <div>
+              <h3 class="text-xs font-bold text-white tracking-wide">Seu Calendário de Consistência</h3>
+              <p class="text-[10px] text-[#BABABA]">35 dias de histórico real de campo</p>
+            </div>
+            <span class="text-[10px] font-bold text-[#FF6D29] bg-[#FF6D29]/10 px-2 py-0.5 rounded-full border border-[#FF6D29]/30 font-mono-num" id="grid-rate-pill">Taxa 0%</span>
+          </div>
+
+          <div id="grid-squares" class="grid grid-cols-7 gap-1.5 my-2"></div>
+
+          <div class="flex items-center justify-between text-[10px] text-[#BABABA] pt-2 border-t border-white/5 mt-3">
+            <div class="flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-sm bg-emerald-950 border border-emerald-500"></span>
+              <span>Cumpriu</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-sm bg-rose-950 border border-rose-500"></span>
+              <span>Faltou</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <span class="w-2.5 h-2.5 rounded-sm bg-[#1e1b1e] border border-white/10"></span>
+              <span>Aguardando</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card do Treinador / Gestor -->
+        <div class="arounda-card p-4 flex gap-3.5 items-center border-l-4 border-l-[#FF6D29]">
+          <div class="w-10 h-10 rounded-2xl bg-[#FF6D29]/10 border border-[#FF6D29]/30 flex items-center justify-center shrink-0">
+            <svg class="w-5 h-5 text-[#FF6D29]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex justify-between items-center">
+              <span class="text-[10px] uppercase tracking-[0.16em] font-extrabold text-[#FF6D29]">Seu Gestor</span>
+              <span class="text-[9px] text-[#BABABA]/60 font-mono-num" id="mode-badge-indicator">MODO COMPLETO</span>
+            </div>
+            <p id="coach-phrase" class="text-xs text-[#FFFFFF] font-medium leading-snug mt-0.5">
+              Você ainda não registrou hoje. O básico é piso, nunca teto.
+            </p>
+          </div>
+        </div>
+
+        <!-- 4 PILARES INEGOCIÁVEIS (ADAPTA AO MODO ESCOLHIDO NO ONBOARDING) -->
+        <div class="space-y-3 pt-1">
+          <div class="flex justify-between items-center px-1">
+            <h2 class="text-[10px] uppercase tracking-[0.18em] font-extrabold text-[#BABABA]" id="pillars-section-title">Pilares Inegociáveis</h2>
+            <span class="text-[11px] text-[#FF6D29] font-bold font-mono-num" id="total-progress-label">0 de 4 batidos</span>
+          </div>
+
+          <!-- 1º: Campo de Batalha -->
+          <div class="mission-card arounda-card p-4 transition-all" id="card-prospeccao">
+            <div class="flex justify-between items-center">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
+                  <svg class="w-5 h-5 text-[#FF6D29]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                </div>
+                <div>
+                  <div class="flex items-center gap-1.5">
+                    <span class="text-[9px] font-bold uppercase tracking-wider text-[#FF6D29]">1º Pilar</span>
+                    <span class="text-[9px] text-[#BABABA] font-mono-num">• Diário</span>
+                    <button type="button" class="btn-info-pillar text-[10px] text-[#BABABA] hover:text-[#FF6D29] p-0.5 ml-0.5" data-pillar="prospeccao" title="Entenda o Campo de Batalha">ℹ️</button>
+                  </div>
+                  <h4 class="text-sm font-extrabold text-white">O Campo de Batalha</h4>
+                  <p class="text-[11px] text-[#BABABA]">Contatos de valor com clientes</p>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <button class="btn-sub btn-counter w-8 h-8 rounded-xl flex items-center justify-center text-base font-black" data-mission="prospeccao">−</button>
+                <span class="count-display font-mono-num text-lg font-black text-white min-w-[28px] text-center" id="count-prospeccao">0</span>
+                <button class="btn-add btn-counter w-8 h-8 rounded-xl flex items-center justify-center text-base font-black" data-mission="prospeccao">+</button>
+              </div>
+            </div>
+
+            <div class="mt-3">
+              <div class="flex justify-between text-[11px] font-medium text-[#BABABA] mb-1.5">
+                <span id="label-prospeccao" class="font-mono-num">0 de 5 contatos</span>
+                <span class="text-[10px] uppercase font-bold" id="badge-status-prospeccao">Piso Diário</span>
+              </div>
+              <div class="w-full bg-[#110e11] h-2 rounded-full overflow-hidden p-0.5 border border-white/5">
+                <div class="progress-bar gradient-progress h-full rounded-full transition-all duration-300" id="bar-prospeccao" style="width: 0%"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2º: O Ponteiro -->
+          <div class="mission-card arounda-card p-4 transition-all" id="card-reuniao">
+            <div class="flex justify-between items-center">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
+                  <svg class="w-5 h-5 text-[#FF6D29]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                </div>
+                <div>
+                  <div class="flex items-center gap-1.5">
+                    <span class="text-[9px] font-bold uppercase tracking-wider text-[#FF6D29]">2º Pilar</span>
+                    <span class="text-[9px] text-[#BABABA] font-mono-num">• Semanal</span>
+                    <button type="button" class="btn-info-pillar text-[10px] text-[#BABABA] hover:text-[#FF6D29] p-0.5 ml-0.5" data-pillar="reuniao" title="Entenda O Ponteiro">ℹ️</button>
+                  </div>
+                  <h4 class="text-sm font-extrabold text-white">O Ponteiro</h4>
+                  <p class="text-[11px] text-[#BABABA]">Apresentação ou visita qualificada</p>
+                </div>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <button class="btn-sub btn-counter w-8 h-8 rounded-xl flex items-center justify-center text-base font-black" data-mission="reuniao">−</button>
+                <span class="count-display font-mono-num text-lg font-black text-white min-w-[28px] text-center" id="count-reuniao">0</span>
+                <button class="btn-add btn-counter w-8 h-8 rounded-xl flex items-center justify-center text-base font-black" data-mission="reuniao">+</button>
+              </div>
+            </div>
+
+            <div class="mt-3">
+              <div class="flex justify-between text-[11px] font-medium text-[#BABABA] mb-1.5">
+                <span id="label-reuniao" class="font-mono-num">0 de 1 na semana</span>
+                <span class="text-[10px] uppercase font-bold" id="badge-status-reuniao">Meta Semanal</span>
+              </div>
+              <div class="w-full bg-[#110e11] h-2 rounded-full overflow-hidden p-0.5 border border-white/5">
+                <div class="progress-bar gradient-progress h-full rounded-full transition-all duration-300" id="bar-reuniao" style="width: 0%"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- MÓDULO DE AUTORIDADE: 3º ÍMÃ E 4º STORIES (PODEM SER ESCONDIDOS SE OPTAR POR FUNIL SIMPLES) -->
+          <div id="authority-pillars-wrapper" class="space-y-3">
+            <!-- 3º: O Ímã -->
+            <div class="mission-card arounda-card p-4 transition-all" id="card-feed">
+              <div class="flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                  </div>
+                  <div>
+                    <div class="flex items-center gap-1.5">
+                      <span class="text-[9px] font-bold uppercase tracking-wider text-[#FF6D29]">3º Pilar</span>
+                      <span class="text-[9px] text-[#BABABA] font-mono-num">• Semanal</span>
+                      <button type="button" class="btn-info-pillar text-[10px] text-[#BABABA] hover:text-[#FF6D29] p-0.5 ml-0.5" data-pillar="feed" title="Entenda O Ímã">ℹ️</button>
+                    </div>
+                    <h4 class="text-sm font-extrabold text-white">O Ímã</h4>
+                    <p class="text-[11px] text-[#BABABA]">Vídeos autorais publicados no feed</p>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                  <button class="btn-sub btn-counter w-8 h-8 rounded-xl flex items-center justify-center text-base font-black" data-mission="feed">−</button>
+                  <span class="count-display font-mono-num text-lg font-black text-white min-w-[28px] text-center" id="count-feed">0</span>
+                  <button class="btn-add btn-counter w-8 h-8 rounded-xl flex items-center justify-center text-base font-black" data-mission="feed">+</button>
+                </div>
+              </div>
+
+              <div class="mt-3">
+                <div class="flex justify-between text-[11px] font-medium text-[#BABABA] mb-1.5">
+                  <span id="label-feed" class="font-mono-num">0 de 3 na semana</span>
+                  <span class="text-[10px] uppercase font-bold" id="badge-status-feed">Meta Semanal</span>
+                </div>
+                <div class="w-full bg-[#110e11] h-2 rounded-full overflow-hidden p-0.5 border border-white/5">
+                  <div class="progress-bar gradient-progress h-full rounded-full transition-all duration-300" id="bar-feed" style="width: 0%"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4º: A Conexão -->
+            <div class="mission-card arounda-card p-4 transition-all" id="card-stories">
+              <div class="flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                  </div>
+                  <div>
+                    <div class="flex items-center gap-1.5">
+                      <span class="text-[9px] font-bold uppercase tracking-wider text-[#FF6D29]">4º Pilar</span>
+                      <span class="text-[9px] text-[#BABABA] font-mono-num">• Diário</span>
+                      <button type="button" class="btn-info-pillar text-[10px] text-[#BABABA] hover:text-[#FF6D29] p-0.5 ml-0.5" data-pillar="stories" title="Entenda A Conexão">ℹ️</button>
+                    </div>
+                    <h4 class="text-sm font-extrabold text-white">A Conexão</h4>
+                    <p class="text-[11px] text-[#BABABA]">Stories e bastidores reais</p>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                  <button class="btn-sub btn-counter w-8 h-8 rounded-xl flex items-center justify-center text-base font-black" data-mission="stories">−</button>
+                  <span class="count-display font-mono-num text-lg font-black text-white min-w-[28px] text-center" id="count-stories">0</span>
+                  <button class="btn-add btn-counter w-8 h-8 rounded-xl flex items-center justify-center text-base font-black" data-mission="stories">+</button>
+                </div>
+              </div>
+
+              <div class="mt-3">
+                <div class="flex justify-between text-[11px] font-medium text-[#BABABA] mb-1.5">
+                  <span id="label-stories" class="font-mono-num">0 de 3 stories</span>
+                  <span class="text-[10px] uppercase font-bold" id="badge-status-stories">Piso Diário</span>
+                </div>
+                <div class="w-full bg-[#110e11] h-2 rounded-full overflow-hidden p-0.5 border border-white/5">
+                  <div class="progress-bar gradient-progress h-full rounded-full transition-all duration-300" id="bar-stories" style="width: 0%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SEÇÃO: MISSÕES COMPLEMENTARES COM BOTÃO [+] ADICIONAR E LIXEIRA -->
+        <div class="pt-2">
+          <div class="flex justify-between items-center mb-2 px-1">
+            <h3 class="text-[10px] uppercase tracking-[0.18em] font-extrabold text-[#BABABA]">Missões Complementares</h3>
+            <button id="btn-add-custom-mission" class="flex items-center gap-1.5 text-[11px] font-bold text-[#FF6D29] bg-[#FF6D29]/10 border border-[#FF6D29]/30 px-3 py-1 rounded-full hover:bg-[#FF6D29]/20 transition-all active:scale-95">
+              <span>+</span>
+              <span>Adicionar</span>
+            </button>
+          </div>
+
+          <div id="complementary-missions-list" class="space-y-2">
+            <!-- Captação -->
+            <div class="arounda-card p-3 flex justify-between items-center" id="card-captacao">
+              <div class="flex items-center gap-2.5 min-w-0 pr-2">
+                <div class="w-8 h-8 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
+                  <svg class="w-4 h-4 text-[#FF6D29]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                </div>
+                <div class="truncate">
+                  <h5 class="text-xs font-bold text-white truncate">Captação de Imóvel</h5>
+                  <p class="text-[10px] text-[#BABABA] truncate">Meta: 1 imóvel novo</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 shrink-0">
+                <button class="btn-comp-sub btn-counter w-7 h-7 rounded-lg flex items-center justify-center text-sm font-bold" data-id="captacao">−</button>
+                <span class="font-mono-num text-sm font-black text-white min-w-[20px] text-center" id="count-captacao">0</span>
+                <button class="btn-comp-add btn-counter w-7 h-7 rounded-lg flex items-center justify-center text-sm font-bold" data-id="captacao">+</button>
+              </div>
+            </div>
+
+            <!-- Follow-up -->
+            <div class="arounda-card p-3 flex justify-between items-center" id="card-followup">
+              <div class="flex items-center gap-2.5 min-w-0 pr-2">
+                <div class="w-8 h-8 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
+                  <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                </div>
+                <div class="truncate">
+                  <h5 class="text-xs font-bold text-white truncate">Follow-up Cirúrgico</h5>
+                  <p class="text-[10px] text-[#BABABA] truncate">Nutrição de leads quentes</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 shrink-0">
+                <button class="btn-comp-sub btn-counter w-7 h-7 rounded-lg flex items-center justify-center text-sm font-bold" data-id="followup">−</button>
+                <span class="font-mono-num text-sm font-black text-white min-w-[20px] text-center" id="count-followup">0</span>
+                <button class="btn-comp-add btn-counter w-7 h-7 rounded-lg flex items-center justify-center text-sm font-bold" data-id="followup">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ================= ABA 2: PROGRESSO ================= -->
+      <section id="tab-progresso" class="space-y-4 hidden">
+        <div class="flex justify-between items-start">
+          <div>
+            <span class="text-[10px] font-bold tracking-[0.2em] text-[#FF6D29] uppercase">Auditoria Individual</span>
+            <h1 class="text-2xl font-black text-white tracking-tight mt-0.5">Progresso</h1>
+            <p class="text-xs text-[#BABABA]">Você vs você mesmo. O resultado segue a ação.</p>
+          </div>
+
+          <button id="btn-reset-progresso" class="text-[10px] font-bold text-rose-400 bg-rose-950/40 border border-rose-500/40 px-2.5 py-1.5 rounded-xl hover:bg-rose-900/50 transition-all flex items-center gap-1" title="Zerar todas as métricas">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            <span>Zerar Tudo</span>
+          </button>
+        </div>
+
+        <div class="flex bg-[#161215] p-1 rounded-2xl border border-white/5">
+          <button class="period-tab flex-1 py-1.5 text-xs font-bold rounded-xl bg-[#FF6D29] text-white shadow-md transition-all" data-period="semana">Semana</button>
+          <button class="period-tab flex-1 py-1.5 text-xs font-medium text-[#BABABA] rounded-xl hover:text-white transition-all" data-period="mes">Mês</button>
+          <button class="period-tab flex-1 py-1.5 text-xs font-medium text-[#BABABA] rounded-xl hover:text-white transition-all" data-period="ano">Ano</button>
+        </div>
+
+        <div class="arounda-card p-4">
+          <div class="flex justify-between items-center mb-3">
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-[#FF6D29]"></span>
+                <h3 class="text-xs font-bold text-white uppercase tracking-wide">Volume de Execução</h3>
+              </div>
+              <p class="text-[10px] text-[#BABABA]">Sincronizado automaticamente com suas missões</p>
+            </div>
+            
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-mono-num font-black text-[#FF6D29]" id="total-actions-volume-label">0 ações</span>
+              <button id="btn-edit-volume-values" class="text-[10px] text-[#FF6D29] font-bold bg-[#FF6D29]/10 px-2 py-1 rounded-lg border border-[#FF6D29]/30 hover:bg-[#FF6D29]/20" title="Editar números">
+                Editar
+              </button>
+            </div>
+          </div>
+
+          <div id="volume-execution-bars" class="space-y-3 pt-1"></div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div class="arounda-card p-3.5">
+            <span class="text-[9px] text-[#BABABA] uppercase font-bold tracking-wider">Consistência</span>
+            <div class="flex items-baseline gap-1.5 mt-1">
+              <span class="text-xl font-black text-white font-mono-num" id="stat-consistency-value">0%</span>
+              <span class="text-xs font-bold text-emerald-400 font-mono-num" id="stat-consistency-diff">0%</span>
+            </div>
+            <p class="text-[10px] text-[#BABABA]/60 mt-1">vs período anterior</p>
+          </div>
+
+          <div class="arounda-card p-3.5">
+            <span class="text-[9px] text-[#BABABA] uppercase font-bold tracking-wider">Ações Totais</span>
+            <div class="flex items-baseline gap-1.5 mt-1">
+              <span class="text-xl font-black text-white font-mono-num" id="stat-total-actions-value">0</span>
+              <span class="text-xs font-bold text-emerald-400 font-mono-num" id="stat-total-actions-diff">0</span>
+            </div>
+            <p class="text-[10px] text-[#BABABA]/60 mt-1">vs período anterior</p>
+          </div>
+        </div>
+
+        <div class="arounda-card p-4 relative overflow-hidden">
+          <div class="flex justify-between items-center mb-1">
+            <span class="text-[10px] uppercase font-extrabold tracking-wider text-[#FF6D29]">Cheque do Futuro</span>
+            <span class="text-[11px] font-mono-num text-[#BABABA]" id="progress-cheque-date">Dezembro / 2026</span>
+          </div>
+          <div class="text-xl font-black text-white tracking-tight font-mono-num" id="progress-cheque-val">R$ 50.000,00</div>
+          <p class="text-[11px] text-[#BABABA] mt-1 italic">"Não persigo o dinheiro. Persigo as ações."</p>
+          
+          <div class="mt-3 pt-3 border-t border-white/5 flex justify-between items-center text-[10px]">
+            <span class="font-bold text-[#FF6D29]" id="progress-month-elapsed-text">27% do mês percorrido</span>
+            <span class="text-[#BABABA]" id="progress-meta-achieved-text">0% da meta atingida</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= ABA 3: CONQUISTAS ================= -->
+      <section id="tab-conquistas" class="space-y-4 hidden">
+        <div>
+          <span class="text-[10px] font-bold tracking-[0.2em] text-[#FF6D29] uppercase">Quadro de Honra & Serviço</span>
+          <h1 class="text-2xl font-black text-white tracking-tight mt-0.5">Conquistas de Serviço</h1>
+          <div class="flex justify-between items-center text-xs mt-1">
+            <span class="text-[#BABABA]">Insígnias reais dos 4 pilares e consistência</span>
+            <span class="text-[#FF6D29] font-bold font-mono-num" id="badge-count-label">0 de 18 condecorações</span>
+          </div>
+        </div>
+
+        <div class="w-full bg-[#110e11] h-2 rounded-full overflow-hidden p-0.5 border border-white/5">
+          <div class="gradient-progress h-full rounded-full" id="badges-overall-bar" style="width: 0%"></div>
+        </div>
+
+        <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+          <button class="badge-filter px-3 py-1 rounded-full text-xs font-bold bg-[#FF6D29] text-white whitespace-nowrap shadow-md" data-cat="todas">Todas</button>
+          <button class="badge-filter px-3 py-1 rounded-full text-xs font-semibold text-[#BABABA] bg-white/5 border border-white/5 whitespace-nowrap hover:text-white" data-cat="Execução">Execução</button>
+          <button class="badge-filter px-3 py-1 rounded-full text-xs font-semibold text-[#BABABA] bg-white/5 border border-white/5 whitespace-nowrap hover:text-white" data-cat="Constância">Constância</button>
+          <button class="badge-filter px-3 py-1 rounded-full text-xs font-semibold text-[#BABABA] bg-white/5 border border-white/5 whitespace-nowrap hover:text-white" data-cat="Performance">Performance</button>
+          <button class="badge-filter px-3 py-1 rounded-full text-xs font-semibold text-[#BABABA] bg-white/5 border border-white/5 whitespace-nowrap hover:text-white" data-cat="Resultado">Resultado</button>
+          <button class="badge-filter px-3 py-1 rounded-full text-xs font-semibold text-[#BABABA] bg-white/5 border border-white/5 whitespace-nowrap hover:text-white" data-cat="Batalha">Campo de Batalha</button>
+          <button class="badge-filter px-3 py-1 rounded-full text-xs font-semibold text-[#BABABA] bg-white/5 border border-white/5 whitespace-nowrap hover:text-white" data-cat="Ponteiro">O Ponteiro</button>
+          <button class="badge-filter px-3 py-1 rounded-full text-xs font-semibold text-[#BABABA] bg-white/5 border border-white/5 whitespace-nowrap hover:text-white" data-cat="Ímã">O Ímã</button>
+          <button class="badge-filter px-3 py-1 rounded-full text-xs font-semibold text-[#BABABA] bg-white/5 border border-white/5 whitespace-nowrap hover:text-white" data-cat="Conexão">A Conexão</button>
+        </div>
+
+        <div id="badges-grid" class="grid grid-cols-3 gap-2.5 pt-1"></div>
+      </section>
+
+      <!-- ================= ABA 4: PERFIL ================= -->
+      <section id="tab-perfil" class="space-y-4 hidden">
+        
+        <!-- Cartão do Corretor -->
+        <div class="arounda-card p-4 relative">
+          <div class="flex items-center gap-3.5">
+            <div class="relative group">
+              <div id="profile-avatar-display" class="w-16 h-16 rounded-2xl bg-gradient-to-b from-[#3a2015] to-[#1a1216] border-2 border-[#FF6D29] flex items-center justify-center text-xl font-black text-[#FF6D29] shadow-lg overflow-hidden shrink-0">
+                GN
+              </div>
+              <button id="btn-change-photo" class="absolute -bottom-1.5 -right-1.5 bg-[#FF6D29] text-white p-1.5 rounded-lg shadow-md hover:scale-105 transition-all" title="Trocar Foto">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              </button>
+              <input type="file" id="photo-file-input" accept="image/*" class="hidden">
+            </div>
+
+            <div class="flex-1 min-w-0">
+              <div class="flex justify-between items-start">
+                <h2 class="text-base font-extrabold text-white truncate" id="profile-name-text">Gabriel Novaes</h2>
+                <button id="btn-edit-profile-info" class="text-[10px] text-[#FF6D29] font-bold hover:underline">Editar</button>
+              </div>
+              <p class="text-xs text-[#BABABA] flex items-center gap-1 mt-0.5 truncate">
+                <svg class="w-3 h-3 text-[#FF6D29] shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                <span id="profile-city-text">Ilhéus, BA</span>
+              </p>
+              <div class="flex items-center gap-1.5 mt-1.5 flex-wrap">
+                <span class="inline-flex items-center gap-1 text-[9px] uppercase tracking-wider font-extrabold text-white bg-white/10 border border-white/15 px-2 py-0.5 rounded-full" id="profile-company-tag">
+                  🏢 <span id="profile-company-text">Poli Park Imóveis</span>
+                </span>
+                <span class="inline-block text-[9px] uppercase tracking-wider font-extrabold text-[#FF6D29] bg-[#FF6D29]/10 border border-[#FF6D29]/30 px-2 py-0.5 rounded-full" id="profile-mode-tag">
+                  Modo Completo
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 Métricas -->
+        <div class="grid grid-cols-3 gap-2 text-center">
+          <div class="arounda-card p-3">
+            <span class="text-lg font-black text-white font-mono-num" id="profile-stat-days">0</span>
+            <p class="text-[9px] text-[#BABABA] uppercase font-bold mt-0.5">Dias no app</p>
+          </div>
+          <div class="arounda-card p-3">
+            <span class="text-lg font-black text-[#FF6D29] font-mono-num" id="profile-stat-streak">0</span>
+            <p class="text-[9px] text-[#BABABA] uppercase font-bold mt-0.5">Maior sequência</p>
+          </div>
+          <div class="arounda-card p-3">
+            <span class="text-lg font-black text-white font-mono-num" id="profile-stat-missions">0</span>
+            <p class="text-[9px] text-[#BABABA] uppercase font-bold mt-0.5">Missões feitas</p>
+          </div>
+        </div>
+
+        <!-- Cheque do Futuro -->
+        <div class="arounda-card p-4 relative">
+          <div class="flex justify-between items-start mb-2">
+            <div>
+              <span class="text-[10px] uppercase font-extrabold text-[#FF6D29] tracking-wider">Cheque do Futuro</span>
+              <h4 class="text-lg font-black text-white font-mono-num mt-0.5" id="profile-cheque-val">R$ 50.000,00</h4>
+            </div>
+            <button id="btn-edit-cheque" class="text-xs text-[#FF6D29] hover:underline flex items-center gap-1 font-bold">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+              Editar
+            </button>
+          </div>
+
+          <p class="text-[11px] text-[#BABABA] italic">"Resultados nascem de um sonho claro e atividade alta."</p>
+          
+          <div class="mt-3 pt-3 border-t border-white/5 flex justify-between items-center text-[10px]">
+            <span class="font-bold text-[#FF6D29]" id="profile-month-elapsed-text">27% do mês percorrido</span>
+            <span class="text-[#BABABA]" id="profile-meta-achieved-text">0% da meta atingida</span>
+          </div>
+          <div class="mt-2 pt-2 border-t border-white/5 flex justify-between items-center text-[11px]">
+            <span class="text-[#BABABA]">Alvo para:</span>
+            <span class="text-white font-medium" id="profile-cheque-date">Dezembro / 2026</span>
+          </div>
+        </div>
+
+        <!-- APE — AGENDA PROGRAMADA DE ESTUDO -->
+        <div class="arounda-card p-4">
+          <div class="flex justify-between items-center mb-3">
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#FF6D29]"></span>
+                <h4 class="text-xs font-black text-white uppercase tracking-wider">Agenda Programada (APE)</h4>
+              </div>
+              <p class="text-[10px] text-[#BABABA]">Mini estante de formação do corretor</p>
+            </div>
+            
+            <button id="btn-add-study-item" class="flex items-center gap-1 text-[11px] font-bold text-[#FF6D29] bg-[#FF6D29]/10 border border-[#FF6D29]/30 px-2.5 py-1 rounded-full hover:bg-[#FF6D29]/20 transition-all active:scale-95">
+              <span>+</span>
+              <span>Adicionar</span>
+            </button>
+          </div>
+
+          <div id="ape-items-container" class="space-y-2.5"></div>
+
+          <button id="btn-open-full-ape" class="w-full mt-3 p-3 rounded-2xl bg-white/5 border border-white/10 hover:border-[#FF6D29]/40 hover:bg-white/10 transition-all flex justify-between items-center text-xs group active:scale-[0.98]">
+            <div class="flex items-center gap-2">
+              <span class="w-6 h-6 rounded-lg bg-[#FF6D29]/15 flex items-center justify-center text-[#FF6D29] font-bold">📚</span>
+              <span class="font-bold text-white" id="ape-full-count-label">Abrir Estante Completa (3 obras)</span>
+            </div>
+            <span class="text-[#FF6D29] font-bold group-hover:translate-x-1 transition-transform">Ver todas →</span>
+          </button>
+        </div>
+
+        <!-- Configurações e Notificações -->
+        <div class="arounda-card overflow-hidden divide-y divide-white/5 text-xs">
+          <button class="w-full p-3.5 flex justify-between items-center text-white hover:bg-white/5 transition-colors" id="btn-toggle-authority-profile">
+            <div>
+              <span class="font-bold block text-left">Módulo de Autoridade Digital</span>
+              <span class="text-[10px] text-[#BABABA] block text-left">Vídeos no Feed (Ímã) e Stories (Conexão)</span>
+            </div>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full border" id="authority-profile-badge">Ativo</span>
+          </button>
+
+          <button class="w-full p-3.5 flex justify-between items-center text-white hover:bg-white/5 transition-colors" id="btn-cfg-notif">
+            <span>Notificações do Treinador</span>
+            <span class="text-[#BABABA]">Ativas</span>
+          </button>
+
+          <button class="w-full p-3.5 flex justify-between items-center text-white hover:bg-white/5 transition-colors" id="btn-cfg-missao">
+            <span>Minha missão e metas diárias</span>
+            <span class="text-[#BABABA]">→</span>
+          </button>
+
+          <button class="w-full p-3.5 flex justify-between items-center text-white hover:bg-white/5 transition-colors" id="btn-cfg-onboarding">
+            <span>Refazer Tutorial e Onboarding</span>
+            <span class="text-[#FF6D29]">Reiniciar</span>
+          </button>
+
+          <button class="w-full p-3.5 flex justify-between items-center text-white hover:bg-white/5 transition-colors" id="btn-cfg-sobre">
+            <span>Sobre o My Corretor</span>
+            <span class="text-[#BABABA]">v1.0 MVP</span>
+          </button>
+
+          <button class="w-full p-3.5 flex justify-between items-center text-rose-400 font-semibold hover:bg-rose-950/20 transition-colors" id="btn-cfg-reset">
+            <span>Recomeçar do zero</span>
+            <span class="text-rose-400/80">Zerar</span>
+          </button>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Floating Dock de Navegação -->
+    <nav class="absolute bottom-5 left-1/2 -translate-x-1/2 w-[90%] max-w-[340px] floating-dock rounded-full px-2 py-1.5 flex justify-around items-center z-30" aria-label="Navegação Principal">
+      <button class="nav-btn dock-active flex items-center justify-center gap-1.5 py-2 px-3.5 rounded-full text-[#BABABA] transition-all" data-target="tab-missao" id="nav-btn-missao" title="Missão">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        <span class="text-[11px] font-bold">Missão</span>
+      </button>
+
+      <button class="nav-btn flex items-center justify-center gap-1.5 py-2 px-3.5 rounded-full text-[#BABABA] transition-all" data-target="tab-progresso" id="nav-btn-progresso" title="Progresso">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+        <span class="text-[11px] font-bold hidden">Progresso</span>
+      </button>
+
+      <button class="nav-btn flex items-center justify-center gap-1.5 py-2 px-3.5 rounded-full text-[#BABABA] transition-all" data-target="tab-conquistas" id="nav-btn-conquistas" title="Conquistas">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+        <span class="text-[11px] font-bold hidden">Conquistas</span>
+      </button>
+
+      <button class="nav-btn flex items-center justify-center gap-1.5 py-2 px-3.5 rounded-full text-[#BABABA] transition-all" data-target="tab-perfil" id="nav-btn-perfil" title="Perfil">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+        <span class="text-[11px] font-bold hidden">Perfil</span>
+      </button>
+    </nav>
+
+    <!-- ================= MODAL DE ONBOARDING: MULTI-STEP COM EXPLICATIVOS E AUTORIDADE ================= -->
+    <div id="onboarding-screen" class="absolute inset-0 bg-[#0d0b0d] z-50 flex flex-col justify-between p-5 overflow-y-auto no-scrollbar">
+      
+      <!-- Topo com Indicador de Etapas -->
+      <div class="space-y-4">
+        <div class="flex justify-between items-center pt-1 border-b border-white/5 pb-3">
+          <div class="flex items-center gap-2">
+            <div class="w-7 h-7 rounded-xl bg-[#FF6D29]/20 border border-[#FF6D29]/40 flex items-center justify-center text-[#FF6D29] font-black text-xs">⚡</div>
+            <h3 class="text-xs font-black text-white uppercase tracking-wider">MY CORRETOR</h3>
+          </div>
+          <span class="text-[10px] font-mono-num font-bold text-[#FF6D29] bg-[#FF6D29]/10 px-2.5 py-0.5 rounded-full border border-[#FF6D29]/30" id="onboarding-step-counter">Passo 1 de 3</span>
+        </div>
+
+        <!-- ETAPA 1: IDENTIFICAÇÃO DO CORRETOR -->
+        <div id="onboarding-step-1" class="space-y-3">
+          <div class="arounda-card p-4 border-l-4 border-l-[#FF6D29]">
+            <span class="text-[9px] uppercase font-extrabold text-[#FF6D29] tracking-wider block mb-1">Boas-Vindas do Gestor</span>
+            <h2 class="text-base font-black text-white leading-snug">"O corretor de elite acorda sabendo exatamente o que fazer."</h2>
+            <p class="text-xs text-[#BABABA] mt-1.5 leading-relaxed">
+              Não somos CRM nem planilha cheia de gráficos. Aqui você acompanha a sua <strong class="text-white">disciplina diária</strong>. O básico é piso, nunca teto.
+            </p>
+          </div>
+
+          <div class="arounda-card p-4 space-y-2.5">
+            <h4 class="text-xs font-black text-white uppercase tracking-wider">Identificação de Campo</h4>
+            
+            <div>
+              <label for="onboarding-name" class="text-[10px] font-bold text-[#BABABA] block mb-1">Seu Nome Completo</label>
+              <input type="text" id="onboarding-name" placeholder="Ex: Gabriel Novaes" value="Gabriel Novaes" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-[#FF6D29] outline-none">
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label for="onboarding-city" class="text-[10px] font-bold text-[#BABABA] block mb-1">Cidade / Praça</label>
+                <input type="text" id="onboarding-city" placeholder="Ex: Ilhéus, BA" value="Ilhéus, BA" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-[#FF6D29] outline-none">
+              </div>
+
+              <div>
+                <label for="onboarding-company" class="text-[10px] font-bold text-[#BABABA] block mb-1">Imobiliária / Empresa</label>
+                <input type="text" id="onboarding-company" placeholder="Ex: Poli Park Imóveis" value="Poli Park Imóveis" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-[#FF6D29] outline-none">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ETAPA 2: DIAGNÓSTICO + FUNIL REVERSO DO PLANNER + EXPLICATIVO -->
+        <div id="onboarding-step-2" class="space-y-3 hidden">
+          <div class="arounda-card p-4 border-l-4 border-l-[#E5C158]">
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-[9px] uppercase font-extrabold text-[#E5C158] tracking-wider">O Funil Estatístico do Mês</span>
+              <button id="btn-open-funnel-explainer" class="text-[10px] text-[#E5C158] font-bold underline">Entenda as Métricas ℹ️</button>
+            </div>
+            <div class="flex justify-between items-center"><h3 class="text-sm font-black text-white">Sua meta financeira define o piso diário</h3><span class="text-[10px] font-bold text-emerald-400 bg-emerald-950/50 border border-emerald-500/30 px-2 py-0.5 rounded-full font-mono-num" id="calc-vendas-badge">1 Venda</span></div>
+            <p class="text-xs text-[#BABABA] mt-1 leading-relaxed">
+              Baseado no benchmark de 340.000+ corretores do mercado imobiliário (Facilita e CV CRM).
+            </p>
+          </div>
+
+          <!-- Inputs de Faturamento e Comissão -->
+          <div class="arounda-card p-4 space-y-3">
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label for="onboarding-fat" class="text-[10px] font-bold text-[#BABABA] block mb-1">Meta Faturamento (R$)</label>
+                <input type="number" id="onboarding-fat" value="10000" min="1000" step="500" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white font-mono-num focus:border-[#FF6D29] outline-none">
+              </div>
+
+              <div>
+                <label for="onboarding-comissao" class="text-[10px] font-bold text-[#BABABA] block mb-1">Comissão / Venda (R$)</label>
+                <input type="number" id="onboarding-comissao" value="10000" min="1000" step="500" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white font-mono-num focus:border-[#FF6D29] outline-none">
+              </div>
+            </div>
+
+            <!-- Degraus do Funil -->
+            <div class="bg-black/50 border border-white/5 rounded-2xl p-3 space-y-2 text-xs font-mono-num">
+              <div class="flex justify-between items-center pb-1 border-b border-white/5">
+                <span class="text-[#BABABA]">01 PROSPECÇÃO (Campo)</span>
+                <span class="text-[#FF6D29] font-bold" id="funil-prospeccao-val">60 contatos (3/dia)</span>
+              </div>
+              <div class="flex justify-between items-center text-[11px]">
+                <span class="text-[#888]">02 ATENDIMENTO (33%)</span>
+                <span class="text-white" id="funil-atend-val">20 atendimentos</span>
+              </div>
+              <div class="flex justify-between items-center text-[11px]">
+                <span class="text-[#888]">03 QUALIFICADOS (40%)</span>
+                <span class="text-white" id="funil-qualif-val">8 qualificados</span>
+              </div>
+              <div class="flex justify-between items-center pb-1 border-b border-white/5">
+                <span class="text-[#BABABA]">04 VISITAS (O Ponteiro)</span>
+                <span class="text-[#E5C158] font-bold" id="funil-visitas-val">4 visitas (1/sem)</span>
+              </div>
+              <div class="flex justify-between items-center text-[11px]">
+                <span class="text-[#888]">05 PROPOSTAS (50%)</span>
+                <span class="text-white" id="funil-propostas-val">2 propostas</span>
+              </div>
+              <div class="flex justify-between items-center pt-0.5">
+                <span class="text-emerald-400 font-bold">06 VENDAS (25%)</span>
+                <span class="text-emerald-400 font-bold" id="funil-vendas-val">1 Venda Concluída</span>
+              </div>
+            </div>
+
+            <!-- Cheque Compacto -->
+            <div class="pt-2 border-t border-white/5 flex justify-between items-center text-xs">
+              <span class="text-[#BABABA]">Cheque do Futuro:</span>
+              <span class="text-white font-black font-mono-num" id="onboarding-cheque-display">R$ 10.000,00</span>
+              <input type="hidden" id="onboarding-cheque" value="10.000,00"><span id="onboarding-cheque-month-text" class="hidden">Dezembro / 2026</span><span id="onboarding-daily-target-tag" class="hidden">3 contatos/dia</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ETAPA 3: EXPLICAÇÃO DE AUTORIDADE DIGITAL & ESCOLHA DO MODO DO APP -->
+        <div id="onboarding-step-3" class="space-y-3 hidden">
+          <div class="arounda-card p-4 border-l-4 border-l-blue-500">
+            <span class="text-[9px] uppercase font-extrabold text-blue-400 tracking-wider block mb-1">Módulo de Autoridade Digital</span>
+            <h3 class="text-sm font-black text-white">"Autoridade é o que gera lead qualificado de graça."</h3>
+            <p class="text-xs text-[#BABABA] mt-1.5 leading-relaxed">
+              O corretor tradicional passa o dia inteiro ligando para leads frios. O corretor com autoridade atrai investidores porque já educa o público antes do primeiro aperto de mão.
+            </p>
+          </div>
+
+          <!-- Como Medir Autoridade -->
+          <div class="arounda-card p-4 space-y-2.5">
+            <h4 class="text-xs font-black text-white uppercase tracking-wider">Como o App Mede Autoridade:</h4>
+            
+            <div class="bg-white/5 border border-white/5 p-2.5 rounded-xl flex items-start gap-2.5">
+              <span class="text-lg">🧲</span>
+              <div class="text-xs">
+                <strong class="text-white block">O Ímã (Vídeos no Feed):</strong>
+                <span class="text-[#BABABA] text-[11px]">3 vídeos por semana de valorização, matemática e conselho de ouro. É o que atrai pessoas novas.</span>
+              </div>
+            </div>
+
+            <div class="bg-white/5 border border-white/5 p-2.5 rounded-xl flex items-start gap-2.5">
+              <span class="text-lg">📱</span>
+              <div class="text-xs">
+                <strong class="text-white block">A Conexão (Stories Diários):</strong>
+                <span class="text-[#BABABA] text-[11px]">Mínimo 3 stories por dia de bastidor real de campo. Constrói confiança e familiaridade.</span>
+              </div>
+            </div>
+
+            <!-- Pergunta Decisiva com Seleção Visual -->
+            <div class="pt-2 border-t border-white/5">
+              <span class="text-[11px] font-bold text-white block mb-2">Deseja ativar os medidores de Autoridade na sua rotina?</span>
+              
+              <div class="space-y-2">
+                <!-- Opção 1: Completo -->
+                <label class="cursor-pointer arounda-card p-3 flex items-center justify-between border border-[#FF6D29]/40 bg-[#FF6D29]/10 block" id="option-authority-yes">
+                  <div class="flex items-center gap-2.5">
+                    <input type="radio" name="onboarding-authority-mode" value="completo" checked class="text-[#FF6D29] accent-[#FF6D29]">
+                    <div class="text-left">
+                      <span class="text-xs font-black text-white block">Modo Completo (Vendas + Conteúdo)</span>
+                      <span class="text-[10px] text-[#BABABA]">Prospecção, Visitas, Vídeos e Stories</span>
+                    </div>
+                  </div>
+                  <span class="text-[10px] text-[#FF6D29] font-bold font-mono-num">4 Pilares</span>
+                </label>
+
+                <!-- Opção 2: Simples -->
+                <label class="cursor-pointer arounda-card p-3 flex items-center justify-between border border-white/10 bg-white/5 block" id="option-authority-no">
+                  <div class="flex items-center gap-2.5">
+                    <input type="radio" name="onboarding-authority-mode" value="simples" class="text-[#FF6D29] accent-[#FF6D29]">
+                    <div class="text-left">
+                      <span class="text-xs font-black text-white block">Modo Essencial (Apenas Funil Puro)</span>
+                      <span class="text-[10px] text-[#BABABA]">Foco estrito em contatos, visitas e fechamento</span>
+                    </div>
+                  </div>
+                  <span class="text-[10px] text-[#BABABA] font-bold font-mono-num">Funil Puro</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Barra de Ações do Onboarding (Avançar / Voltar) -->
+      <div class="pt-4 pb-1 space-y-2">
+        <div class="flex gap-2">
+          <button id="btn-onboarding-prev" class="w-1/3 py-3 rounded-full bg-white/5 border border-white/10 text-white font-bold text-xs hover:bg-white/10 transition-all hidden">
+            ← Voltar
+          </button>
+          <button id="btn-onboarding-next" class="flex-1 py-3.5 rounded-full bg-[#FF6D29] text-white font-black text-xs hover:bg-[#FFAE33] transition-all shadow-xl shadow-[#FF6D29]/30 active:scale-95 uppercase tracking-wider">
+            Avançar para o Funil →
+          </button>
+          <button id="btn-finish-onboarding" class="flex-1 py-3.5 rounded-full bg-[#FF6D29] text-white font-black text-xs hover:bg-[#FFAE33] transition-all shadow-xl shadow-[#FF6D29]/30 active:scale-95 uppercase tracking-wider hidden">
+            Iniciar Minha Missão de Elite →
+          </button>
+        </div>
+        <p class="text-[9px] text-center text-[#BABABA]/60">Configuração salva no seu navegador • Ajustável nas configurações a qualquer hora.</p>
+      </div>
+    </div>
+
+    <!-- ================= MODAL: EXPLICATIVO DAS MÉTRICAS DO FUNIL ================= -->
+    <div id="funnel-explainer-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+      <div class="arounda-card w-full max-w-[340px] p-5 relative shadow-2xl border border-white/10 max-h-[85vh] overflow-y-auto no-scrollbar">
+        <button id="close-funnel-explainer" class="absolute top-4 right-4 text-[#BABABA] hover:text-white p-1 font-bold">✕</button>
+        
+        <h3 class="text-sm font-black text-[#FF6D29] uppercase tracking-wider">Como Funciona o Funil</h3>
+        <p class="text-xs text-[#BABABA] mt-0.5">As taxas estatísticas do seu planner físico</p>
+
+        <div class="mt-4 space-y-2.5 text-xs">
+          <div class="bg-white/5 p-2.5 rounded-xl border border-white/5">
+            <strong class="text-[#FF6D29] block">1. Prospecção $\rightarrow$ Atendimento (33%):</strong>
+            <span class="text-[#BABABA] text-[11px]">De cada 3 contatos de valor que você faz, em média 1 cliente responde e abre conversa.</span>
+          </div>
+
+          <div class="bg-white/5 p-2.5 rounded-xl border border-white/5">
+            <strong class="text-white block">2. Atendimento $\rightarrow$ Qualificado (40%):</strong>
+            <span class="text-[#BABABA] text-[11px]">Nem todo mundo que responde tem perfil ou verba. 40% passam pelo seu filtro de qualificação.</span>
+          </div>
+
+          <div class="bg-white/5 p-2.5 rounded-xl border border-white/5">
+            <strong class="text-[#E5C158] block">3. Qualificado $\rightarrow$ Visita / Ponteiro (50%):</strong>
+            <span class="text-[#BABABA] text-[11px]">Metade dos leads qualificados aceitam e vão para a apresentação ou visita presencial.</span>
+          </div>
+
+          <div class="bg-white/5 p-2.5 rounded-xl border border-white/5">
+            <strong class="text-white block">4. Visita $\rightarrow$ Proposta (50%):</strong>
+            <span class="text-[#BABABA] text-[11px]">Das visitas bem conduzidas, 50% resultam em envio de proposta formal.</span>
+          </div>
+
+          <div class="bg-white/5 p-2.5 rounded-xl border border-white/5">
+            <strong class="text-emerald-400 block">5. Proposta $\rightarrow$ Venda (25%):</strong>
+            <span class="text-[#BABABA] text-[11px]">Após contornar objeções e ajustar a matemática, 1 em cada 4 propostas vira contrato e comissão!</span>
+          </div>
+        </div>
+
+        <button id="btn-close-explainer-ack" class="w-full mt-4 py-2.5 rounded-full bg-[#FF6D29] text-white font-black text-xs hover:bg-[#FFAE33] transition-all">
+          Entendido, Voltar ao Funil
+        </button>
+      </div>
+    </div>
+
+    <!-- ================= MODAL: ESTANTE COMPLETA APE ================= -->
+    <div id="full-ape-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+      <div class="arounda-card w-full max-w-[360px] p-5 relative shadow-2xl border border-white/10 max-h-[85vh] flex flex-col">
+        <div class="flex justify-between items-center pb-3 border-b border-white/10">
+          <div>
+            <h3 class="text-sm font-black text-[#FF6D29] uppercase tracking-wider">Estante APE Completa</h3>
+            <p class="text-xs text-[#BABABA]">Gerencie, exclua ou alterne seus estudos</p>
+          </div>
+          <button id="close-full-ape-modal" class="text-[#BABABA] hover:text-white p-1 font-bold text-base">✕</button>
+        </div>
+
+        <div id="ape-full-list-container" class="flex-1 overflow-y-auto no-scrollbar py-3 space-y-2.5"></div>
+
+        <div class="pt-3 border-t border-white/10 flex gap-2">
+          <button id="btn-add-from-full-ape" class="flex-1 py-2.5 rounded-full bg-[#FF6D29] text-white font-black text-xs hover:bg-[#FFAE33] transition-all active:scale-95 shadow-md flex items-center justify-center gap-1.5">
+            <span>+</span>
+            <span>Adicionar Novo Livro ou Curso</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= MODAL: ADICIONAR MISSÃO COMPLEMENTAR [+] ================= -->
+    <div id="custom-mission-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+      <div class="arounda-card w-full max-w-[340px] p-5 relative shadow-2xl border border-white/10">
+        <button id="close-custom-mission-modal" class="absolute top-4 right-4 text-[#BABABA] hover:text-white p-1 font-bold">✕</button>
+        
+        <h3 class="text-sm font-black text-[#FF6D29] uppercase tracking-wider">Nova Missão Complementar</h3>
+        <p class="text-xs text-[#BABABA] mt-0.5">Ela entrará na Missão e no Volume de Execução</p>
+
+        <form id="custom-mission-form" class="mt-4 space-y-3">
+          <div>
+            <label for="input-mission-title" class="text-[11px] font-bold text-[#BABABA] block mb-1">Título da Ação</label>
+            <input type="text" id="input-mission-title" required placeholder="Ex: Captação de Avaliação Imobiliária" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white focus:border-[#FF6D29] outline-none">
+          </div>
+
+          <div>
+            <label for="input-mission-desc" class="text-[11px] font-bold text-[#BABABA] block mb-1">Descrição / Instrução</label>
+            <input type="text" id="input-mission-desc" required placeholder="Ex: Laudo técnico para investidor" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white focus:border-[#FF6D29] outline-none">
+          </div>
+
+          <div>
+            <label for="input-mission-target" class="text-[11px] font-bold text-[#BABABA] block mb-1">Meta Numérica</label>
+            <input type="number" id="input-mission-target" min="1" value="2" required class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white font-mono-num focus:border-[#FF6D29] outline-none">
+          </div>
+
+          <div class="pt-2">
+            <button type="submit" class="w-full py-2.5 rounded-full bg-[#FF6D29] text-white font-black text-xs hover:bg-[#FFAE33] transition-all active:scale-95 shadow-lg shadow-[#FF6D29]/30">
+              Criar Missão
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ================= MODAL: EDITAR VALORES DO VOLUME DE EXECUÇÃO ================= -->
+    <div id="volume-edit-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+      <div class="arounda-card w-full max-w-[340px] p-5 relative shadow-2xl border border-white/10 max-h-[85vh] overflow-y-auto no-scrollbar">
+        <button id="close-volume-edit-modal" class="absolute top-4 right-4 text-[#BABABA] hover:text-white p-1 font-bold">✕</button>
+        
+        <h3 class="text-sm font-black text-[#FF6D29] uppercase tracking-wider">Ajustar Volume de Execução</h3>
+        <p class="text-xs text-[#BABABA] mt-0.5">Corrija os valores realizados no período</p>
+
+        <form id="volume-edit-form" class="mt-4 space-y-3">
+          <div id="volume-edit-inputs-container" class="space-y-2.5"></div>
+
+          <div class="pt-2">
+            <button type="submit" class="w-full py-2.5 rounded-full bg-[#FF6D29] text-white font-black text-xs hover:bg-[#FFAE33] transition-all active:scale-95 shadow-lg">
+              Salvar Ajustes de Volume
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ================= MODAL: ADICIONAR LIVRO/CURSO APE ================= -->
+    <div id="ape-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+      <div class="arounda-card w-full max-w-[340px] p-5 relative shadow-2xl border border-white/10">
+        <button id="close-ape-modal" class="absolute top-4 right-4 text-[#BABABA] hover:text-white p-1 font-bold">✕</button>
+        
+        <h3 class="text-sm font-black text-[#FF6D29] uppercase tracking-wider">Adicionar à Agenda (APE)</h3>
+        <p class="text-xs text-[#BABABA] mt-0.5">Busque um livro clássico ou digite seu curso</p>
+
+        <form id="ape-form" class="mt-4 space-y-3">
+          <div>
+            <label for="input-ape-title" class="text-[11px] font-bold text-[#BABABA] block mb-1">Título da Obra ou Formação</label>
+            <input type="text" id="input-ape-title" required placeholder="Digite ex: Bíblia das Vendas" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-[#FF6D29] outline-none">
+          </div>
+
+          <div>
+            <span class="text-[10px] text-[#BABABA] uppercase font-bold block mb-1.5">Sugestões com Capa:</span>
+            <div class="flex flex-wrap gap-1.5">
+              <button type="button" class="preset-book-btn text-[10px] bg-white/5 border border-white/10 px-2 py-1 rounded text-[#BABABA] hover:border-[#FF6D29] hover:text-white" data-title="Bíblia das Vendas" data-author="Jeffrey Gitomer" data-color="#b91c1c">Bíblia das Vendas</button>
+              <button type="button" class="preset-book-btn text-[10px] bg-white/5 border border-white/10 px-2 py-1 rounded text-[#BABABA] hover:border-[#FF6D29] hover:text-white" data-title="Receita Previsível" data-author="Aaron Ross" data-color="#1e3a8a">Receita Previsível</button>
+              <button type="button" class="preset-book-btn text-[10px] bg-white/5 border border-white/10 px-2 py-1 rounded text-[#BABABA] hover:border-[#FF6D29] hover:text-white" data-title="As Armas da Persuasão" data-author="Robert Cialdini" data-color="#78350f">Armas da Persuasão</button>
+            </div>
+          </div>
+
+          <div>
+            <label class="text-[11px] font-bold text-[#BABABA] block mb-1.5">Status Inicial</label>
+            <div class="grid grid-cols-3 gap-1.5" id="status-selector-ape">
+              <label class="cursor-pointer text-center p-2 rounded-xl border border-white/10 bg-white/5 text-[10px] font-bold text-[#BABABA] has-[:checked]:border-white/40 has-[:checked]:bg-white/15 has-[:checked]:text-white">
+                <input type="radio" name="ape-status" value="afazer" class="hidden" checked>
+                Irei Fazer
+              </label>
+              <label class="cursor-pointer text-center p-2 rounded-xl border border-white/10 bg-white/5 text-[10px] font-bold text-[#BABABA] has-[:checked]:border-[#FF6D29] has-[:checked]:bg-[#FF6D29]/20 has-[:checked]:text-[#FF6D29]">
+                <input type="radio" name="ape-status" value="fazendo" class="hidden">
+                Fazendo
+              </label>
+              <label class="cursor-pointer text-center p-2 rounded-xl border border-white/10 bg-white/5 text-[10px] font-bold text-[#BABABA] has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-950/40 has-[:checked]:text-emerald-400">
+                <input type="radio" name="ape-status" value="concluido" class="hidden">
+                Concluído
+              </label>
+            </div>
+          </div>
+
+          <div class="pt-2">
+            <button type="submit" class="w-full py-2.5 rounded-full bg-[#FF6D29] text-white font-black text-xs hover:bg-[#FFAE33] transition-all active:scale-95 shadow-lg">
+              Registrar na Estante
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ================= MODAL: CONFIGURAÇÃO DE NOTIFICAÇÕES (9H E 17H) ================= -->
+    <div id="notif-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+      <div class="arounda-card w-full max-w-[340px] p-5 relative shadow-2xl border border-white/10">
+        <button id="close-notif-modal" class="absolute top-4 right-4 text-[#BABABA] hover:text-white p-1 font-bold">✕</button>
+        
+        <h3 class="text-sm font-black text-[#FF6D29] uppercase tracking-wider">Alertas do Treinador</h3>
+        <p class="text-xs text-[#BABABA] mt-0.5">Lembretes automáticos no horário de campo</p>
+
+        <div class="mt-4 space-y-3">
+          <div class="bg-white/5 border border-white/10 p-3 rounded-2xl">
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-xs font-black text-[#FF6D29] font-mono-num">09:00 — Início do Campo</span>
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            </div>
+            <p class="text-[11px] text-[#BABABA] leading-snug">
+              "O Campo de Batalha abriu. Faça seus 5 contatos de valor com clientes."
+            </p>
+          </div>
+
+          <div class="bg-white/5 border border-white/10 p-3 rounded-2xl">
+            <div class="flex justify-between items-center mb-1">
+              <span class="text-xs font-black text-[#FF6D29] font-mono-num">17:00 — Fechamento Comercial</span>
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            </div>
+            <p class="text-[11px] text-[#BABABA] leading-snug">
+              "Beba sua água e preencha seu KPI diário! O básico é piso, nunca teto."
+            </p>
+          </div>
+        </div>
+
+        <button id="btn-save-notif" class="w-full mt-4 py-2.5 rounded-full bg-[#FF6D29] text-white font-black text-xs hover:bg-[#FFAE33] transition-all shadow-md">
+          Confirmar Horários Ativos
+        </button>
+      </div>
+    </div>
+
+    <!-- ================= MODAL: EDITAR PERFIL ================= -->
+    <div id="profile-edit-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+      <div class="arounda-card w-full max-w-[320px] p-5 relative shadow-2xl border border-white/10">
+        <button id="close-profile-modal" class="absolute top-4 right-4 text-[#BABABA] hover:text-white p-1 font-bold">✕</button>
+        
+        <h3 class="text-sm font-black text-[#FF6D29] uppercase tracking-wider">Editar Perfil</h3>
+        <p class="text-xs text-[#BABABA] mt-0.5">Seus dados como corretor</p>
+
+        <form id="profile-edit-form" class="mt-4 space-y-3">
+          <div>
+            <label for="input-profile-name" class="text-[11px] font-bold text-[#BABABA] block mb-1">Nome Completo</label>
+            <input type="text" id="input-profile-name" value="Gabriel Novaes" required class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-[#FF6D29] outline-none">
+          </div>
+
+          <div>
+            <label for="input-profile-city" class="text-[11px] font-bold text-[#BABABA] block mb-1">Cidade / Praça</label>
+            <input type="text" id="input-profile-city" value="Ilhéus, BA" required class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-[#FF6D29] outline-none">
+          </div>
+
+          <div>
+            <label for="input-profile-company" class="text-[11px] font-bold text-[#BABABA] block mb-1">Imobiliária / Empresa</label>
+            <input type="text" id="input-profile-company" value="Poli Park Imóveis" required class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-[#FF6D29] outline-none">
+          </div>
+
+          <div class="pt-2">
+            <button type="submit" class="w-full py-2.5 rounded-full bg-[#FF6D29] text-white font-black text-xs hover:bg-[#FFAE33] transition-all active:scale-95 shadow-md">
+              Salvar Alterações
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ================= MODAL: DETALHES DA INSÍGNIA ================= -->
+    <div id="badge-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+      <div class="arounda-card w-full max-w-[320px] p-5 relative transition-all shadow-2xl border border-white/10 text-center">
+        <button id="close-badge-modal" class="absolute top-4 right-4 text-[#BABABA] hover:text-white p-1 text-sm font-bold">✕</button>
+        
+        <div id="modal-badge-icon" class="w-24 h-24 mx-auto mb-3 flex items-center justify-center"></div>
+
+        <span id="modal-badge-cat" class="text-[10px] font-black uppercase tracking-[0.16em] text-[#FF6D29] bg-[#FF6D29]/10 px-2.5 py-0.5 rounded-full border border-[#FF6D29]/30">Performance</span>
+        <h3 id="modal-badge-title" class="text-base font-extrabold text-white mt-2">110% por 3 dias</h3>
+        
+        <div class="my-3 py-3 border-y border-white/5 text-left">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-[#FF6D29] block mb-1">Requisito do App:</span>
+          <p id="modal-badge-desc" class="text-xs text-[#BABABA] leading-relaxed">
+            Superar a meta diária estipulada em 110% durante 3 dias consecutivos.
+          </p>
+        </div>
+
+        <div class="flex justify-between items-center text-[11px]">
+          <span class="text-[#BABABA]" id="modal-badge-status">Status: Bloqueada</span>
+          <span class="text-[#FF6D29] font-bold">Piso, nunca teto</span>
+        </div>
+
+        <button id="btn-modal-entendido" class="w-full mt-4 py-2.5 rounded-full bg-[#FF6D29] text-white font-black text-xs hover:bg-[#FFAE33] transition-all">
+          Entendido
+        </button>
+      </div>
+    </div>
+
+    <!-- ================= MODAL: EDITAR CHEQUE DO FUTURO ================= -->
+    <div id="cheque-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+      <div class="arounda-card w-full max-w-[340px] p-5 relative shadow-2xl border border-white/10">
+        <button id="close-cheque-modal" class="absolute top-4 right-4 text-[#BABABA] hover:text-white p-1 font-bold">✕</button>
+        
+        <h3 class="text-sm font-black text-[#FF6D29] uppercase tracking-wider">Cheque do Futuro</h3>
+        <p class="text-xs text-[#BABABA] mt-0.5">Defina seu alvo financeiro de longo prazo</p>
+
+        <form id="cheque-form" class="mt-4 space-y-3">
+          <div>
+            <label for="input-cheque-valor" class="text-[11px] font-bold text-[#BABABA] block mb-1">Valor da Conquista (R$)</label>
+            <input type="text" id="input-cheque-valor" value="50.000,00" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-sm text-white font-mono-num focus:border-[#FF6D29] outline-none">
+          </div>
+
+          <div>
+            <label for="input-cheque-data" class="text-[11px] font-bold text-[#BABABA] block mb-1">Mês / Ano Alvo</label>
+            <input type="text" id="input-cheque-data" value="Dezembro / 2026" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-sm text-white focus:border-[#FF6D29] outline-none">
+          </div>
+
+          <div class="pt-2">
+            <button type="submit" class="w-full py-2.5 rounded-full bg-[#FF6D29] text-white font-black text-xs hover:bg-[#FFAE33] transition-all shadow-md">
+              Salvar Cheque
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- ================= MODAL: CONFIRMAR REDEFINIÇÃO GERAL ================= -->
+    <div id="reset-modal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+      <div class="arounda-card w-full max-w-[320px] p-5 relative shadow-2xl text-center border-t-2 border-t-rose-600">
+        <div class="w-12 h-12 mx-auto rounded-2xl bg-rose-950/40 border border-rose-500/40 flex items-center justify-center text-xl text-rose-500 mb-3">
+          ⚠️
+        </div>
+        <h3 class="text-sm font-black text-rose-400 uppercase tracking-wider">Redefinir Tudo do Zero?</h3>
+        <p class="text-xs text-[#BABABA] mt-2 leading-relaxed">
+          Isso zerará as missões do dia, todo o volume de execução (semana/mês/ano), consistência e ações totais. <strong class="text-white">Suas insígnias conquistadas continuam preservadas.</strong>
+        </p>
+
+        <div class="flex gap-2 mt-5">
+          <button id="btn-cancel-reset" class="flex-1 py-2 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-[#BABABA] hover:bg-white/10">Cancelar</button>
+          <button id="btn-confirm-reset" class="flex-1 py-2 rounded-full bg-rose-600 text-xs font-black text-white hover:bg-rose-700 shadow-lg">Zerar Missão</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Flutuante -->
+    <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-[#221c1f] border border-[#FF6D29] text-white text-xs px-4 py-2 rounded-full shadow-2xl opacity-0 pointer-events-none transition-opacity duration-300 z-50 whitespace-nowrap font-medium flex items-center gap-2">
+      <span class="w-1.5 h-1.5 rounded-full bg-[#FF6D29]"></span>
+      <span id="toast-text">Ação registrada!</span>
+    </div>
+
+  
+    <!-- ================= MODAL: EXPLICAÇÃO TÉCNICA DO PILAR ================= -->
+    <div id="pillar-info-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+      <div class="arounda-card w-full max-w-[340px] p-5 relative shadow-2xl border border-white/10 text-left">
+        <button id="close-pillar-info-modal" class="absolute top-4 right-4 text-[#BABABA] hover:text-white p-1 font-bold">✕</button>
+        
+        <span class="text-[9px] font-mono-num font-bold uppercase tracking-wider text-[#FF6D29]" id="pillar-modal-tag">Pilar Inegociável</span>
+        <h3 class="text-base font-black text-white mt-1" id="pillar-modal-title">O Campo de Batalha</h3>
+
+        <div class="mt-4 space-y-3 text-xs">
+          <div class="bg-white/5 p-3 rounded-2xl border border-white/5">
+            <span class="text-[10px] font-extrabold text-[#FF6D29] uppercase tracking-wider block mb-1">Definição Técnica:</span>
+            <p class="text-white text-xs leading-relaxed" id="pillar-modal-def">Primeiro contato intencional com o cliente via WhatsApp ou ligação.</p>
+          </div>
+
+          <div class="bg-white/5 p-3 rounded-2xl border border-white/5">
+            <span class="text-[10px] font-extrabold text-[#BABABA] uppercase tracking-wider block mb-1">O Que Conta:</span>
+            <p class="text-[#BABABA] text-xs leading-relaxed" id="pillar-modal-counts">Abordagem direta e individual para iniciar atendimento no funil.</p>
+          </div>
+
+          <div class="bg-white/5 p-3 rounded-2xl border border-white/5">
+            <span class="text-[10px] font-extrabold text-emerald-400 uppercase tracking-wider block mb-1">Métrica do Funil:</span>
+            <p class="text-emerald-400 font-mono-num text-xs leading-relaxed" id="pillar-modal-funnel">Taxa esperada de 33% para atendimento. Piso diário calculado.</p>
+          </div>
+        </div>
+
+        <button id="btn-close-pillar-modal-ack" class="w-full mt-4 py-2.5 rounded-full bg-[#FF6D29] text-white font-black text-xs hover:bg-[#FFAE33] transition-all">
+          Entendido
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ================= LÓGICA JAVASCRIPT ================= -->
+  <script>
+    // Gerador de Insígnias dos Pilares
+    function generateInsigniaSVG(badge) {
+      const unlocked = badge.unlocked;
+      const cat = badge.cat;
+
+      let ribbonColor1 = '#FF6D29';
+      let ribbonColor2 = '#FFAE33';
+      let centerIcon = '';
+
+      if (cat === 'Batalha') {
+        ribbonColor1 = '#FF6D29';
+        ribbonColor2 = '#C25318';
+        centerIcon = `
+          <circle cx="50" cy="64" r="14" stroke="#FFF" stroke-width="1.5" stroke-dasharray="3 2" fill="none"/>
+          <line x1="50" y1="46" x2="50" y2="82" stroke="#FFF" stroke-width="1.8"/>
+          <line x1="32" y1="64" x2="68" y2="64" stroke="#FFF" stroke-width="1.8"/>
+          <circle cx="50" cy="64" r="4" fill="#FFAE33"/>
+        `;
+      } else if (cat === 'Ponteiro') {
+        ribbonColor1 = '#E5C158';
+        ribbonColor2 = '#9E7D2B';
+        centerIcon = `
+          <polygon points="50,48 55,64 50,60 45,64" fill="#FFF"/>
+          <polygon points="50,80 55,64 50,68 45,64" fill="#666"/>
+          <circle cx="50" cy="64" r="15" stroke="#E5C158" stroke-width="1.5" fill="none"/>
+          <circle cx="50" cy="64" r="2.5" fill="#FFF"/>
+        `;
+      } else if (cat === 'Ímã') {
+        ribbonColor1 = '#3b82f6';
+        ribbonColor2 = '#1d4ed8';
+        centerIcon = `
+          <polygon points="45,55 60,64 45,73" fill="#FFF"/>
+          <circle cx="50" cy="64" r="15" stroke="#60a5fa" stroke-width="1.5" stroke-dasharray="4 2" fill="none"/>
+        `;
+      } else if (cat === 'Conexão') {
+        ribbonColor1 = '#ec4899';
+        ribbonColor2 = '#be185d';
+        centerIcon = `
+          <rect x="38" y="52" width="24" height="24" rx="6" stroke="#FFF" stroke-width="1.8" fill="none"/>
+          <circle cx="50" cy="64" r="6" stroke="#FFF" stroke-width="1.8" fill="none"/>
+          <circle cx="56" cy="58" r="1.5" fill="#FF6D29"/>
+        `;
+      } else if (cat === 'Constância') {
+        ribbonColor1 = '#10b981';
+        ribbonColor2 = '#047857';
+        centerIcon = `
+          <path d="M50 49 C46 56 42 60 42 67 C42 72 45 77 50 77 C55 77 58 72 58 67 C58 60 54 56 50 49 Z" fill="#FFAE33"/>
+          <path d="M50 57 C48 61 46 64 46 68 C46 71 48 74 50 74 C52 74 54 71 54 68 C54 64 52 61 50 57 Z" fill="#FFF"/>
+        `;
+      } else if (cat === 'Resultado') {
+        ribbonColor1 = '#f59e0b';
+        ribbonColor2 = '#b45309';
+        centerIcon = `
+          <path d="M42 50 H58 V62 C58 67 54 71 50 71 C46 71 42 67 42 62 Z" fill="#FFF"/>
+          <path d="M40 52 H36 C34 52 33 54 33 56 C33 59 36 61 40 61" stroke="#FFF" stroke-width="1.5" fill="none"/>
+          <path d="M60 52 H64 C66 52 67 54 67 56 C67 59 64 61 60 61" stroke="#FFF" stroke-width="1.5" fill="none"/>
+          <rect x="47" y="71" width="6" height="5" fill="#FFF"/>
+          <rect x="43" y="76" width="14" height="2.5" rx="1" fill="#FFF"/>
+        `;
+      }
+
+      if (unlocked) {
+        return `
+          <svg class="w-full h-full filter drop-shadow-[0_4px_10px_rgba(255,109,41,0.35)]" viewBox="0 0 100 100" fill="none">
+            <defs>
+              <linearGradient id="goldRibbon" x1="0" y1="0" x2="100" y2="0">
+                <stop offset="0%" stop-color="#2a1207"/>
+                <stop offset="30%" stop-color="${ribbonColor1}"/>
+                <stop offset="50%" stop-color="${ribbonColor2}"/>
+                <stop offset="70%" stop-color="${ribbonColor1}"/>
+                <stop offset="100%" stop-color="#2a1207"/>
+              </linearGradient>
+              <linearGradient id="goldMetal" x1="0" y1="0" x2="100" y2="100">
+                <stop offset="0%" stop-color="#FFF0D4"/>
+                <stop offset="35%" stop-color="#FFAE33"/>
+                <stop offset="70%" stop-color="#C25318"/>
+                <stop offset="100%" stop-color="#5A2307"/>
+              </linearGradient>
+            </defs>
+            <path d="M28 8 H72 V36 L50 44 L28 36 Z" fill="url(#goldRibbon)" stroke="${ribbonColor2}" stroke-width="1.5"/>
+            <rect x="25" y="6" width="50" height="5" rx="1.5" fill="url(#goldMetal)" stroke="#5A2307" stroke-width="1"/>
+            <circle cx="50" cy="64" r="28" fill="#181315" stroke="url(#goldMetal)" stroke-width="3"/>
+            <circle cx="50" cy="64" r="23" stroke="${ribbonColor1}" stroke-width="1" stroke-dasharray="3 2" fill="none"/>
+            ${centerIcon}
+          </svg>
+        `;
+      } else {
+        return `
+          <svg class="w-full h-full opacity-50" viewBox="0 0 100 100" fill="none">
+            <path d="M28 8 H72 V36 L50 44 L28 36 Z" fill="#201c1e" stroke="#333" stroke-width="1.5"/>
+            <rect x="25" y="6" width="50" height="5" rx="1.5" fill="#302b2e" stroke="#1f1c1e" stroke-width="1"/>
+            <circle cx="50" cy="64" r="28" fill="#141113" stroke="#2c282b" stroke-width="2.5"/>
+            <rect x="42" y="61" width="16" height="13" rx="2" fill="#2d292c" stroke="#444" stroke-width="1"/>
+            <path d="M45 61 V55 C45 52.2 47.2 50 50 50 C52.8 50 55 52.2 55 55 V61" stroke="#444" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="50" cy="66" r="1.5" fill="#555"/>
+          </svg>
+        `;
+      }
+    }
+
+    // Estado Padrão Inicial
+    const defaultState = {
+      streak: 0,
+      gridOpen: false,
+      selectedPeriod: 'semana',
+      hasAuthority: true, // true = 4 pilares completos; false = apenas funil puro
+      funil: {
+        faturamento: 10000,
+        comissao: 10000,
+        vendas: 1,
+        propostas: 2,
+        visitas: 4,
+        qualificados: 8,
+        atendimentos: 20,
+        prospeccoes: 60,
+        dailyProsp: 3,
+        weeklyVisits: 1
+      },
+      missions: {
+        prospeccao: { id: 'prospeccao', label: 'O Campo de Batalha', desc: 'Contatos com clientes', target: 3, unit: 'contatos', count: 0, periodVolume: { semana: 0, mes: 0, ano: 0 } },
+        reuniao: { id: 'reuniao', label: 'O Ponteiro', desc: 'Apresentação ou visita', target: 1, unit: 'na semana', count: 0, periodVolume: { semana: 0, mes: 0, ano: 0 } },
+        feed: { id: 'feed', label: 'O Ímã', desc: 'Vídeos publicados no feed', target: 3, unit: 'na semana', count: 0, periodVolume: { semana: 0, mes: 0, ano: 0 } },
+        stories: { id: 'stories', label: 'A Conexão', desc: 'Stories e bastidores', target: 3, unit: 'stories', count: 0, periodVolume: { semana: 0, mes: 0, ano: 0 } }
+      },
+      complementaryMissions: [
+        { id: 'captacao', label: 'Captação de Imóvel', desc: 'Meta: 1 imóvel novo', target: 1, unit: 'imóvel', count: 0, isCustom: false, periodVolume: { semana: 0, mes: 0, ano: 0 } },
+        { id: 'followup', label: 'Follow-up Cirúrgico', desc: 'Nutrição de leads quentes', target: 5, unit: 'follow-ups', count: 0, isCustom: false, periodVolume: { semana: 0, mes: 0, ano: 0 } }
+      ],
+      badges: [
+        { id: 1, title: 'Primeiro Alvo', cat: 'Batalha', unlocked: false, desc: 'Fez o primeiro contato de valor do dia no Campo de Batalha.' },
+        { id: 2, title: '50 Conexões', cat: 'Batalha', unlocked: false, desc: 'Alcançou a marca de 50 contatos de valor ativos com clientes.' },
+        { id: 3, title: 'Caçador Sniper', cat: 'Batalha', unlocked: false, desc: 'Bateu 25 contatos qualificados em uma única semana.' },
+        { id: 4, title: 'Primeiro Ponteiro', cat: 'Ponteiro', unlocked: false, desc: 'Realizou a primeira apresentação ou visita com lead qualificado.' },
+        { id: 5, title: 'Mestre da Apresentação', cat: 'Ponteiro', unlocked: false, desc: 'Concluiu 4 reuniões de apresentação no mês.' },
+        { id: 6, title: 'Visita de Fechamento', cat: 'Ponteiro', unlocked: false, desc: 'Conduziu 10 visitas de alto padrão registradas no ano.' },
+        { id: 7, title: 'Ímã Ativado', cat: 'Ímã', unlocked: false, desc: 'Publicou seu primeiro vídeo de autoridade no feed.' },
+        { id: 8, title: 'Trinca Semanal', cat: 'Ímã', unlocked: false, desc: 'Bateu a meta semanal de 3 vídeos autorais publicados.' },
+        { id: 9, title: 'Autoridade Suprema', cat: 'Ímã', unlocked: false, desc: 'Completou 12 vídeos de autoridade no mês.' },
+        { id: 10, title: 'Primeira Conexão', cat: 'Conexão', unlocked: false, desc: 'Publicou os 3 stories de bastidores do dia.' },
+        { id: 11, title: 'Conexão Ativa', cat: 'Conexão', unlocked: false, desc: 'Bateu a meta semanal de 15 stories de bastidores.' },
+        { id: 12, title: '60 Bastidores', cat: 'Conexão', unlocked: false, desc: 'Manteve presença diária com 60 stories publicados no mês.' },
+        { id: 13, title: 'Semana de Honra', cat: 'Constância', unlocked: false, desc: '7 dias consecutivos cumprindo o piso de execução.' },
+        { id: 14, title: 'Mês Invicto', cat: 'Constância', unlocked: false, desc: '30 dias ininterruptos de execução tática sem falhas.' },
+        { id: 15, title: 'Centurião', cat: 'Constância', unlocked: false, desc: '100 dias ativos forjando a disciplina de elite.' },
+        { id: 16, title: 'Primeira Venda', cat: 'Resultado', unlocked: false, desc: 'Primeiro fechamento imobiliário gerado pela execução.' },
+        { id: 17, title: 'Clube dos 5', cat: 'Resultado', unlocked: false, desc: '5 contratos assinados e comissões garantidas.' },
+        { id: 18, title: 'Top Closer', cat: 'Resultado', unlocked: false, desc: '10 vendas concluídas geradas pela disciplina do app.' }
+      ],
+      apeItems: [
+        { id: 1, title: 'Trinca Real Estate — Alavancagem', author: 'César', color: '#C25318', status: 'fazendo' },
+        { id: 2, title: 'Máquina de Alocação e Autoridade', author: 'Gabriel Novaes', color: '#8A6F27', status: 'concluido' },
+        { id: 3, title: 'Bíblia das Vendas', author: 'Jeffrey Gitomer', color: '#991b1b', status: 'afazer' }
+      ],
+      cheque: { valor: '10.000,00', data: 'Dezembro / 2026' },
+      profile: { name: 'Gabriel Novaes', city: 'Ilhéus, BA', company: 'Poli Park Imóveis' },
+      stats: { consistency: 0, totalActions: 0 }
+    };
+
+    let appState = JSON.parse(JSON.stringify(defaultState));
+    let currentOnboardingStep = 1;
+
+    function loadAppState() {
+      try {
+        const saved = localStorage.getItem('mycorretor_app_state');
+        if (saved) {
+          appState = JSON.parse(saved);
+        }
+      } catch (e) {}
+    }
+
+    function saveAppState() {
+      try {
+        localStorage.setItem('mycorretor_app_state', JSON.stringify(appState));
+      } catch (e) {}
+    }
+
+    // Aplica o Modo de Autoridade na Interface (Liga / Desliga Feed e Stories)
+    function applyAuthorityMode() {
+      const authWrapper = document.getElementById('authority-pillars-wrapper');
+      const modeIndicator = document.getElementById('mode-badge-indicator');
+      const profileModeTag = document.getElementById('profile-mode-tag');
+      const authProfileBadge = document.getElementById('authority-profile-badge');
+      const pillarsTitle = document.getElementById('pillars-section-title');
+
+      if (appState.hasAuthority) {
+        if (authWrapper) authWrapper.classList.remove('hidden');
+        if (modeIndicator) modeIndicator.textContent = 'MODO COMPLETO';
+        if (profileModeTag) profileModeTag.textContent = 'Modo Completo';
+        if (authProfileBadge) {
+          authProfileBadge.textContent = 'Ativo';
+          authProfileBadge.className = 'text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-500/40 text-emerald-400 bg-emerald-950/30';
+        }
+        if (pillarsTitle) pillarsTitle.textContent = 'Pilares Inegociáveis (4)';
+      } else {
+        if (authWrapper) authWrapper.classList.add('hidden');
+        if (modeIndicator) modeIndicator.textContent = 'FUNIL PURO';
+        if (profileModeTag) profileModeTag.textContent = 'Funil de Vendas Puro';
+        if (authProfileBadge) {
+          authProfileBadge.textContent = 'Desativado';
+          authProfileBadge.className = 'text-[10px] font-bold px-2 py-0.5 rounded-full border border-white/10 text-[#BABABA] bg-white/5';
+        }
+        if (pillarsTitle) pillarsTitle.textContent = 'Pilares do Funil de Vendas';
+      }
+
+      saveAppState();
+    }
+
+    // Cálculo Dinâmico Real da Data e Porcentagem do Mês Percorrido
+    function updateTemporalCalculations() {
+      const now = new Date();
+      const day = now.getDate();
+      const month = now.getMonth();
+      const year = now.getFullYear();
+
+      const dayNames = ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SÁB'];
+      const monthNames = ['JAN', 'FEV', 'MAR', 'ABR', 'MAI', 'JUN', 'JUL', 'AGO', 'SET', 'OUT', 'NOV', 'DEZ'];
+      const fullMonthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+
+      const dayStr = dayNames[now.getDay()];
+      const monthStr = monthNames[month];
+      const fullMonthStr = fullMonthNames[month];
+
+      const dateEl = document.getElementById('current-date-display');
+      if (dateEl) {
+        dateEl.textContent = `${dayStr}, ${String(day).padStart(2, '0')} ${monthStr}`;
+      }
+
+      const totalDaysInMonth = new Date(year, month + 1, 0).getDate();
+      const pctMonth = Math.round((day / totalDaysInMonth) * 100);
+
+      const progElapsed = document.getElementById('progress-month-elapsed-text');
+      if (progElapsed) {
+        progElapsed.textContent = `${pctMonth}% do mês percorrido (dia ${day} de ${totalDaysInMonth})`;
+      }
+
+      const perfElapsed = document.getElementById('profile-month-elapsed-text');
+      if (perfElapsed) {
+        perfElapsed.textContent = `${pctMonth}% do mês percorrido (dia ${day}/${totalDaysInMonth})`;
+      }
+
+      let salesCount = 0;
+      if (appState.missions && appState.missions.reuniao) {
+        salesCount = appState.missions.reuniao.count >= 4 ? 1 : 0;
+      }
+      const targetSales = (appState.funil && appState.funil.vendas) ? appState.funil.vendas : 1;
+      const pctMeta = Math.min(100, Math.round((salesCount / targetSales) * 100));
+
+      const progMeta = document.getElementById('progress-meta-achieved-text');
+      if (progMeta) {
+        progMeta.textContent = `${pctMeta}% da meta financeira atingida`;
+      }
+      const perfMeta = document.getElementById('profile-meta-achieved-text');
+      if (perfMeta) {
+        perfMeta.textContent = `${pctMeta}% da meta atingida`;
+      }
+
+      if (!appState.cheque.data || appState.cheque.data.includes('2026')) {
+        appState.cheque.data = `${fullMonthStr} / ${year}`;
+      }
+    }
+
+    
+    // Explicações Técnicas e Secas dos 4 Pilares
+    const pillarExplanations = {
+      prospeccao: {
+        tag: '1º Pilar • Diário',
+        title: 'O Campo de Batalha (Prospecção)',
+        def: 'Primeiro contato intencional com o cliente via WhatsApp ou ligação.',
+        counts: 'Abordagem direta e individual para iniciar atendimento no funil.',
+        funnel: 'Taxa de conversão esperada de 33% para atendimento. Piso diário calculado.'
+      },
+      reuniao: {
+        tag: '2º Pilar • Semanal',
+        title: 'O Ponteiro (Apresentação / Visita)',
+        def: 'Reunião de apresentação ou visita ao imóvel com cliente qualificado.',
+        counts: 'Apresentação da matemática do negócio, alavancagem ou visita técnica presencial.',
+        funnel: '50% de conversão para proposta. Meta semanal inegociável.'
+      },
+      feed: {
+        tag: '3º Pilar • Semanal',
+        title: 'O Ímã (Vídeos no Feed)',
+        def: 'Publicação de vídeo autoral no feed voltado à atração de clientes.',
+        counts: 'Conteúdo técnico de inteligência de mercado, valorização e alavancagem financeira.',
+        funnel: 'Meta semanal de 3 vídeos publicados para geração orgânica de novos leads.'
+      },
+      stories: {
+        tag: '4º Pilar • Diário',
+        title: 'A Conexão (Bastidores & Stories)',
+        def: 'Publicações diárias de bastidores reais da rotina de corretor.',
+        counts: 'Registro de atendimentos, visitas presenciais, obras e negociações de campo.',
+        funnel: 'Piso diário de no mínimo 3 stories para retenção, confiança e autoridade.'
+      }
+    };
+
+    function openPillarModal(pillarKey) {
+      const data = pillarExplanations[pillarKey];
+      if (!data) return;
+
+      document.getElementById('pillar-modal-tag').textContent = data.tag;
+      document.getElementById('pillar-modal-title').textContent = data.title;
+      document.getElementById('pillar-modal-def').textContent = data.def;
+      document.getElementById('pillar-modal-counts').textContent = data.counts;
+      document.getElementById('pillar-modal-funnel').textContent = data.funnel;
+
+      document.getElementById('pillar-info-modal').classList.remove('hidden');
+    }
+
+    // Calculadora do Funil Reverso (Baseado na Pág. 03 do Planner)
+    function calculateReverseFunnel(faturamento, comissao) {
+      const fat = Math.max(1000, parseFloat(faturamento) || 10000);
+      const com = Math.max(1000, parseFloat(comissao) || 10000);
+
+      const vendas = Math.max(1, Math.ceil(fat / com));
+      const propostas = vendas * 2;
+      const visitas = propostas * 2;
+      const qualificados = visitas * 2;
+      const atendimentos = Math.ceil(qualificados / 0.4);
+      const prospeccoes = Math.ceil(atendimentos / 0.33);
+
+      const dailyProsp = Math.max(3, Math.ceil(prospeccoes / 20));
+      const weeklyVisits = Math.max(1, Math.ceil(visitas / 4));
+
+      return {
+        faturamento: fat,
+        comissao: com,
+        vendas,
+        propostas,
+        visitas,
+        qualificados,
+        atendimentos,
+        prospeccoes,
+        dailyProsp,
+        weeklyVisits
+      };
+    }
+
+    function updateOnboardingFunnelDisplay() {
+      const fatInput = document.getElementById('onboarding-fat');
+      const comInput = document.getElementById('onboarding-comissao');
+      if (!fatInput || !comInput) return;
+
+      const res = calculateReverseFunnel(fatInput.value, comInput.value);
+      appState.funil = res;
+
+      document.getElementById('funil-prospeccao-val').textContent = `${res.prospeccoes} contatos (${res.dailyProsp}/dia)`;
+      document.getElementById('funil-atend-val').textContent = `${res.atendimentos} atendimentos`;
+      document.getElementById('funil-qualif-val').textContent = `${res.qualificados} qualificados`;
+      document.getElementById('funil-visitas-val').textContent = `${res.visitas} visitas (${res.weeklyVisits}/sem)`;
+      document.getElementById('funil-propostas-val').textContent = `${res.propostas} propostas`;
+      document.getElementById('funil-vendas-val').textContent = `${res.vendas} ${res.vendas === 1 ? 'Venda Concluída' : 'Vendas Concluídas'}`;
+
+      const formattedFat = res.faturamento.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+      document.getElementById('onboarding-cheque-display').textContent = `R$ ${formattedFat}`;
+      document.getElementById('onboarding-cheque').value = formattedFat;
+    }
+
+    // Navegação entre Etapas do Onboarding
+    function renderOnboardingStep(step) {
+      currentOnboardingStep = step;
+      document.getElementById('onboarding-step-counter').textContent = `Passo ${step} de 3`;
+
+      document.getElementById('onboarding-step-1').classList.toggle('hidden', step !== 1);
+      document.getElementById('onboarding-step-2').classList.toggle('hidden', step !== 2);
+      document.getElementById('onboarding-step-3').classList.toggle('hidden', step !== 3);
+
+      document.getElementById('btn-onboarding-prev').classList.toggle('hidden', step === 1);
+      document.getElementById('btn-onboarding-next').classList.toggle('hidden', step === 3);
+      document.getElementById('btn-finish-onboarding').classList.toggle('hidden', step !== 3);
+
+      if (step === 2) updateOnboardingFunnelDisplay();
+    }
+
+    function updateCoachPhrase() {
+      const coachEl = document.getElementById('coach-phrase');
+      const pros = appState.missions.prospeccao.count;
+      const stor = appState.missions.stories.count;
+      const reun = appState.missions.reuniao.count;
+      const feed = appState.missions.feed.count;
+      const total = pros + stor + reun + feed;
+
+      if (total === 0) {
+        coachEl.textContent = 'Você ainda não registrou hoje. O básico é piso, nunca teto.';
+      } else if (pros >= appState.missions.prospeccao.target && (appState.hasAuthority ? stor >= 3 : true)) {
+        if (pros >= appState.missions.prospeccao.target * 2) {
+          coachEl.textContent = `${pros} contatos com clientes hoje. Isso é postura de elite.`;
+        } else {
+          coachEl.textContent = 'Piso diário batido com excelência! Que tal acelerar mais 2 contatos?';
+        }
+      } else {
+        coachEl.textContent = `Em execução: ${pros}/${appState.missions.prospeccao.target} contatos. Mantenha a pressão.`;
+      }
+    }
+
+    function renderMissions() {
+      let batidos = 0;
+      const activeKeys = appState.hasAuthority 
+        ? ['prospeccao', 'reuniao', 'feed', 'stories'] 
+        : ['prospeccao', 'reuniao'];
+
+      activeKeys.forEach(key => {
+        const m = appState.missions[key];
+        const countEl = document.getElementById(`count-${key}`);
+        const labelEl = document.getElementById(`label-${key}`);
+        const barEl = document.getElementById(`bar-${key}`);
+        const cardEl = document.getElementById(`card-${key}`);
+        const statusBadge = document.getElementById(`badge-status-${key}`);
+
+        if (countEl) countEl.textContent = m.count;
+        if (labelEl) labelEl.textContent = `${m.count} de ${m.target} ${m.unit}`;
+
+        const pct = Math.min(100, Math.round((m.count / m.target) * 100));
+        if (barEl) {
+          barEl.style.width = `${pct}%`;
+          barEl.className = m.count >= m.target ? 'progress-bar gradient-progress-success h-full rounded-full transition-all duration-300' : 'progress-bar gradient-progress h-full rounded-full transition-all duration-300';
+        }
+
+        if (cardEl) {
+          if (m.count >= m.target) {
+            cardEl.classList.add('arounda-card-active');
+            if (statusBadge) {
+              statusBadge.textContent = 'Cumprido ✓';
+              statusBadge.className = 'text-emerald-400 text-[10px] uppercase font-black';
+            }
+          } else {
+            cardEl.classList.remove('arounda-card-active');
+            if (statusBadge) {
+              statusBadge.textContent = key === 'reuniao' || key === 'feed' ? 'Meta Semanal' : 'Piso Diário';
+              statusBadge.className = 'text-[#BABABA] text-[10px] uppercase font-bold';
+            }
+          }
+        }
+
+        if (m.count >= m.target) batidos++;
+      });
+
+      const totalLabel = document.getElementById('total-progress-label');
+      if (totalLabel) {
+        totalLabel.textContent = `${batidos} de ${activeKeys.length} batidos`;
+      }
+
+      updateCoachPhrase();
+      recalcOverallProgress();
+      saveAppState();
+    }
+
+    function renderComplementaryMissions() {
+      const container = document.getElementById('complementary-missions-list');
+      if (!container) return;
+      container.innerHTML = '';
+
+      appState.complementaryMissions.forEach((cm) => {
+        const div = document.createElement('div');
+        div.className = `arounda-card p-3 flex justify-between items-center transition-all ${cm.count >= cm.target ? 'arounda-card-active' : ''}`;
+        div.id = `card-${cm.id}`;
+
+        div.innerHTML = `
+          <div class="flex items-center gap-2.5 min-w-0 pr-2">
+            <div class="w-8 h-8 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
+              <svg class="w-4 h-4 text-[#FF6D29]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            </div>
+            <div class="truncate">
+              <h5 class="text-xs font-bold text-white truncate">${cm.label}</h5>
+              <p class="text-[10px] text-[#BABABA] truncate">${cm.desc} • Meta: ${cm.target}</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 shrink-0">
+            <button class="btn-delete-comp text-[#BABABA] hover:text-rose-400 p-1.5 transition-colors" data-id="${cm.id}" title="Excluir Missão">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            </button>
+
+            <button class="btn-comp-sub btn-counter w-7 h-7 rounded-lg flex items-center justify-center text-sm font-bold" data-id="${cm.id}">−</button>
+            <span class="font-mono-num text-sm font-black text-white min-w-[20px] text-center" id="count-${cm.id}">${cm.count}</span>
+            <button class="btn-comp-add btn-counter w-7 h-7 rounded-lg flex items-center justify-center text-sm font-bold" data-id="${cm.id}">+</button>
+          </div>
+        `;
+
+        div.querySelector('.btn-comp-add').addEventListener('click', () => {
+          cm.count++;
+          cm.periodVolume[appState.selectedPeriod]++;
+          renderComplementaryMissions();
+          renderVolumeExecution();
+          recalcOverallProgress();
+          showToast(`+1 em ${cm.label}`);
+        });
+
+        div.querySelector('.btn-comp-sub').addEventListener('click', () => {
+          if (cm.count > 0) {
+            cm.count--;
+            if (cm.periodVolume[appState.selectedPeriod] > 0) cm.periodVolume[appState.selectedPeriod]--;
+            renderComplementaryMissions();
+            renderVolumeExecution();
+            recalcOverallProgress();
+          }
+        });
+
+        div.querySelector('.btn-delete-comp').addEventListener('click', () => {
+          appState.complementaryMissions = appState.complementaryMissions.filter(item => item.id !== cm.id);
+          renderComplementaryMissions();
+          renderVolumeExecution();
+          recalcOverallProgress();
+          showToast(`Missão "${cm.label}" removida.`);
+        });
+
+        container.appendChild(div);
+      });
+
+      saveAppState();
+    }
+
+    function renderVolumeExecution() {
+      const container = document.getElementById('volume-execution-bars');
+      if (!container) return;
+      container.innerHTML = '';
+
+      const period = appState.selectedPeriod;
+      
+      const allActivities = [
+        appState.missions.prospeccao,
+        appState.missions.reuniao,
+        ...(appState.hasAuthority ? [appState.missions.feed, appState.missions.stories] : []),
+        ...appState.complementaryMissions
+      ];
+
+      let totalActionsInPeriod = 0;
+
+      allActivities.forEach(act => {
+        const currentVal = act.periodVolume[period] || 0;
+        totalActionsInPeriod += currentVal;
+
+        let targetMultiplier = 1;
+        if (period === 'semana') targetMultiplier = (act.unit && act.unit.includes('semana')) ? 1 : 5;
+        if (period === 'mes') targetMultiplier = (act.unit && act.unit.includes('semana')) ? 4 : 20;
+        if (period === 'ano') targetMultiplier = (act.unit && act.unit.includes('semana')) ? 48 : 240;
+
+        const periodTarget = Math.max(1, act.target * targetMultiplier);
+        const pct = Math.min(100, Math.round((currentVal / periodTarget) * 100));
+
+        const barRow = document.createElement('div');
+        barRow.className = 'space-y-1';
+        barRow.innerHTML = `
+          <div class="flex justify-between text-xs">
+            <span class="text-[#BABABA] truncate pr-2">${act.label}</span>
+            <span class="font-mono-num text-[#FF6D29] font-bold shrink-0">${currentVal} / ${periodTarget}</span>
+          </div>
+          <div class="w-full bg-[#110e11] h-2 rounded-full overflow-hidden p-0.5 border border-white/5">
+            <div class="${currentVal >= periodTarget ? 'gradient-progress-success' : 'gradient-progress'} h-full rounded-full transition-all duration-300" style="width: ${pct}%"></div>
+          </div>
+        `;
+        container.appendChild(barRow);
+      });
+
+      document.getElementById('total-actions-volume-label').textContent = `${totalActionsInPeriod} ações`;
+      document.getElementById('stat-total-actions-value').textContent = totalActionsInPeriod;
+      document.getElementById('stat-total-actions-diff').textContent = totalActionsInPeriod > 0 ? `↑ ${totalActionsInPeriod}` : '0';
+    }
+
+    function recalcOverallProgress() {
+      let totalRegistered = 0;
+      Object.values(appState.missions).forEach(m => totalRegistered += m.count);
+      appState.complementaryMissions.forEach(m => totalRegistered += m.count);
+
+      const consistencyVal = totalRegistered > 0 ? Math.min(100, totalRegistered * 5) : 0;
+      appState.stats.consistency = consistencyVal;
+      
+      const consistencyEl = document.getElementById('stat-consistency-value');
+      if (consistencyEl) consistencyEl.textContent = `${consistencyVal}%`;
+
+      const consistencyDiff = document.getElementById('stat-consistency-diff');
+      if (consistencyDiff) consistencyDiff.textContent = consistencyVal > 0 ? `↑ ${Math.round(consistencyVal / 8)}%` : '0%';
+    }
+
+    function renderConsistencyGrid() {
+      const gridEl = document.getElementById('grid-squares');
+      if (!gridEl) return;
+      gridEl.innerHTML = '';
+
+      for (let i = 1; i <= 35; i++) {
+        const square = document.createElement('div');
+        square.className = 'w-full aspect-square rounded-md flex items-center justify-center text-[10px] font-bold font-mono-num select-none transition-all';
+        
+        let dayNumber = (i <= 20) ? i + 10 : (i - 20);
+        if (dayNumber > 31) dayNumber = dayNumber - 31;
+        square.textContent = dayNumber;
+
+        if (i < 28) {
+          square.className += ' bg-[#1e1b1e] border border-white/5 text-[#BABABA]/30';
+        } else if (i === 28) {
+          square.className += ' bg-[#281812] border-2 border-[#FF6D29] text-[#FF6D29] shadow-[0_0_12px_rgba(255,109,41,0.6)] font-black scale-105';
+        } else {
+          square.className += ' bg-[#161316] border border-white/5 text-[#BABABA]/20';
+        }
+
+        gridEl.appendChild(square);
+      }
+    }
+
+    function renderBadges(filter = 'todas') {
+      const gridEl = document.getElementById('badges-grid');
+      if (!gridEl) return;
+      gridEl.innerHTML = '';
+
+      const filtered = filter === 'todas' ? appState.badges : appState.badges.filter(b => {
+        if (filter === 'Execução') return ['Batalha', 'Ponteiro', 'Ímã', 'Conexão', 'Execução'].includes(b.cat);
+        if (filter === 'Resultado') return b.cat === 'Resultado';
+        return b.cat === filter;
+      });
+
+      let unlockedCount = 0;
+      appState.badges.forEach(b => { if (b.unlocked) unlockedCount++; });
+
+      document.getElementById('badge-count-label').textContent = `${unlockedCount} de 18 condecorações`;
+      const overallBar = document.getElementById('badges-overall-bar');
+      if (overallBar) overallBar.style.width = `${Math.round((unlockedCount / 18) * 100)}%`;
+
+      filtered.forEach(b => {
+        const btn = document.createElement('button');
+        btn.className = `p-3 rounded-2xl flex flex-col items-center text-center transition-all active:scale-95 ${
+          b.unlocked ? 'cs-medal hover:border-[#FFAE33]' : 'cs-medal-locked hover:opacity-70'
+        }`;
+        
+        btn.innerHTML = `
+          <div class="w-14 h-14 mx-auto mb-1 flex items-center justify-center">
+            ${generateInsigniaSVG(b)}
+          </div>
+          <span class="text-[11px] font-extrabold text-white leading-tight line-clamp-1 mt-1">${b.title}</span>
+          <span class="text-[9px] text-[#FF6D29] font-mono-num font-bold uppercase mt-0.5">${b.cat}</span>
+        `;
+
+        btn.addEventListener('click', () => openBadgeModal(b));
+        gridEl.appendChild(btn);
+      });
+    }
+
+    function openBadgeModal(badge) {
+      document.getElementById('modal-badge-title').textContent = badge.title;
+      document.getElementById('modal-badge-cat').textContent = badge.cat;
+      document.getElementById('modal-badge-desc').textContent = badge.desc;
+      document.getElementById('modal-badge-status').textContent = badge.unlocked ? 'Status: Condecorado ✨' : 'Status: Bloqueado em Campo 🔒';
+      document.getElementById('modal-badge-icon').innerHTML = generateInsigniaSVG(badge);
+      document.getElementById('badge-modal').classList.remove('hidden');
+    }
+
+    function renderApePreview() {
+      const container = document.getElementById('ape-items-container');
+      if (!container) return;
+      container.innerHTML = '';
+
+      const top3 = appState.apeItems.slice(0, 3);
+
+      top3.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'arounda-card p-3 flex items-center justify-between gap-3 transition-all';
+        
+        let statusBadgeHTML = '';
+        if (item.status === 'afazer') {
+          statusBadgeHTML = '<span class="text-[9px] font-black uppercase text-[#BABABA] bg-white/5 border border-white/10 px-2.5 py-1 rounded-full">Irei Fazer</span>';
+        } else if (item.status === 'fazendo') {
+          statusBadgeHTML = '<span class="text-[9px] font-black uppercase text-[#FF6D29] bg-[#FF6D29]/15 border border-[#FF6D29]/40 px-2.5 py-1 rounded-full">Fazendo</span>';
+        } else {
+          statusBadgeHTML = '<span class="text-[9px] font-black uppercase text-emerald-400 bg-emerald-950/40 border border-emerald-500/40 px-2.5 py-1 rounded-full">Concluído ✓</span>';
+        }
+
+        div.innerHTML = `
+          <div class="flex items-center gap-3 min-w-0">
+            <div class="book-mockup flex flex-col justify-between p-1 text-[8px] font-extrabold text-white text-center" style="background: linear-gradient(135deg, ${item.color} 0%, #111 100%);">
+              <span class="truncate block opacity-75 uppercase tracking-tighter">APE</span>
+              <span class="text-[7px] leading-tight line-clamp-2">${item.title}</span>
+              <span class="text-[6px] text-[#FF6D29] truncate font-mono-num">ELITE</span>
+            </div>
+            <div class="truncate">
+              <h5 class="text-xs font-bold text-white truncate">${item.title}</h5>
+              <p class="text-[10px] text-[#BABABA] truncate">${item.author || 'Material de Formação'}</p>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-2 shrink-0">
+            <button class="btn-toggle-status-preview transition-transform active:scale-90" data-id="${item.id}">
+              ${statusBadgeHTML}
+            </button>
+            <button class="btn-delete-ape-item text-[#BABABA] hover:text-rose-400 p-1 transition-colors" data-id="${item.id}" title="Excluir livro">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            </button>
+          </div>
+        `;
+
+        div.querySelector('.btn-toggle-status-preview').addEventListener('click', () => {
+          if (item.status === 'afazer') item.status = 'fazendo';
+          else if (item.status === 'fazendo') item.status = 'concluido';
+          else item.status = 'afazer';
+          renderApePreview();
+          renderFullApeList();
+          showToast(`Status de "${item.title}" alterado.`);
+        });
+
+        div.querySelector('.btn-delete-ape-item').addEventListener('click', () => {
+          appState.apeItems = appState.apeItems.filter(i => i.id !== item.id);
+          renderApePreview();
+          renderFullApeList();
+          showToast(`"${item.title}" removido da estante.`);
+        });
+
+        container.appendChild(div);
+      });
+
+      document.getElementById('ape-full-count-label').textContent = `Abrir Estante Completa (${appState.apeItems.length} obras)`;
+      saveAppState();
+    }
+
+    function renderFullApeList() {
+      const container = document.getElementById('ape-full-list-container');
+      if (!container) return;
+      container.innerHTML = '';
+
+      appState.apeItems.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'arounda-card p-3 flex items-center justify-between gap-3 transition-all';
+
+        let statusBadgeHTML = '';
+        if (item.status === 'afazer') {
+          statusBadgeHTML = '<span class="text-[9px] font-black uppercase text-[#BABABA] bg-white/5 border border-white/10 px-2.5 py-1 rounded-full">Irei Fazer</span>';
+        } else if (item.status === 'fazendo') {
+          statusBadgeHTML = '<span class="text-[9px] font-black uppercase text-[#FF6D29] bg-[#FF6D29]/15 border border-[#FF6D29]/40 px-2.5 py-1 rounded-full">Fazendo</span>';
+        } else {
+          statusBadgeHTML = '<span class="text-[9px] font-black uppercase text-emerald-400 bg-emerald-950/40 border border-emerald-500/40 px-2.5 py-1 rounded-full">Concluído ✓</span>';
+        }
+
+        div.innerHTML = `
+          <div class="flex items-center gap-3 min-w-0">
+            <div class="book-mockup flex flex-col justify-between p-1 text-[8px] font-extrabold text-white text-center" style="background: linear-gradient(135deg, ${item.color} 0%, #111 100%);">
+              <span class="truncate block opacity-75 uppercase tracking-tighter">APE</span>
+              <span class="text-[7px] leading-tight line-clamp-2">${item.title}</span>
+              <span class="text-[6px] text-[#FF6D29] truncate font-mono-num">ELITE</span>
+            </div>
+            <div class="truncate">
+              <h5 class="text-xs font-bold text-white truncate">${item.title}</h5>
+              <p class="text-[10px] text-[#BABABA] truncate">${item.author || 'Material de Formação'}</p>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-2 shrink-0">
+            <button class="btn-toggle-status-full transition-transform active:scale-90" data-id="${item.id}">
+              ${statusBadgeHTML}
+            </button>
+            <button class="btn-delete-ape-item-full text-[#BABABA] hover:text-rose-400 p-1.5 transition-colors" data-id="${item.id}" title="Excluir da estante">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            </button>
+          </div>
+        `;
+
+        div.querySelector('.btn-toggle-status-full').addEventListener('click', () => {
+          if (item.status === 'afazer') item.status = 'fazendo';
+          else if (item.status === 'fazendo') item.status = 'concluido';
+          else item.status = 'afazer';
+          renderApePreview();
+          renderFullApeList();
+        });
+
+        div.querySelector('.btn-delete-ape-item-full').addEventListener('click', () => {
+          appState.apeItems = appState.apeItems.filter(i => i.id !== item.id);
+          renderApePreview();
+          renderFullApeList();
+          showToast(`"${item.title}" excluído.`);
+        });
+
+        container.appendChild(div);
+      });
+
+      saveAppState();
+    }
+
+    function openVolumeEditModal() {
+      const container = document.getElementById('volume-edit-inputs-container');
+      container.innerHTML = '';
+
+      const period = appState.selectedPeriod;
+      const allActivities = [
+        appState.missions.prospeccao,
+        appState.missions.reuniao,
+        ...(appState.hasAuthority ? [appState.missions.feed, appState.missions.stories] : []),
+        ...appState.complementaryMissions
+      ];
+
+      allActivities.forEach(act => {
+        const div = document.createElement('div');
+        div.className = 'flex justify-between items-center bg-white/5 p-2.5 rounded-xl border border-white/5';
+        div.innerHTML = `
+          <div class="truncate pr-2">
+            <span class="text-xs font-bold text-white block truncate">${act.label}</span>
+            <span class="text-[10px] text-[#BABABA]">Período: ${period}</span>
+          </div>
+          <input type="number" min="0" value="${act.periodVolume[period] || 0}" data-id="${act.id}" class="volume-input w-16 bg-[#161316] border border-white/20 rounded-lg px-2 py-1 text-xs text-white font-mono-num text-center focus:border-[#FF6D29] outline-none">
+        `;
+        container.appendChild(div);
+      });
+
+      document.getElementById('volume-edit-modal').classList.remove('hidden');
+    }
+
+    function executeFullReset() {
+      appState = JSON.parse(JSON.stringify(defaultState));
+      saveAppState();
+
+      renderMissions();
+      renderComplementaryMissions();
+      renderVolumeExecution();
+      renderConsistencyGrid();
+      renderBadges();
+      renderApePreview();
+      applyAuthorityMode();
+      recalcOverallProgress();
+
+      document.getElementById('streak-counter-pill').textContent = '0 dias';
+      document.getElementById('grid-rate-pill').textContent = 'Taxa 0%';
+      document.getElementById('profile-stat-days').textContent = '0';
+      document.getElementById('profile-stat-streak').textContent = '0';
+      document.getElementById('profile-stat-missions').textContent = '0';
+
+      showToast('Todas as métricas foram zeradas com sucesso.');
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastText = document.getElementById('toast-text');
+      toastText.textContent = msg;
+      toast.style.opacity = '1';
+      setTimeout(() => {
+        toast.style.opacity = '0';
+      }, 2000);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadAppState();
+      applyAuthorityMode();
+
+      let onboardingDone = false;
+      try {
+        onboardingDone = localStorage.getItem('mycorretor_onboarding_done') === 'true';
+      } catch (e) {
+        onboardingDone = false;
+      }
+
+      const onboardingScreen = document.getElementById('onboarding-screen');
+      if (onboardingDone) {
+        onboardingScreen.classList.add('hidden');
+      } else {
+        renderOnboardingStep(1);
+        onboardingScreen.classList.remove('hidden');
+      }
+
+      // Funil Reverso Reativo
+      const fatInput = document.getElementById('onboarding-fat');
+      const comInput = document.getElementById('onboarding-comissao');
+      if (fatInput && comInput) {
+        fatInput.addEventListener('input', updateOnboardingFunnelDisplay);
+        comInput.addEventListener('input', updateOnboardingFunnelDisplay);
+        updateOnboardingFunnelDisplay();
+      }
+
+      // Botões de Navegação do Onboarding (Avançar e Voltar)
+      document.getElementById('btn-onboarding-next').addEventListener('click', () => {
+        if (currentOnboardingStep === 1) {
+          renderOnboardingStep(2);
+        } else if (currentOnboardingStep === 2) {
+          renderOnboardingStep(3);
+        }
+      });
+
+      document.getElementById('btn-onboarding-prev').addEventListener('click', () => {
+        if (currentOnboardingStep > 1) {
+          renderOnboardingStep(currentOnboardingStep - 1);
+        }
+      });
+
+      // Pop-up Explicativo das Métricas do Funil
+      const explainerModal = document.getElementById('funnel-explainer-modal');
+      document.getElementById('btn-open-funnel-explainer').addEventListener('click', () => {
+        explainerModal.classList.remove('hidden');
+      });
+      document.getElementById('close-funnel-explainer').addEventListener('click', () => {
+        explainerModal.classList.add('hidden');
+      });
+      document.getElementById('btn-close-explainer-ack').addEventListener('click', () => {
+        explainerModal.classList.add('hidden');
+      });
+
+      // Conclusão do Onboarding
+      document.getElementById('btn-finish-onboarding').addEventListener('click', () => {
+        const nameVal = document.getElementById('onboarding-name').value.trim() || 'Gabriel Novaes';
+        const cityVal = document.getElementById('onboarding-city').value.trim() || 'Ilhéus, BA';
+        const compVal = document.getElementById('onboarding-company').value.trim() || 'Poli Park Imóveis';
+
+        const funilRes = calculateReverseFunnel(fatInput.value, comInput.value);
+        appState.funil = funilRes;
+
+        // Modo de Autoridade escolhido
+        const authChoice = document.querySelector('input[name="onboarding-authority-mode"]:checked').value;
+        appState.hasAuthority = (authChoice === 'completo');
+
+        appState.profile.name = nameVal;
+        appState.profile.city = cityVal;
+        appState.profile.company = compVal;
+        const formattedFat = funilRes.faturamento.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+        appState.cheque.valor = formattedFat;
+
+        appState.missions.prospeccao.target = funilRes.dailyProsp;
+        appState.missions.reuniao.target = funilRes.weeklyVisits;
+
+        document.getElementById('profile-name-text').textContent = nameVal;
+        document.getElementById('profile-city-text').textContent = cityVal;
+        document.getElementById('profile-company-text').textContent = compVal;
+        document.getElementById('profile-cheque-val').textContent = `R$ ${formattedFat}`;
+        document.getElementById('progress-cheque-val').textContent = `R$ ${formattedFat}`;
+        document.getElementById('top-avatar-initials').textContent = nameVal.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
+
+        try {
+          localStorage.setItem('mycorretor_onboarding_done', 'true');
+        } catch (e) {}
+
+        applyAuthorityMode();
+        saveAppState();
+        renderMissions();
+        renderVolumeExecution();
+        updateTemporalCalculations();
+        onboardingScreen.classList.add('hidden');
+        showToast(appState.hasAuthority ? 'Modo Completo ativado com sucesso!' : 'Modo Funil Puro ativado!');
+      });
+
+      // Alternar Autoridade no Perfil a Qualquer Momento
+      document.getElementById('btn-toggle-authority-profile').addEventListener('click', () => {
+        appState.hasAuthority = !appState.hasAuthority;
+        applyAuthorityMode();
+        renderMissions();
+        renderVolumeExecution();
+        showToast(appState.hasAuthority ? 'Autoridade (Feed & Stories) ativada!' : 'App simplificado para Funil Puro.');
+      });
+
+      // Refazer Onboarding via Configurações
+      document.getElementById('btn-cfg-onboarding').addEventListener('click', () => {
+        try {
+          localStorage.removeItem('mycorretor_onboarding_done');
+        } catch (e) {}
+        renderOnboardingStep(1);
+        updateOnboardingFunnelDisplay();
+        onboardingScreen.classList.remove('hidden');
+      });
+
+      
+      // Modal Explicativo dos Pilares (ℹ️)
+      document.querySelectorAll('.btn-info-pillar').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const pillar = btn.getAttribute('data-pillar');
+          openPillarModal(pillar);
+        });
+      });
+
+      const pillarModal = document.getElementById('pillar-info-modal');
+      document.getElementById('close-pillar-info-modal').addEventListener('click', () => {
+        pillarModal.classList.add('hidden');
+      });
+      document.getElementById('btn-close-pillar-modal-ack').addEventListener('click', () => {
+        pillarModal.classList.add('hidden');
+      });
+
+      // 1. Navegação Floating Dock
+      const navButtons = document.querySelectorAll('.nav-btn');
+      const sections = ['tab-missao', 'tab-progresso', 'tab-conquistas', 'tab-perfil'];
+
+      navButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const target = btn.getAttribute('data-target');
+          sections.forEach(s => {
+            const secEl = document.getElementById(s);
+            secEl.classList.toggle('hidden', s !== target);
+          });
+
+          navButtons.forEach(b => {
+            b.classList.remove('dock-active');
+            const span = b.querySelector('span');
+            if (span) span.classList.add('hidden');
+          });
+
+          btn.classList.add('dock-active');
+          const activeSpan = btn.querySelector('span');
+          if (activeSpan) activeSpan.classList.remove('hidden');
+
+          const indicator = document.getElementById('top-title-indicator');
+          if (target === 'tab-missao') indicator.textContent = 'Execução Diária';
+          if (target === 'tab-progresso') indicator.textContent = 'Auditoria Consolidada';
+          if (target === 'tab-conquistas') indicator.textContent = 'Serviço e Honra';
+          if (target === 'tab-perfil') indicator.textContent = 'Membro Fundador';
+        });
+      });
+
+      document.getElementById('btn-top-menu').addEventListener('click', () => {
+        document.getElementById('nav-btn-progresso').click();
+      });
+      document.getElementById('btn-top-avatar').addEventListener('click', () => {
+        document.getElementById('nav-btn-perfil').click();
+      });
+
+      // 2. Contadores (+ / -)
+      document.querySelectorAll('.btn-add').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const mission = btn.getAttribute('data-mission');
+          appState.missions[mission].count++;
+          appState.missions[mission].periodVolume[appState.selectedPeriod]++;
+          renderMissions();
+          renderVolumeExecution();
+          showToast(`+1 em ${appState.missions[mission].label}`);
+        });
+      });
+
+      document.querySelectorAll('.btn-sub').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const mission = btn.getAttribute('data-mission');
+          if (appState.missions[mission].count > 0) {
+            appState.missions[mission].count--;
+            if (appState.missions[mission].periodVolume[appState.selectedPeriod] > 0) {
+              appState.missions[mission].periodVolume[appState.selectedPeriod]--;
+            }
+            renderMissions();
+            renderVolumeExecution();
+          }
+        });
+      });
+
+      // 3. Grid de Consistência
+      const streakBtn = document.getElementById('streak-pill-btn');
+      const gridContainer = document.getElementById('consistency-grid-container');
+      streakBtn.addEventListener('click', () => {
+        appState.gridOpen = !appState.gridOpen;
+        gridContainer.classList.toggle('hidden', !appState.gridOpen);
+      });
+
+      // 4. Nova Missão Complementar
+      const customMissionModal = document.getElementById('custom-mission-modal');
+      document.getElementById('btn-add-custom-mission').addEventListener('click', () => {
+        customMissionModal.classList.remove('hidden');
+      });
+      document.getElementById('close-custom-mission-modal').addEventListener('click', () => {
+        customMissionModal.classList.add('hidden');
+      });
+      document.getElementById('custom-mission-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const title = document.getElementById('input-mission-title').value.trim();
+        const desc = document.getElementById('input-mission-desc').value.trim();
+        const target = parseInt(document.getElementById('input-mission-target').value) || 1;
+
+        if (title) {
+          const newId = 'custom_' + Date.now();
+          appState.complementaryMissions.push({
+            id: newId,
+            label: title,
+            desc: desc,
+            target: target,
+            unit: 'ações',
+            count: 0,
+            isCustom: true,
+            periodVolume: { semana: 0, mes: 0, ano: 0 }
+          });
+
+          renderComplementaryMissions();
+          renderVolumeExecution();
+          customMissionModal.classList.add('hidden');
+          document.getElementById('custom-mission-form').reset();
+          showToast(`Missão "${title}" sincronizada.`);
+        }
+      });
+
+      // 5. Volume de Execução Editável
+      const volumeEditModal = document.getElementById('volume-edit-modal');
+      document.getElementById('btn-edit-volume-values').addEventListener('click', openVolumeEditModal);
+      document.getElementById('close-volume-edit-modal').addEventListener('click', () => {
+        volumeEditModal.classList.add('hidden');
+      });
+      document.getElementById('volume-edit-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const period = appState.selectedPeriod;
+        document.querySelectorAll('.volume-input').forEach(input => {
+          const actId = input.getAttribute('data-id');
+          const val = parseInt(input.value) || 0;
+          if (appState.missions[actId]) {
+            appState.missions[actId].periodVolume[period] = val;
+          } else {
+            const comp = appState.complementaryMissions.find(c => c.id === actId);
+            if (comp) comp.periodVolume[period] = val;
+          }
+        });
+        renderVolumeExecution();
+        volumeEditModal.classList.add('hidden');
+        showToast('Valores de volume atualizados!');
+      });
+
+      // 6. Zerar Tudo
+      const resetModal = document.getElementById('reset-modal');
+      document.getElementById('btn-reset-progresso').addEventListener('click', () => resetModal.classList.remove('hidden'));
+      document.getElementById('btn-cfg-reset').addEventListener('click', () => resetModal.classList.remove('hidden'));
+      document.getElementById('btn-cancel-reset').addEventListener('click', () => resetModal.classList.add('hidden'));
+      document.getElementById('btn-confirm-reset').addEventListener('click', () => {
+        executeFullReset();
+        resetModal.classList.add('hidden');
+      });
+
+      // 7. Seletor de Período
+      document.querySelectorAll('.period-tab').forEach(pt => {
+        pt.addEventListener('click', () => {
+          document.querySelectorAll('.period-tab').forEach(b => {
+            b.className = 'period-tab flex-1 py-1.5 text-xs font-medium text-[#BABABA] rounded-xl hover:text-white transition-all';
+          });
+          pt.className = 'period-tab flex-1 py-1.5 text-xs font-bold rounded-xl bg-[#FF6D29] text-white shadow-md transition-all';
+          appState.selectedPeriod = pt.getAttribute('data-period');
+          renderVolumeExecution();
+          showToast(`Visão por ${pt.textContent} sincronizada`);
+        });
+      });
+
+      // 8. Filtros de Conquistas
+      document.querySelectorAll('.badge-filter').forEach(f => {
+        f.addEventListener('click', () => {
+          document.querySelectorAll('.badge-filter').forEach(btn => {
+            btn.className = 'badge-filter px-3 py-1 rounded-full text-xs font-semibold text-[#BABABA] bg-white/5 border border-white/5 whitespace-nowrap hover:text-white';
+          });
+          f.className = 'badge-filter px-3 py-1 rounded-full text-xs font-bold bg-[#FF6D29] text-white whitespace-nowrap shadow-md';
+          renderBadges(f.getAttribute('data-cat'));
+        });
+      });
+
+      document.getElementById('close-badge-modal').addEventListener('click', () => document.getElementById('badge-modal').classList.add('hidden'));
+      document.getElementById('btn-modal-entendido').addEventListener('click', () => document.getElementById('badge-modal').classList.add('hidden'));
+
+      // 9. APE: Modais
+      const apeModal = document.getElementById('ape-modal');
+      const fullApeModal = document.getElementById('full-ape-modal');
+
+      document.getElementById('btn-add-study-item').addEventListener('click', () => apeModal.classList.remove('hidden'));
+      document.getElementById('close-ape-modal').addEventListener('click', () => apeModal.classList.add('hidden'));
+
+      document.getElementById('btn-open-full-ape').addEventListener('click', () => {
+        renderFullApeList();
+        fullApeModal.classList.remove('hidden');
+      });
+      document.getElementById('close-full-ape-modal').addEventListener('click', () => {
+        fullApeModal.classList.add('hidden');
+      });
+      document.getElementById('btn-add-from-full-ape').addEventListener('click', () => {
+        fullApeModal.classList.add('hidden');
+        apeModal.classList.remove('hidden');
+      });
+
+      document.querySelectorAll('.preset-book-btn').forEach(pb => {
+        pb.addEventListener('click', () => {
+          document.getElementById('input-ape-title').value = pb.getAttribute('data-title');
+        });
+      });
+
+      document.getElementById('ape-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const title = document.getElementById('input-ape-title').value.trim();
+        const statusSelected = document.querySelector('input[name="ape-status"]:checked').value;
+        
+        let color = '#3f3f46';
+        let author = 'Material de Formação';
+        if (title.toLowerCase().includes('vendas')) {
+          color = '#991b1b';
+          author = 'Jeffrey Gitomer';
+        } else if (title.toLowerCase().includes('receita')) {
+          color = '#1e3a8a';
+          author = 'Aaron Ross';
+        } else if (title.toLowerCase().includes('persuas')) {
+          color = '#78350f';
+          author = 'Robert Cialdini';
+        } else if (title.toLowerCase().includes('alavancagem') || title.toLowerCase().includes('trinca')) {
+          color = '#C25318';
+          author = 'César';
+        }
+
+        if (title) {
+          appState.apeItems.unshift({
+            id: Date.now(),
+            title,
+            author,
+            color,
+            status: statusSelected
+          });
+          renderApePreview();
+          renderFullApeList();
+          apeModal.classList.add('hidden');
+          document.getElementById('ape-form').reset();
+          showToast(`"${title}" inserido na Agenda (APE)!`);
+        }
+      });
+
+      // 10. Perfil (Upload Foto e Edição com Imobiliária)
+      const photoInput = document.getElementById('photo-file-input');
+      const avatarDisplay = document.getElementById('profile-avatar-display');
+      document.getElementById('btn-change-photo').addEventListener('click', () => photoInput.click());
+      photoInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            avatarDisplay.innerHTML = `<img src="${event.target.result}" alt="Foto Perfil" class="w-full h-full object-cover">`;
+            document.getElementById('btn-top-avatar').innerHTML = `<img src="${event.target.result}" alt="Foto" class="w-full h-full object-cover">`;
+            showToast('Foto de perfil atualizada!');
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      const profileModal = document.getElementById('profile-edit-modal');
+      document.getElementById('btn-edit-profile-info').addEventListener('click', () => profileModal.classList.remove('hidden'));
+      document.getElementById('close-profile-modal').addEventListener('click', () => profileModal.classList.add('hidden'));
+      document.getElementById('profile-edit-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('input-profile-name').value.trim();
+        const city = document.getElementById('input-profile-city').value.trim();
+        const comp = document.getElementById('input-profile-company').value.trim();
+
+        appState.profile.name = name;
+        appState.profile.city = city;
+        appState.profile.company = comp;
+
+        document.getElementById('profile-name-text').textContent = name;
+        document.getElementById('profile-city-text').textContent = city;
+        document.getElementById('profile-company-text').textContent = comp;
+        document.getElementById('top-avatar-initials').textContent = name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
+        
+        saveAppState();
+        profileModal.classList.add('hidden');
+        showToast('Perfil atualizado com sucesso!');
+      });
+
+      // 11. Modal Cheque do Futuro
+      const chequeModal = document.getElementById('cheque-modal');
+      document.getElementById('btn-edit-cheque').addEventListener('click', () => chequeModal.classList.remove('hidden'));
+      document.getElementById('close-cheque-modal').addEventListener('click', () => chequeModal.classList.add('hidden'));
+      document.getElementById('cheque-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const val = document.getElementById('input-cheque-valor').value;
+        const dt = document.getElementById('input-cheque-data').value;
+        appState.cheque.valor = val;
+        appState.cheque.data = dt;
+        document.getElementById('profile-cheque-val').textContent = `R$ ${val}`;
+        document.getElementById('profile-cheque-date').textContent = dt;
+        document.getElementById('progress-cheque-val').textContent = `R$ ${val}`;
+        document.getElementById('progress-cheque-date').textContent = dt;
+        
+        saveAppState();
+        chequeModal.classList.add('hidden');
+        showToast('Cheque do Futuro atualizado!');
+      });
+
+      // 12. Modal Notificações
+      const notifModal = document.getElementById('notif-modal');
+      document.getElementById('btn-cfg-notif').addEventListener('click', () => notifModal.classList.remove('hidden'));
+      document.getElementById('close-notif-modal').addEventListener('click', () => notifModal.classList.add('hidden'));
+      document.getElementById('btn-save-notif').addEventListener('click', () => {
+        notifModal.classList.add('hidden');
+        showToast('Alertas do Treinador confirmados (09h e 17h)!');
+      });
+
+      document.getElementById('btn-cfg-missao').addEventListener('click', () => {
+        showToast(`Suas metas: ${appState.missions.prospeccao.target} Contatos, ${appState.missions.reuniao.target} Visitas`);
+      });
+      document.getElementById('btn-cfg-sobre').addEventListener('click', () => {
+        showToast('My Corretor v1.0 MVP — Sistema de Execução Tática');
+      });
+
+      // Renders Iniciais
+      renderMissions();
+      renderComplementaryMissions();
+      renderVolumeExecution();
+      renderConsistencyGrid();
+      renderBadges();
+      renderApePreview();
+      recalcOverallProgress();
+      updateTemporalCalculations();
+    });
+  </script>
+</body>
+</html>
