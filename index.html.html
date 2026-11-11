@@ -1824,11 +1824,12 @@
         { id: 17, title: 'Clube dos 5', cat: 'Resultado', unlocked: false, desc: '5 contratos assinados e comissões garantidas.' },
         { id: 18, title: 'Top Closer', cat: 'Resultado', unlocked: false, desc: '10 vendas concluídas geradas pela disciplina do app.' }
       ],
-      apeItems: [
+      founderApeItems: [
         { id: 1, title: 'Trinca Real Estate — Alavancagem', author: 'César', color: '#C25318', status: 'fazendo' },
         { id: 2, title: 'Máquina de Alocação e Autoridade', author: 'Gabriel Novaes', color: '#8A6F27', status: 'concluido' },
         { id: 3, title: 'Bíblia das Vendas', author: 'Jeffrey Gitomer', color: '#991b1b', status: 'afazer' }
       ],
+      apeItems: [],
       cheque: { valor: '10.000,00', data: 'Dezembro / 2026' },
       profile: { name: '', city: '', company: 'Estratégia Imobiliária', role: 'gestor' },
       stats: { consistency: 0, totalActions: 0 }
@@ -1968,11 +1969,19 @@
       if (isCorretor) {
         appState.profile.role = 'corretor';
         if (!appState.profile.company) appState.profile.company = 'Estratégia Imobiliária';
-      } else if (cargoParam === 'gestor') {
-        appState.profile.role = 'gestor';
-        if (!appState.profile.company) appState.profile.company = 'Estratégia Imobiliária';
-      } else if (!appState.profile.role) {
-        appState.profile.role = 'gestor';
+        // A Agenda Programada do corretor convidado começa rigorosamente ZERADA
+        if (!saved) {
+          appState.apeItems = [];
+        }
+      } else {
+        // Modo Fundador (Gabriel): seus cursos e formações pessoais são mantidos
+        if (!saved || !appState.apeItems || appState.apeItems.length === 0) {
+          appState.apeItems = [
+            { id: 1, title: 'Trinca Real Estate — Alavancagem', author: 'César', color: '#C25318', status: 'fazendo' },
+            { id: 2, title: 'Máquina de Alocação e Autoridade', author: 'Gabriel Novaes', color: '#8A6F27', status: 'concluido' },
+            { id: 3, title: 'Bíblia das Vendas', author: 'Jeffrey Gitomer', color: '#991b1b', status: 'afazer' }
+          ];
+        }
         if (!appState.profile.company) appState.profile.company = 'Estratégia Imobiliária';
       }
 
@@ -2409,6 +2418,19 @@
       if (!container) return;
       container.innerHTML = '';
 
+      if (!appState.apeItems || appState.apeItems.length === 0) {
+        container.innerHTML = `
+          <div class="arounda-card p-4 text-center space-y-1.5 border border-dashed border-white/10">
+            <span class="text-xl block">📚</span>
+            <h5 class="text-xs font-bold text-white">Sua Estante está Vazia</h5>
+            <p class="text-[10px] text-[#8E8E93]">Clique em "+ Adicionar" para cadastrar os livros, cursos e formações que você está estudando.</p>
+          </div>
+        `;
+        const countLabel = document.getElementById('ape-full-count-label');
+        if (countLabel) countLabel.textContent = 'Abrir Estante Completa (0 obras)';
+        return;
+      }
+
       const top3 = appState.apeItems.slice(0, 3);
 
       top3.forEach(item => {
@@ -2474,6 +2496,17 @@
       const container = document.getElementById('ape-full-list-container');
       if (!container) return;
       container.innerHTML = '';
+
+      if (!appState.apeItems || appState.apeItems.length === 0) {
+        container.innerHTML = `
+          <div class="arounda-card p-4 text-center space-y-1.5 border border-dashed border-white/10">
+            <span class="text-xl block">📚</span>
+            <h5 class="text-xs font-bold text-white">Nenhum Material Cadastrado</h5>
+            <p class="text-[10px] text-[#8E8E93]">Adicione seu primeiro livro ou formação pelo botão abaixo.</p>
+          </div>
+        `;
+        return;
+      }
 
       appState.apeItems.forEach(item => {
         const div = document.createElement('div');
