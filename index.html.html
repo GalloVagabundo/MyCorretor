@@ -11,7 +11,7 @@
       theme: {
         extend: {
           colors: {
-            brandOrange: '#FF6D29',
+            brandOrange: '#FFFFFF',
             brandEspresso: '#453027',
             brandDark: '#141115',
             brandTextSilver: '#BABABA',
@@ -38,8 +38,9 @@
     }
 
     body {
-      background: #040305;
+      background: #000000;
       color: #FFFFFF;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
       margin: 0;
       padding: 0;
       display: flex;
@@ -63,13 +64,13 @@
       max-width: 390px;
       height: 100vh;
       max-height: 844px;
-      background: radial-gradient(circle at 50% -15%, rgba(255, 109, 41, 0.28) 0%, rgba(69, 48, 39, 0.18) 35%, #141115 68%, #080709 100%);
+      background: #000000;
       display: flex;
       flex-direction: column;
       position: relative;
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.09);
-      box-shadow: 0 40px 110px -25px rgba(0, 0, 0, 0.98), 0 0 60px rgba(255, 109, 41, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 25px 70px -15px rgba(0, 0, 0, 0.95);
     }
 
     @media (min-width: 640px) {
@@ -81,24 +82,21 @@
 
     /* Cards Ultra Premium Glassmorphism */
     .arounda-card {
-      background: linear-gradient(180deg, rgba(32, 26, 31, 0.84) 0%, rgba(18, 15, 18, 0.94) 100%);
+      background: #1C1C1E;
       border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-radius: 26px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+      border-radius: 18px;
     }
 
     .arounda-card-active {
-      background: linear-gradient(180deg, rgba(48, 28, 20, 0.94) 0%, rgba(25, 14, 11, 0.98) 100%) !important;
-      border: 1px solid rgba(255, 109, 41, 0.5) !important;
-      box-shadow: 0 16px 36px -10px rgba(255, 109, 41, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
+      background: #2C2C2E !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
     }
 
-    /* Barra de Progresso com Gradiente Laranja/Dourado Quente */
+    /* Barra de Progresso Apple iOS */
     .gradient-progress {
-      background: linear-gradient(90deg, #FF6D29 0%, #FFAE33 100%);
-      box-shadow: 0 0 14px rgba(255, 109, 41, 0.45);
+      background: #FFFFFF;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
     }
 
     .gradient-progress-success {
@@ -108,19 +106,23 @@
 
     /* Botões Táticos de Contador */
     .btn-counter {
-      background: rgba(255, 255, 255, 0.06);
+      background: #2C2C2E;
       border: 1px solid rgba(255, 255, 255, 0.12);
-      color: #BABABA;
-      transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+      color: #FFFFFF;
+      border-radius: 9999px;
+      transition: all 0.12s ease;
     }
     .btn-counter:hover {
-      background: rgba(255, 109, 41, 0.18);
-      border-color: rgba(255, 109, 41, 0.45);
-      color: #FF6D29;
+      background: #3A3A3C;
+      border-color: rgba(255, 255, 255, 0.25);
+      color: #FFFFFF;
     }
     .btn-counter:active {
       transform: scale(0.92);
-      background: #FF6D29;
+    }
+    .btn-counter:active {
+      transform: scale(0.92);
+      background: #FFFFFF;
       color: #FFFFFF;
     }
 
@@ -136,10 +138,10 @@
     .dock-active {
       background: rgba(255, 109, 41, 0.22);
       border: 1px solid rgba(255, 109, 41, 0.55);
-      color: #FF6D29 !important;
+      color: #FFFFFF !important;
     }
     .dock-active svg {
-      stroke: #FF6D29 !important;
+      stroke: #FFFFFF !important;
     }
 
     /* Mockup de Livro APE */
@@ -186,7 +188,7 @@
       <div class="h-6 w-28 bg-black rounded-full mx-auto flex items-center justify-between px-3 text-[10px] text-white shadow-inner mb-2">
         <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" title="Supabase Conectado"></span>
         <span class="font-mono-num text-[9px] text-[#BABABA]">MyCorretor</span>
-        <span class="w-2.5 h-2.5 rounded-full bg-[#FF6D29]"></span>
+        <span class="w-2.5 h-2.5 rounded-full bg-[#FFFFFF]"></span>
       </div>
 
       <div class="flex justify-between items-center text-xs">
@@ -197,12 +199,9 @@
         <span class="text-[10px] font-bold uppercase tracking-[0.16em] text-[#BABABA] truncate max-w-[120px]" id="top-title-indicator">Execução Diária</span>
 
         <!-- Alternador de Visão: Corretor vs Gestor da Equipe -->
-        <button id="btn-toggle-manager-mode" class="flex items-center gap-1 bg-white/5 border border-white/10 px-2 py-1 rounded-full text-[10px] font-bold text-[#BABABA] hover:border-[#FF6D29] hover:text-white transition-all shadow-sm" title="Alternar entre minha missão e painel da equipe">
-          <span id="manager-mode-icon">👥</span>
-          <span id="manager-mode-label">Equipe</span>
-        </button>
+        <button id="btn-toggle-manager-mode" class="hidden flex items-center gap-1.5 bg-[#2C2C2E] hover:bg-[#3A3A3C] border border-white/20 px-2.5 py-1 rounded-full text-[10px] font-bold text-white transition-all shadow-sm"><span id="manager-mode-icon">👥</span> <span id="manager-mode-label">Equipe</span></button>
 
-        <button id="btn-top-avatar" class="w-8 h-8 rounded-full bg-[#FF6D29]/20 border border-[#FF6D29]/40 flex items-center justify-center text-xs font-black text-[#FF6D29] overflow-hidden" title="Ir para o Perfil">
+        <button id="btn-top-avatar" class="w-8 h-8 rounded-full bg-[#FFFFFF]/20 border border-[#FFFFFF]/40 flex items-center justify-center text-xs font-black text-[#FFFFFF] overflow-hidden" title="Ir para o Perfil">
           <span id="top-avatar-initials">GN</span>
         </button>
       </div>
@@ -217,14 +216,14 @@
         <!-- Header Missão -->
         <div class="flex justify-between items-start pt-1">
           <div>
-            <span class="text-[10px] font-bold tracking-[0.2em] text-[#FF6D29] uppercase" id="current-date-display">DOM, 08 NOV</span>
+            <span class="text-[10px] font-bold tracking-[0.2em] text-[#FFFFFF] uppercase" id="current-date-display">DOM, 08 NOV</span>
             <h1 class="text-2xl font-black text-white tracking-tight mt-0.5">Missão do Dia</h1>
           </div>
           
           <!-- Sequência Começando Zerada (0 dias) -->
-          <button id="streak-pill-btn" class="flex items-center gap-1.5 bg-[#20191c] border border-[#FF6D29]/40 px-3 py-1.5 rounded-full hover:border-[#FF6D29] transition-all shadow-md active:scale-95" title="Ver calendário de consistência">
+          <button id="streak-pill-btn" class="flex items-center gap-1.5 bg-[#20191c] border border-[#FFFFFF]/40 px-3 py-1.5 rounded-full hover:border-[#FFFFFF] transition-all shadow-md active:scale-95" title="Ver calendário de consistência">
             <span class="text-xs">🔥</span>
-            <span class="text-xs font-bold text-[#FF6D29] font-mono-num" id="streak-counter-pill">0 dias</span>
+            <span class="text-xs font-bold text-[#FFFFFF] font-mono-num" id="streak-counter-pill">0 dias</span>
           </button>
         </div>
 
@@ -235,7 +234,7 @@
               <h3 class="text-xs font-bold text-white tracking-wide">Seu Calendário de Consistência</h3>
               <p class="text-[10px] text-[#BABABA]">35 dias de histórico real de campo</p>
             </div>
-            <span class="text-[10px] font-bold text-[#FF6D29] bg-[#FF6D29]/10 px-2 py-0.5 rounded-full border border-[#FF6D29]/30 font-mono-num" id="grid-rate-pill">Taxa 0%</span>
+            <span class="text-[10px] font-bold text-[#FFFFFF] bg-[#FFFFFF]/10 px-2 py-0.5 rounded-full border border-[#FFFFFF]/30 font-mono-num" id="grid-rate-pill">Taxa 0%</span>
           </div>
 
           <div id="grid-squares" class="grid grid-cols-7 gap-1.5 my-2"></div>
@@ -257,13 +256,13 @@
         </div>
 
         <!-- Card do Treinador / Gestor -->
-        <div class="arounda-card p-4 flex gap-3.5 items-center border-l-4 border-l-[#FF6D29]">
-          <div class="w-10 h-10 rounded-2xl bg-[#FF6D29]/10 border border-[#FF6D29]/30 flex items-center justify-center shrink-0">
-            <svg class="w-5 h-5 text-[#FF6D29]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        <div class="arounda-card p-4 flex gap-3.5 items-center border-l-4 border-l-[#FFFFFF]">
+          <div class="w-10 h-10 rounded-2xl bg-[#FFFFFF]/10 border border-[#FFFFFF]/30 flex items-center justify-center shrink-0">
+            <svg class="w-5 h-5 text-[#FFFFFF]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
           </div>
           <div class="flex-1 min-w-0">
             <div class="flex justify-between items-center">
-              <span class="text-[10px] uppercase tracking-[0.16em] font-extrabold text-[#FF6D29]">Seu Gestor</span>
+              <span class="text-[10px] uppercase tracking-[0.16em] font-extrabold text-[#FFFFFF]">Seu Gestor</span>
               <span class="text-[9px] text-[#BABABA]/60 font-mono-num" id="mode-badge-indicator">MODO COMPLETO</span>
             </div>
             <p id="coach-phrase" class="text-xs text-[#FFFFFF] font-medium leading-snug mt-0.5">
@@ -274,215 +273,203 @@
 
         <!-- 4 PILARES INEGOCIÁVEIS (COM FICHA TÉCNICA ℹ️) -->
         <div class="space-y-3 pt-1">
-          <div class="flex justify-between items-center px-1">
-            <h2 class="text-[10px] uppercase tracking-[0.18em] font-extrabold text-[#BABABA]" id="pillars-section-title">Pilares Inegociáveis</h2>
-            <span class="text-[11px] text-[#FF6D29] font-bold font-mono-num" id="total-progress-label">0 de 4 batidos</span>
+          <div class="flex justify-between items-center mb-1 px-1">
+            <h2 class="text-[11px] uppercase tracking-wider font-bold text-[#8E8E93]" id="pillars-section-title">Ações Operacionais do Dia</h2>
+            <span class="text-[11px] text-white font-bold font-mono-num" id="total-progress-label">0 de 8 batidas</span>
           </div>
 
-          <!-- 1º: Campo de Batalha -->
-          <div class="mission-card arounda-card p-4 transition-all" id="card-prospeccao">
-            <div class="flex justify-between items-center">
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
-                  <svg class="w-5 h-5 text-[#FF6D29]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-                </div>
-                <div>
-                  <div class="flex items-center gap-1.5">
-                    <span class="text-[9px] font-bold uppercase tracking-wider text-[#FF6D29]">1º Pilar</span>
-                    <span class="text-[9px] text-[#BABABA] font-mono-num">• Diário</span>
-                    <button type="button" class="btn-info-pillar text-[10px] text-[#BABABA] hover:text-[#FF6D29] p-0.5 ml-0.5" data-pillar="prospeccao" title="Entenda o Campo de Batalha">ℹ️</button>
-                  </div>
-                  <h4 class="text-sm font-extrabold text-white">O Campo de Batalha</h4>
-                  <p class="text-[11px] text-[#BABABA]">Contatos de valor com clientes</p>
-                </div>
-              </div>
-
-              <div class="flex items-center gap-2">
-                <button class="btn-sub btn-counter w-8 h-8 rounded-xl flex items-center justify-center text-base font-black" data-mission="prospeccao">−</button>
-                <span class="count-display font-mono-num text-lg font-black text-white min-w-[28px] text-center" id="count-prospeccao">0</span>
-                <button class="btn-add btn-counter w-8 h-8 rounded-xl flex items-center justify-center text-base font-black" data-mission="prospeccao">+</button>
-              </div>
-            </div>
-
-            <div class="mt-3">
-              <div class="flex justify-between text-[11px] font-medium text-[#BABABA] mb-1.5">
-                <span id="label-prospeccao" class="font-mono-num">0 de 5 contatos</span>
-                <span class="text-[10px] uppercase font-bold" id="badge-status-prospeccao">Piso Diário</span>
-              </div>
-              <div class="w-full bg-[#110e11] h-2 rounded-full overflow-hidden p-0.5 border border-white/5">
-                <div class="progress-bar gradient-progress h-full rounded-full transition-all duration-300" id="bar-prospeccao" style="width: 0%"></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 2º: O Ponteiro -->
-          <div class="mission-card arounda-card p-4 transition-all" id="card-reuniao">
-            <div class="flex justify-between items-center">
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
-                  <svg class="w-5 h-5 text-[#FF6D29]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                </div>
-                <div>
-                  <div class="flex items-center gap-1.5">
-                    <span class="text-[9px] font-bold uppercase tracking-wider text-[#FF6D29]">2º Pilar</span>
-                    <span class="text-[9px] text-[#BABABA] font-mono-num">• Semanal</span>
-                    <button type="button" class="btn-info-pillar text-[10px] text-[#BABABA] hover:text-[#FF6D29] p-0.5 ml-0.5" data-pillar="reuniao" title="Entenda O Ponteiro">ℹ️</button>
-                  </div>
-                  <h4 class="text-sm font-extrabold text-white">O Ponteiro</h4>
-                  <p class="text-[11px] text-[#BABABA]">Apresentação ou visita qualificada</p>
-                </div>
-              </div>
-
-              <div class="flex items-center gap-2">
-                <button class="btn-sub btn-counter w-8 h-8 rounded-xl flex items-center justify-center text-base font-black" data-mission="reuniao">−</button>
-                <span class="count-display font-mono-num text-lg font-black text-white min-w-[28px] text-center" id="count-reuniao">0</span>
-                <button class="btn-add btn-counter w-8 h-8 rounded-xl flex items-center justify-center text-base font-black" data-mission="reuniao">+</button>
-              </div>
-            </div>
-
-            <div class="mt-3">
-              <div class="flex justify-between text-[11px] font-medium text-[#BABABA] mb-1.5">
-                <span id="label-reuniao" class="font-mono-num">0 de 1 na semana</span>
-                <span class="text-[10px] uppercase font-bold" id="badge-status-reuniao">Meta Semanal</span>
-              </div>
-              <div class="w-full bg-[#110e11] h-2 rounded-full overflow-hidden p-0.5 border border-white/5">
-                <div class="progress-bar gradient-progress h-full rounded-full transition-all duration-300" id="bar-reuniao" style="width: 0%"></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- MÓDULO DE AUTORIDADE -->
-          <div id="authority-pillars-wrapper" class="space-y-3">
-            <!-- 3º: O Ímã -->
-            <div class="mission-card arounda-card p-4 transition-all" id="card-feed">
+          <!-- LISTA DAS 6 MÉTRICAS PRINCIPAIS (APPLE IOS NATIVE) -->
+          <div id="core-missions-list" class="space-y-2.5">
+            <!-- 1. Novos Contatos Locação -->
+            <div class="arounda-card p-3.5 transition-all" id="card-locacao">
               <div class="flex justify-between items-center">
                 <div class="flex items-center gap-3">
-                  <div class="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
-                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                  <div class="w-9 h-9 rounded-full bg-[#2C2C2E] flex items-center justify-center shrink-0 text-base">
+                    👥
                   </div>
                   <div>
-                    <div class="flex items-center gap-1.5">
-                      <span class="text-[9px] font-bold uppercase tracking-wider text-[#FF6D29]">3º Pilar</span>
-                      <span class="text-[9px] text-[#BABABA] font-mono-num">• Semanal</span>
-                      <button type="button" class="btn-info-pillar text-[10px] text-[#BABABA] hover:text-[#FF6D29] p-0.5 ml-0.5" data-pillar="feed" title="Entenda O Ímã">ℹ️</button>
-                    </div>
-                    <h4 class="text-sm font-extrabold text-white">O Ímã</h4>
-                    <p class="text-[11px] text-[#BABABA]">Vídeos autorais publicados no feed</p>
+                    <h4 class="text-xs font-bold text-white tracking-tight">Novos Contatos Locação</h4>
+                    <p class="text-[10px] text-[#8E8E93]" id="label-locacao">0 de 5 contatos</p>
                   </div>
                 </div>
-
                 <div class="flex items-center gap-2">
-                  <button class="btn-sub btn-counter w-8 h-8 rounded-xl flex items-center justify-center text-base font-black" data-mission="feed">−</button>
-                  <span class="count-display font-mono-num text-lg font-black text-white min-w-[28px] text-center" id="count-feed">0</span>
-                  <button class="btn-add btn-counter w-8 h-8 rounded-xl flex items-center justify-center text-base font-black" data-mission="feed">+</button>
-                </div>
-              </div>
-
-              <div class="mt-3">
-                <div class="flex justify-between text-[11px] font-medium text-[#BABABA] mb-1.5">
-                  <span id="label-feed" class="font-mono-num">0 de 3 na semana</span>
-                  <span class="text-[10px] uppercase font-bold" id="badge-status-feed">Meta Semanal</span>
-                </div>
-                <div class="w-full bg-[#110e11] h-2 rounded-full overflow-hidden p-0.5 border border-white/5">
-                  <div class="progress-bar gradient-progress h-full rounded-full transition-all duration-300" id="bar-feed" style="width: 0%"></div>
+                  <button class="btn-sub btn-counter w-8 h-8 rounded-full flex items-center justify-center text-base font-bold text-white bg-[#2C2C2E]" data-mission="locacao">−</button>
+                  <span class="count-display font-mono-num text-sm font-bold text-white min-w-[24px] text-center" id="count-locacao">0</span>
+                  <button class="btn-add btn-counter w-8 h-8 rounded-full flex items-center justify-center text-base font-bold text-white bg-[#2C2C2E]" data-mission="locacao">+</button>
                 </div>
               </div>
             </div>
 
-            <!-- 4º: A Conexão -->
-            <div class="mission-card arounda-card p-4 transition-all" id="card-stories">
+            <!-- 2. Novos Contatos Venda -->
+            <div class="arounda-card p-3.5 transition-all" id="card-venda">
               <div class="flex justify-between items-center">
                 <div class="flex items-center gap-3">
-                  <div class="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
-                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                  <div class="w-9 h-9 rounded-full bg-[#2C2C2E] flex items-center justify-center shrink-0 text-base">
+                    🎯
                   </div>
                   <div>
-                    <div class="flex items-center gap-1.5">
-                      <span class="text-[9px] font-bold uppercase tracking-wider text-[#FF6D29]">4º Pilar</span>
-                      <span class="text-[9px] text-[#BABABA] font-mono-num">• Diário</span>
-                      <button type="button" class="btn-info-pillar text-[10px] text-[#BABABA] hover:text-[#FF6D29] p-0.5 ml-0.5" data-pillar="stories" title="Entenda A Conexão">ℹ️</button>
-                    </div>
-                    <h4 class="text-sm font-extrabold text-white">A Conexão</h4>
-                    <p class="text-[11px] text-[#BABABA]">Stories e bastidores reais</p>
+                    <h4 class="text-xs font-bold text-white tracking-tight">Novos Contatos Venda</h4>
+                    <p class="text-[10px] text-[#8E8E93]" id="label-venda">0 de 3 contatos</p>
                   </div>
                 </div>
-
                 <div class="flex items-center gap-2">
-                  <button class="btn-sub btn-counter w-8 h-8 rounded-xl flex items-center justify-center text-base font-black" data-mission="stories">−</button>
-                  <span class="count-display font-mono-num text-lg font-black text-white min-w-[28px] text-center" id="count-stories">0</span>
-                  <button class="btn-add btn-counter w-8 h-8 rounded-xl flex items-center justify-center text-base font-black" data-mission="stories">+</button>
+                  <button class="btn-sub btn-counter w-8 h-8 rounded-full flex items-center justify-center text-base font-bold text-white bg-[#2C2C2E]" data-mission="venda">−</button>
+                  <span class="count-display font-mono-num text-sm font-bold text-white min-w-[24px] text-center" id="count-venda">0</span>
+                  <button class="btn-add btn-counter w-8 h-8 rounded-full flex items-center justify-center text-base font-bold text-white bg-[#2C2C2E]" data-mission="venda">+</button>
                 </div>
               </div>
+            </div>
 
-              <div class="mt-3">
-                <div class="flex justify-between text-[11px] font-medium text-[#BABABA] mb-1.5">
-                  <span id="label-stories" class="font-mono-num">0 de 3 stories</span>
-                  <span class="text-[10px] uppercase font-bold" id="badge-status-stories">Piso Diário</span>
+            <!-- 3. Atendimentos Qualificados -->
+            <div class="arounda-card p-3.5 transition-all" id="card-qualificados">
+              <div class="flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-full bg-[#2C2C2E] flex items-center justify-center shrink-0 text-base">
+                    ⭐
+                  </div>
+                  <div>
+                    <h4 class="text-xs font-bold text-white tracking-tight">Atendimentos Qualificados</h4>
+                    <p class="text-[10px] text-[#8E8E93]" id="label-qualificados">0 de 2 leads</p>
+                  </div>
                 </div>
-                <div class="w-full bg-[#110e11] h-2 rounded-full overflow-hidden p-0.5 border border-white/5">
-                  <div class="progress-bar gradient-progress h-full rounded-full transition-all duration-300" id="bar-stories" style="width: 0%"></div>
+                <div class="flex items-center gap-2">
+                  <button class="btn-sub btn-counter w-8 h-8 rounded-full flex items-center justify-center text-base font-bold text-white bg-[#2C2C2E]" data-mission="qualificados">−</button>
+                  <span class="count-display font-mono-num text-sm font-bold text-white min-w-[24px] text-center" id="count-qualificados">0</span>
+                  <button class="btn-add btn-counter w-8 h-8 rounded-full flex items-center justify-center text-base font-bold text-white bg-[#2C2C2E]" data-mission="qualificados">+</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4. Visitas Presenciais -->
+            <div class="arounda-card p-3.5 transition-all" id="card-visitas">
+              <div class="flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-full bg-[#2C2C2E] flex items-center justify-center shrink-0 text-base">
+                    🏠
+                  </div>
+                  <div>
+                    <h4 class="text-xs font-bold text-white tracking-tight">Visitas Presenciais</h4>
+                    <p class="text-[10px] text-[#8E8E93]" id="label-visitas">0 de 1 visita</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <button class="btn-sub btn-counter w-8 h-8 rounded-full flex items-center justify-center text-base font-bold text-white bg-[#2C2C2E]" data-mission="visitas">−</button>
+                  <span class="count-display font-mono-num text-sm font-bold text-white min-w-[24px] text-center" id="count-visitas">0</span>
+                  <button class="btn-add btn-counter w-8 h-8 rounded-full flex items-center justify-center text-base font-bold text-white bg-[#2C2C2E]" data-mission="visitas">+</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 5. Reuniões Online -->
+            <div class="arounda-card p-3.5 transition-all" id="card-reunioes">
+              <div class="flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-full bg-[#2C2C2E] flex items-center justify-center shrink-0 text-base">
+                    📹
+                  </div>
+                  <div>
+                    <h4 class="text-xs font-bold text-white tracking-tight">Reuniões Online</h4>
+                    <p class="text-[10px] text-[#8E8E93]" id="label-reunioes">0 de 1 reunião</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <button class="btn-sub btn-counter w-8 h-8 rounded-full flex items-center justify-center text-base font-bold text-white bg-[#2C2C2E]" data-mission="reunioes">−</button>
+                  <span class="count-display font-mono-num text-sm font-bold text-white min-w-[24px] text-center" id="count-reunioes">0</span>
+                  <button class="btn-add btn-counter w-8 h-8 rounded-full flex items-center justify-center text-base font-bold text-white bg-[#2C2C2E]" data-mission="reunioes">+</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 6. Follow-ups -->
+            <div class="arounda-card p-3.5 transition-all" id="card-followup">
+              <div class="flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-full bg-[#2C2C2E] flex items-center justify-center shrink-0 text-base">
+                    🔁
+                  </div>
+                  <div>
+                    <h4 class="text-xs font-bold text-white tracking-tight">Follow-ups Executados</h4>
+                    <p class="text-[10px] text-[#8E8E93]" id="label-followup">0 de 5 follow-ups</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <button class="btn-sub btn-counter w-8 h-8 rounded-full flex items-center justify-center text-base font-bold text-white bg-[#2C2C2E]" data-mission="followup">−</button>
+                  <span class="count-display font-mono-num text-sm font-bold text-white min-w-[24px] text-center" id="count-followup">0</span>
+                  <button class="btn-add btn-counter w-8 h-8 rounded-full flex items-center justify-center text-base font-bold text-white bg-[#2C2C2E]" data-mission="followup">+</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 7. Vídeos no Feed -->
+            <div class="arounda-card p-3.5 transition-all" id="card-feed">
+              <div class="flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-full bg-[#2C2C2E] flex items-center justify-center shrink-0 text-base">
+                    🎬
+                  </div>
+                  <div>
+                    <h4 class="text-xs font-bold text-white tracking-tight">Vídeos no Feed</h4>
+                    <p class="text-[10px] text-[#8E8E93]" id="label-feed">0 de 3 na semana</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <button class="btn-sub btn-counter w-8 h-8 rounded-full flex items-center justify-center text-base font-bold text-white bg-[#2C2C2E]" data-mission="feed">−</button>
+                  <span class="count-display font-mono-num text-sm font-bold text-white min-w-[24px] text-center" id="count-feed">0</span>
+                  <button class="btn-add btn-counter w-8 h-8 rounded-full flex items-center justify-center text-base font-bold text-white bg-[#2C2C2E]" data-mission="feed">+</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 8. Stories Diários -->
+            <div class="arounda-card p-3.5 transition-all" id="card-stories">
+              <div class="flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-full bg-[#2C2C2E] flex items-center justify-center shrink-0 text-base">
+                    📱
+                  </div>
+                  <div>
+                    <h4 class="text-xs font-bold text-white tracking-tight">Stories Diários</h4>
+                    <p class="text-[10px] text-[#8E8E93]" id="label-stories">0 de 3 stories</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <button class="btn-sub btn-counter w-8 h-8 rounded-full flex items-center justify-center text-base font-bold text-white bg-[#2C2C2E]" data-mission="stories">−</button>
+                  <span class="count-display font-mono-num text-sm font-bold text-white min-w-[24px] text-center" id="count-stories">0</span>
+                  <button class="btn-add btn-counter w-8 h-8 rounded-full flex items-center justify-center text-base font-bold text-white bg-[#2C2C2E]" data-mission="stories">+</button>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- SEÇÃO: MISSÕES COMPLEMENTARES -->
-        <div class="pt-2">
-          <div class="flex justify-between items-center mb-2 px-1">
-            <h3 class="text-[10px] uppercase tracking-[0.18em] font-extrabold text-[#BABABA]">Missões Complementares</h3>
-            <button id="btn-add-custom-mission" class="flex items-center gap-1.5 text-[11px] font-bold text-[#FF6D29] bg-[#FF6D29]/10 border border-[#FF6D29]/30 px-3 py-1 rounded-full hover:bg-[#FF6D29]/20 transition-all active:scale-95">
-              <span>+</span>
-              <span>Adicionar</span>
+          <!-- MÉTODOS CUSTOMIZADOS (ADICIONADOS PELO CORRETOR) -->
+          <div id="complementary-missions-list" class="space-y-2.5 mt-2.5"></div>
+
+          <!-- BOTÃO ADICIONAR MÉTRICA (APPLE STYLE) -->
+          <div class="pt-2">
+            <button id="btn-add-custom-mission" class="w-full py-3.5 rounded-2xl bg-[#1C1C1E] border border-white/10 hover:border-white/20 text-[#2997FF] hover:text-white font-semibold text-xs transition-all flex items-center justify-center gap-2 active:scale-98 shadow-sm">
+              <span class="text-base font-bold">+</span>
+              <span>Adicionar Métrica</span>
             </button>
           </div>
 
-          <div id="complementary-missions-list" class="space-y-2">
-            <!-- Captação -->
-            <div class="arounda-card p-3 flex justify-between items-center" id="card-captacao">
-              <div class="flex items-center gap-2.5 min-w-0 pr-2">
-                <div class="w-8 h-8 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
-                  <svg class="w-4 h-4 text-[#FF6D29]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-                </div>
-                <div class="truncate">
-                  <h5 class="text-xs font-bold text-white truncate">Captação de Imóvel</h5>
-                  <p class="text-[10px] text-[#BABABA] truncate">Meta: 1 imóvel novo</p>
-                </div>
-              </div>
-              <div class="flex items-center gap-2 shrink-0">
-                <button class="btn-comp-sub btn-counter w-7 h-7 rounded-lg flex items-center justify-center text-sm font-bold" data-id="captacao">−</button>
-                <span class="font-mono-num text-sm font-black text-white min-w-[20px] text-center" id="count-captacao">0</span>
-                <button class="btn-comp-add btn-counter w-7 h-7 rounded-lg flex items-center justify-center text-sm font-bold" data-id="captacao">+</button>
-              </div>
+          <!-- ELEMENTOS DE COMPATIBILIDADE OCULTOS -->
+          <div class="hidden">
+            <div id="card-prospeccao"><span id="count-prospeccao">0</span><span id="label-prospeccao"></span><div id="bar-prospeccao"></div><span id="badge-status-prospeccao"></span></div>
+            <div id="card-reuniao"><span id="count-reuniao">0</span><span id="label-reuniao"></span><div id="bar-reuniao"></div><span id="badge-status-reuniao"></span></div>
+            <div id="authority-pillars-wrapper">
+              <div id="card-feed"><span id="count-feed">0</span><span id="label-feed"></span><div id="bar-feed"></div><span id="badge-status-feed"></span></div>
+              <div id="card-stories"><span id="count-stories">0</span><span id="label-stories"></span><div id="bar-stories"></div><span id="badge-status-stories"></span></div>
             </div>
-
-            <!-- Follow-up -->
-            <div class="arounda-card p-3 flex justify-between items-center" id="card-followup">
-              <div class="flex items-center gap-2.5 min-w-0 pr-2">
-                <div class="w-8 h-8 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
-                  <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
-                </div>
-                <div class="truncate">
-                  <h5 class="text-xs font-bold text-white truncate">Follow-up Cirúrgico</h5>
-                  <p class="text-[10px] text-[#BABABA] truncate">Nutrição de leads quentes</p>
-                </div>
-              </div>
-              <div class="flex items-center gap-2 shrink-0">
-                <button class="btn-comp-sub btn-counter w-7 h-7 rounded-lg flex items-center justify-center text-sm font-bold" data-id="followup">−</button>
-                <span class="font-mono-num text-sm font-black text-white min-w-[20px] text-center" id="count-followup">0</span>
-                <button class="btn-comp-add btn-counter w-7 h-7 rounded-lg flex items-center justify-center text-sm font-bold" data-id="followup">+</button>
-              </div>
-            </div>
+            <div id="card-captacao"><span id="count-captacao">0</span><span id="captacao"></span><span id="option-authority-yes"></span><span id="option-authority-no"></span></div>
           </div>
-        </div>
 
       </section>
 
       <!-- ================= PAINEL DO GESTOR DA EQUIPE ================= -->
-      <section id="tab-painel-gestor" class="space-y-4 hidden">
+      <section id="tab-painel-gestor" class="hidden">
         <div class="flex justify-between items-start">
           <div>
-            <span class="text-[10px] font-bold tracking-[0.2em] text-[#FF6D29] uppercase">Comando da Imobiliária</span>
+            <span class="text-[10px] font-bold tracking-[0.2em] text-[#FFFFFF] uppercase">Comando da Imobiliária</span>
             <h1 class="text-2xl font-black text-white tracking-tight mt-0.5" id="manager-panel-company-name">Estratégia Imobiliária</h1>
             <p class="text-xs text-[#BABABA]">Monitoramento comercial em tempo real da equipe</p>
           </div>
@@ -494,10 +481,10 @@
         </div>
 
         <!-- Placar Geral da Tropa (Consolidado) -->
-        <div class="arounda-card p-4 space-y-3 border-t-2 border-t-[#FF6D29]">
+        <div class="arounda-card p-4 space-y-3 border-t-2 border-t-[#FFFFFF]">
           <div class="flex justify-between items-center text-xs">
             <span class="font-bold text-white uppercase tracking-wider">Execução Geral da Equipe</span>
-            <span class="text-[#FF6D29] font-mono-num font-bold" id="team-active-count-badge">Equipe em Campo</span>
+            <span class="text-[#FFFFFF] font-mono-num font-bold" id="team-active-count-badge">Equipe em Campo</span>
           </div>
 
           <div class="grid grid-cols-3 gap-2 text-center">
@@ -517,21 +504,21 @@
         </div>
 
         <!-- Lista de Corretores (Gestor + Card de Convite Oficial) -->
-        <div class="space-y-2.5">
+        <div class="space-y-2.5" id="team-brokers-list">
           <div class="flex justify-between items-center px-1">
             <h3 class="text-[10px] uppercase tracking-[0.18em] font-extrabold text-[#BABABA]">Membros da Equipe</h3>
-            <span class="text-[10px] text-[#FF6D29] font-bold">Supabase Realtime</span>
+            <span class="text-[10px] text-[#FFFFFF] font-bold">Supabase Realtime</span>
           </div>
 
           <!-- Corretor 1: Gabriel Novaes (Você / Gestor) -->
-          <div class="arounda-card p-3.5 space-y-2 cursor-pointer hover:border-[#FF6D29]/40 transition-all btn-open-broker-drilldown" data-broker="gabriel">
+          <div class="arounda-card p-3.5 space-y-2 cursor-pointer hover:border-[#FFFFFF]/40 transition-all btn-open-broker-drilldown" data-broker="gabriel">
             <div class="flex justify-between items-center">
               <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-full bg-[#FF6D29]/20 border border-[#FF6D29]/40 flex items-center justify-center text-xs font-bold text-[#FF6D29]">GN</div>
+                <div class="w-8 h-8 rounded-full bg-[#FFFFFF]/20 border border-[#FFFFFF]/40 flex items-center justify-center text-xs font-bold text-[#FFFFFF]">GN</div>
                 <div>
                   <h4 class="text-xs font-bold text-white flex items-center gap-1.5">
                     <span id="manager-my-name-tag">Gabriel Novaes</span>
-                    <span class="text-[8px] bg-[#FF6D29]/20 text-[#FF6D29] px-1.5 py-0.2 rounded font-mono-num">GESTOR</span>
+                    <span class="text-[8px] bg-[#FFFFFF]/20 text-[#FFFFFF] px-1.5 py-0.2 rounded font-mono-num">GESTOR</span>
                   </h4>
                   <p class="text-[10px] text-[#BABABA]">Toque para ver seu relatório completo</p>
                 </div>
@@ -557,13 +544,13 @@
           </div>
 
           <!-- Estado Real: Convite para o Corretor da Equipe -->
-          <div class="arounda-card p-4 text-center space-y-3 border border-[#FF6D29]/30 bg-gradient-to-b from-[#201715] to-[#141115]">
-            <div class="w-12 h-12 mx-auto rounded-2xl bg-[#FF6D29]/15 border border-[#FF6D29]/30 flex items-center justify-center text-2xl text-[#FF6D29]">
+          <div class="arounda-card p-4 text-center space-y-3 border border-[#FFFFFF]/30 bg-gradient-to-b from-[#201715] to-[#141115]">
+            <div class="w-12 h-12 mx-auto rounded-2xl bg-[#FFFFFF]/15 border border-[#FFFFFF]/30 flex items-center justify-center text-2xl text-[#FFFFFF]">
               👥
             </div>
             
             <div>
-              <span class="inline-block text-[9px] uppercase tracking-wider font-extrabold text-[#FF6D29] bg-[#FF6D29]/10 px-2 py-0.5 rounded-full border border-[#FF6D29]/30">Link Oficial da Equipe</span>
+              <span class="inline-block text-[9px] uppercase tracking-wider font-extrabold text-[#FFFFFF] bg-[#FFFFFF]/10 px-2 py-0.5 rounded-full border border-[#FFFFFF]/30">Link Oficial da Equipe</span>
               <h4 class="text-sm font-extrabold text-white mt-1">Conectar Corretor</h4>
               <p class="text-xs text-[#BABABA] mt-1 leading-relaxed">
                 Envie o link abaixo para seus corretores conectarem o funil à <strong class="text-white" id="empty-state-company-name">sua equipe</strong>. Ao entrar por ele, o corretor tem a aba de gestão oculta automaticamente.
@@ -572,14 +559,14 @@
 
             <!-- Caixa de Link Limpa e Clicável -->
             <div class="pt-0.5">
-              <a id="link-anchor-broker-invite" href="https://mycorretor.vercel.app?cargo=corretor" target="_blank" class="block w-full py-2.5 px-3 bg-black/60 border border-[#FF6D29]/40 rounded-xl hover:border-[#FF6D29] transition-all text-center font-mono text-xs text-[#FFAE33] font-bold break-all hover:underline" title="Toque para testar link">
+              <button type="button" id="link-anchor-broker-invite" class="block w-full py-2.5 px-3 bg-black/60 border border-white/20 rounded-xl hover:border-white/40 transition-all text-center font-mono text-xs text-white font-bold break-all" title="Toque para testar a visão de corretor nesta versão nova">
                 <span id="display-broker-invite-link">https://mycorretor.vercel.app?cargo=corretor</span>
-              </a>
+              </button>
             </div>
 
             <!-- Botões de Ação -->
             <div class="space-y-2 pt-1">
-              <button id="btn-copy-team-invite" class="w-full py-2.5 rounded-full bg-[#FF6D29] text-white font-black text-xs hover:bg-[#FFAE33] transition-all flex items-center justify-center gap-1.5 shadow-md active:scale-95">
+              <button id="btn-copy-team-invite" class="w-full py-2.5 rounded-full bg-[#2C2C2E] hover:bg-[#3A3A3C] text-white border border-white/20 font-black text-xs hover:bg-[#EBEBF5] transition-all flex items-center justify-center gap-1.5 shadow-md active:scale-95">
                 <span>🔗</span>
                 <span>Copiar Link de Convite da Equipe</span>
               </button>
@@ -597,7 +584,7 @@
       <section id="tab-progresso" class="space-y-4 hidden">
         <div class="flex justify-between items-start">
           <div>
-            <span class="text-[10px] font-bold tracking-[0.2em] text-[#FF6D29] uppercase">Auditoria Individual</span>
+            <span class="text-[10px] font-bold tracking-[0.2em] text-[#FFFFFF] uppercase">Auditoria Individual</span>
             <h1 class="text-2xl font-black text-white tracking-tight mt-0.5">Progresso</h1>
             <p class="text-xs text-[#BABABA]">Você vs você mesmo. O resultado segue a ação.</p>
           </div>
@@ -609,7 +596,7 @@
         </div>
 
         <div class="flex bg-[#161215] p-1 rounded-2xl border border-white/5">
-          <button class="period-tab flex-1 py-1.5 text-xs font-bold rounded-xl bg-[#FF6D29] text-white shadow-md transition-all" data-period="semana">Semana</button>
+          <button class="period-tab flex-1 py-1.5 text-xs font-bold rounded-xl bg-[#2C2C2E] hover:bg-[#3A3A3C] text-white border border-white/20 shadow-md transition-all" data-period="semana">Semana</button>
           <button class="period-tab flex-1 py-1.5 text-xs font-medium text-[#BABABA] rounded-xl hover:text-white transition-all" data-period="mes">Mês</button>
           <button class="period-tab flex-1 py-1.5 text-xs font-medium text-[#BABABA] rounded-xl hover:text-white transition-all" data-period="ano">Ano</button>
         </div>
@@ -617,7 +604,7 @@
         <!-- Intervalo de Datas Real de Segunda a Domingo -->
         <div class="flex items-center justify-between text-[10px] text-[#BABABA] font-mono-num bg-white/5 py-1.5 px-3 rounded-xl border border-white/5">
           <span class="flex items-center gap-1.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-[#FF6D29]"></span>
+            <span class="w-1.5 h-1.5 rounded-full bg-[#FFFFFF]"></span>
             <span id="progress-date-range-badge">Semana: 09/11 a 15/11 (Seg a Dom)</span>
           </span>
           <span class="text-[#BABABA]/60">Ciclo Semanal</span>
@@ -627,15 +614,15 @@
           <div class="flex justify-between items-center mb-3">
             <div>
               <div class="flex items-center gap-1.5">
-                <span class="w-2 h-2 rounded-full bg-[#FF6D29]"></span>
+                <span class="w-2 h-2 rounded-full bg-[#FFFFFF]"></span>
                 <h3 class="text-xs font-bold text-white uppercase tracking-wide">Volume de Execução</h3>
               </div>
               <p class="text-[10px] text-[#BABABA]">Sincronizado automaticamente com suas missões</p>
             </div>
             
             <div class="flex items-center gap-2">
-              <span class="text-xs font-mono-num font-black text-[#FF6D29]" id="total-actions-volume-label">0 ações</span>
-              <button id="btn-edit-volume-values" class="text-[10px] text-[#FF6D29] font-bold bg-[#FF6D29]/10 px-2 py-1 rounded-lg border border-[#FF6D29]/30 hover:bg-[#FF6D29]/20" title="Editar números">
+              <span class="text-xs font-mono-num font-black text-[#FFFFFF]" id="total-actions-volume-label">0 ações</span>
+              <button id="btn-edit-volume-values" class="text-[10px] text-[#FFFFFF] font-bold bg-[#FFFFFF]/10 px-2 py-1 rounded-lg border border-[#FFFFFF]/30 hover:bg-[#FFFFFF]/20" title="Editar números">
                 Editar
               </button>
             </div>
@@ -666,14 +653,14 @@
 
         <div class="arounda-card p-4 relative overflow-hidden">
           <div class="flex justify-between items-center mb-1">
-            <span class="text-[10px] uppercase font-extrabold tracking-wider text-[#FF6D29]">Cheque do Futuro</span>
+            <span class="text-[10px] uppercase font-bold text-[#8E8E93] tracking-wider block">Antes de tudo, defina o seu sucesso</span><span class="text-xs font-bold text-white">Cheque do Futuro</span>
             <span class="text-[11px] font-mono-num text-[#BABABA]" id="progress-cheque-date">Dezembro / 2026</span>
           </div>
           <div class="text-xl font-black text-white tracking-tight font-mono-num" id="progress-cheque-val">R$ 50.000,00</div>
           <p class="text-[11px] text-[#BABABA] mt-1 italic">"Não persigo o dinheiro. Persigo as ações."</p>
           
           <div class="mt-3 pt-3 border-t border-white/5 flex justify-between items-center text-[10px]">
-            <span class="font-bold text-[#FF6D29]" id="progress-month-elapsed-text">27% do mês percorrido</span>
+            <span class="font-bold text-[#FFFFFF]" id="progress-month-elapsed-text">27% do mês percorrido</span>
             <span class="text-[#BABABA]" id="progress-meta-achieved-text">0% da meta atingida</span>
           </div>
         </div>
@@ -682,11 +669,11 @@
       <!-- ================= ABA 3: CONQUISTAS ================= -->
       <section id="tab-conquistas" class="space-y-4 hidden">
         <div>
-          <span class="text-[10px] font-bold tracking-[0.2em] text-[#FF6D29] uppercase">Quadro de Honra & Serviço</span>
+          <span class="text-[10px] font-bold tracking-[0.2em] text-[#FFFFFF] uppercase">Quadro de Honra & Serviço</span>
           <h1 class="text-2xl font-black text-white tracking-tight mt-0.5">Conquistas de Serviço</h1>
           <div class="flex justify-between items-center text-xs mt-1">
             <span class="text-[#BABABA]">Insígnias reais dos 4 pilares e consistência</span>
-            <span class="text-[#FF6D29] font-bold font-mono-num" id="badge-count-label">0 de 18 condecorações</span>
+            <span class="text-[#FFFFFF] font-bold font-mono-num" id="badge-count-label">0 de 18 condecorações</span>
           </div>
         </div>
 
@@ -695,7 +682,7 @@
         </div>
 
         <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
-          <button class="badge-filter px-3 py-1 rounded-full text-xs font-bold bg-[#FF6D29] text-white whitespace-nowrap shadow-md" data-cat="todas">Todas</button>
+          <button class="badge-filter px-3 py-1 rounded-full text-xs font-bold bg-[#2C2C2E] hover:bg-[#3A3A3C] text-white border border-white/20 whitespace-nowrap shadow-md" data-cat="todas">Todas</button>
           <button class="badge-filter px-3 py-1 rounded-full text-xs font-semibold text-[#BABABA] bg-white/5 border border-white/5 whitespace-nowrap hover:text-white" data-cat="Execução">Execução</button>
           <button class="badge-filter px-3 py-1 rounded-full text-xs font-semibold text-[#BABABA] bg-white/5 border border-white/5 whitespace-nowrap hover:text-white" data-cat="Constância">Constância</button>
           <button class="badge-filter px-3 py-1 rounded-full text-xs font-semibold text-[#BABABA] bg-white/5 border border-white/5 whitespace-nowrap hover:text-white" data-cat="Performance">Performance</button>
@@ -716,10 +703,10 @@
         <div class="arounda-card p-4 relative">
           <div class="flex items-center gap-3.5">
             <div class="relative group">
-              <div id="profile-avatar-display" class="w-16 h-16 rounded-2xl bg-gradient-to-b from-[#3a2015] to-[#1a1216] border-2 border-[#FF6D29] flex items-center justify-center text-xl font-black text-[#FF6D29] shadow-lg overflow-hidden shrink-0">
+              <div id="profile-avatar-display" class="w-16 h-16 rounded-2xl bg-gradient-to-b from-[#3a2015] to-[#1a1216] border-2 border-[#FFFFFF] flex items-center justify-center text-xl font-black text-[#FFFFFF] shadow-lg overflow-hidden shrink-0">
                 GN
               </div>
-              <button id="btn-change-photo" class="absolute -bottom-1.5 -right-1.5 bg-[#FF6D29] text-white p-1.5 rounded-lg shadow-md hover:scale-105 transition-all" title="Trocar Foto">
+              <button id="btn-change-photo" class="absolute -bottom-1.5 -right-1.5 bg-[#2C2C2E] hover:bg-[#3A3A3C] text-white border border-white/20 p-1.5 rounded-lg shadow-md hover:scale-105 transition-all" title="Trocar Foto">
                 <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
               </button>
               <input type="file" id="photo-file-input" accept="image/*" class="hidden">
@@ -728,37 +715,50 @@
             <div class="flex-1 min-w-0">
               <div class="flex justify-between items-start">
                 <h2 class="text-base font-extrabold text-white truncate" id="profile-name-text">Gabriel Novaes</h2>
-                <button id="btn-edit-profile-info" class="text-[10px] text-[#FF6D29] font-bold hover:underline">Editar</button>
+                <button id="btn-edit-profile-info" class="text-[10px] text-[#FFFFFF] font-bold hover:underline">Editar</button>
               </div>
               <p class="text-xs text-[#BABABA] flex items-center gap-1 mt-0.5 truncate">
-                <svg class="w-3 h-3 text-[#FF6D29] shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                <svg class="w-3 h-3 text-[#FFFFFF] shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                 <span id="profile-city-text">Ilhéus, BA</span>
               </p>
               <div class="flex items-center gap-1.5 mt-1.5 flex-wrap">
                 <span class="inline-flex items-center gap-1 text-[9px] uppercase tracking-wider font-extrabold text-white bg-white/10 border border-white/15 px-2 py-0.5 rounded-full" id="profile-company-tag">
                   🏢 <span id="profile-company-text">Estratégia Imobiliária</span>
                 </span>
-                <span class="inline-block text-[9px] uppercase tracking-wider font-extrabold text-[#FF6D29] bg-[#FF6D29]/10 border border-[#FF6D29]/30 px-2 py-0.5 rounded-full" id="profile-mode-tag">
+                <span class="inline-block text-[9px] uppercase tracking-wider font-extrabold text-[#FFFFFF] bg-[#FFFFFF]/10 border border-[#FFFFFF]/30 px-2 py-0.5 rounded-full" id="profile-mode-tag">
                   Modo Completo
                 </span>
-                <span class="inline-block text-[9px] uppercase tracking-wider font-extrabold text-[#FF6D29] bg-[#FF6D29]/15 border border-[#FF6D29]/40 px-2 py-0.5 rounded-full" id="profile-role-tag">
-                  👑 Gestor da Equipe
+                <span class="inline-block text-[9px] uppercase tracking-wider font-extrabold text-[#FFFFFF] bg-[#FFFFFF]/15 border border-[#FFFFFF]/40 px-2 py-0.5 rounded-full" id="profile-role-tag">
+                  👑 Membro Fundador
                 </span>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Nível de Acesso (Gestor vs Corretor) -->
-        <div class="arounda-card p-3.5 flex justify-between items-center border border-white/10" id="profile-role-switcher-card">
-          <div class="space-y-0.5">
-            <span class="text-[9px] uppercase tracking-wider font-extrabold text-[#BABABA] block">Seu Nível de Acesso</span>
-            <span class="text-xs font-bold text-white block" id="profile-role-status-desc">Gestor (Painel da Equipe Liberado)</span>
+        <!-- Painel de Membro Fundador & PIN de Gestão -->
+        <div class="arounda-card p-4 border border-white/10 space-y-2.5" id="founder-panel-card">
+          <div class="flex justify-between items-center">
+            <div>
+              <span class="text-[9px] uppercase font-bold text-[#8E8E93] tracking-wider block">Acesso de Comando</span>
+              <h4 class="text-xs font-bold text-white flex items-center gap-1.5 mt-0.5">
+                <span>👑</span> <span>Membro Fundador</span>
+              </h4>
+            </div>
+            <button id="btn-unlock-founder-pin" class="text-xs font-semibold px-3 py-1.5 rounded-xl bg-[#2C2C2E] hover:bg-[#3A3A3C] text-white border border-white/20 transition-all flex items-center gap-1.5 active:scale-95 shadow-sm">
+              <span id="founder-lock-icon">🔒</span>
+              <span id="founder-lock-label">Desbloquear Gestão</span>
+            </button>
           </div>
-          <button id="btn-toggle-role-test" class="text-[10px] font-bold px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 hover:border-[#FF6D29] text-[#FF6D29] transition-all active:scale-95 flex items-center gap-1">
-            <span>🔄</span>
-            <span id="btn-toggle-role-label">Testar como Corretor</span>
-          </button>
+          <p class="text-[10px] text-[#8E8E93] leading-relaxed" id="founder-panel-desc">
+            Desbloqueie com seu PIN Mestre (1020) para auditar corretores da Estratégia Imobiliária em tempo real pelo Supabase.
+          </p>
+        </div>
+
+        <!-- Hidden compatibility elements -->
+        <div class="hidden" id="profile-role-switcher-card">
+          <span id="profile-role-status-desc"></span>
+          <button id="btn-toggle-role-test"><span id="btn-toggle-role-label"></span></button>
         </div>
 
         <!-- 3 Métricas -->
@@ -768,7 +768,7 @@
             <p class="text-[9px] text-[#BABABA] uppercase font-bold mt-0.5">Dias no app</p>
           </div>
           <div class="arounda-card p-3">
-            <span class="text-lg font-black text-[#FF6D29] font-mono-num" id="profile-stat-streak">0</span>
+            <span class="text-lg font-black text-[#FFFFFF] font-mono-num" id="profile-stat-streak">0</span>
             <p class="text-[9px] text-[#BABABA] uppercase font-bold mt-0.5">Maior sequência</p>
           </div>
           <div class="arounda-card p-3">
@@ -781,10 +781,10 @@
         <div class="arounda-card p-4 relative">
           <div class="flex justify-between items-start mb-2">
             <div>
-              <span class="text-[10px] uppercase font-extrabold text-[#FF6D29] tracking-wider">Cheque do Futuro</span>
+              <span class="text-[10px] uppercase font-bold text-[#8E8E93] tracking-wider block">Antes de tudo, defina o seu sucesso</span><span class="text-xs font-bold text-white">Cheque do Futuro</span>
               <h4 class="text-lg font-black text-white font-mono-num mt-0.5" id="profile-cheque-val">R$ 50.000,00</h4>
             </div>
-            <button id="btn-edit-cheque" class="text-xs text-[#FF6D29] hover:underline flex items-center gap-1 font-bold">
+            <button id="btn-edit-cheque" class="text-xs text-[#FFFFFF] hover:underline flex items-center gap-1 font-bold">
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
               Editar
             </button>
@@ -793,7 +793,7 @@
           <p class="text-[11px] text-[#BABABA] italic">"Resultados nascem de um sonho claro e atividade alta."</p>
           
           <div class="mt-3 pt-3 border-t border-white/5 flex justify-between items-center text-[10px]">
-            <span class="font-bold text-[#FF6D29]" id="profile-month-elapsed-text">27% do mês percorrido</span>
+            <span class="font-bold text-[#FFFFFF]" id="profile-month-elapsed-text">27% do mês percorrido</span>
             <span class="text-[#BABABA]" id="profile-meta-achieved-text">0% da meta atingida</span>
           </div>
           <div class="mt-2 pt-2 border-t border-white/5 flex justify-between items-center text-[11px]">
@@ -807,13 +807,13 @@
           <div class="flex justify-between items-center mb-3">
             <div>
               <div class="flex items-center gap-1.5">
-                <span class="w-1.5 h-1.5 rounded-full bg-[#FF6D29]"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-[#FFFFFF]"></span>
                 <h4 class="text-xs font-black text-white uppercase tracking-wider">Agenda Programada (APE)</h4>
               </div>
               <p class="text-[10px] text-[#BABABA]">Mini estante de formação do corretor</p>
             </div>
             
-            <button id="btn-add-study-item" class="flex items-center gap-1 text-[11px] font-bold text-[#FF6D29] bg-[#FF6D29]/10 border border-[#FF6D29]/30 px-2.5 py-1 rounded-full hover:bg-[#FF6D29]/20 transition-all active:scale-95">
+            <button id="btn-add-study-item" class="flex items-center gap-1 text-[11px] font-bold text-[#FFFFFF] bg-[#FFFFFF]/10 border border-[#FFFFFF]/30 px-2.5 py-1 rounded-full hover:bg-[#FFFFFF]/20 transition-all active:scale-95">
               <span>+</span>
               <span>Adicionar</span>
             </button>
@@ -821,12 +821,12 @@
 
           <div id="ape-items-container" class="space-y-2.5"></div>
 
-          <button id="btn-open-full-ape" class="w-full mt-3 p-3 rounded-2xl bg-white/5 border border-white/10 hover:border-[#FF6D29]/40 hover:bg-white/10 transition-all flex justify-between items-center text-xs group active:scale-[0.98]">
+          <button id="btn-open-full-ape" class="w-full mt-3 p-3 rounded-2xl bg-white/5 border border-white/10 hover:border-[#FFFFFF]/40 hover:bg-white/10 transition-all flex justify-between items-center text-xs group active:scale-[0.98]">
             <div class="flex items-center gap-2">
-              <span class="w-6 h-6 rounded-lg bg-[#FF6D29]/15 flex items-center justify-center text-[#FF6D29] font-bold">📚</span>
+              <span class="w-6 h-6 rounded-lg bg-[#FFFFFF]/15 flex items-center justify-center text-[#FFFFFF] font-bold">📚</span>
               <span class="font-bold text-white" id="ape-full-count-label">Abrir Estante Completa (3 obras)</span>
             </div>
-            <span class="text-[#FF6D29] font-bold group-hover:translate-x-1 transition-transform">Ver todas →</span>
+            <span class="text-[#FFFFFF] font-bold group-hover:translate-x-1 transition-transform">Ver todas →</span>
           </button>
         </div>
 
@@ -852,7 +852,7 @@
 
           <button class="w-full p-3.5 flex justify-between items-center text-white hover:bg-white/5 transition-colors" id="btn-cfg-onboarding">
             <span>Refazer Tutorial e Onboarding</span>
-            <span class="text-[#FF6D29]">Reiniciar</span>
+            <span class="text-[#FFFFFF]">Reiniciar</span>
           </button>
 
           <button class="w-full p-3.5 flex justify-between items-center text-white hover:bg-white/5 transition-colors" id="btn-cfg-sobre">
@@ -893,34 +893,35 @@
     </nav>
 
     <!-- ================= POP-UP INICIAL DE BOAS-VINDAS (SPLASH MODAL) ================= -->
-    <div id="welcome-splash-modal" class="fixed inset-0 bg-black/90 backdrop-blur-xl z-50 flex items-center justify-center p-5 hidden">
-      <div class="arounda-card w-full max-w-[340px] p-6 relative shadow-2xl border border-white/15 text-center space-y-4">
+    <!-- ================= MODAL DE BOAS-VINDAS INICIAL (ESTILO MARCO AURÉLIO) ================= -->
+    <div id="welcome-splash-modal" class="fixed inset-0 bg-black/95 backdrop-blur-xl z-50 flex items-center justify-center p-5 hidden">
+      <div class="arounda-card w-full max-w-[340px] p-6 relative shadow-2xl border border-white/15 text-center space-y-4 bg-[#1C1C1E]">
         
-        <div class="w-14 h-14 mx-auto rounded-3xl bg-gradient-to-tr from-[#FF6D29] to-[#FFAE33] flex items-center justify-center text-2xl text-white shadow-xl shadow-[#FF6D29]/40">
+        <div class="w-14 h-14 mx-auto rounded-3xl bg-[#2C2C2E] border border-white/20 flex items-center justify-center text-2xl text-white shadow-xl">
           ⚡
         </div>
 
-        <div>
-          <span class="text-[9px] uppercase font-mono-num font-extrabold text-[#FF6D29] tracking-[0.2em] block mb-1">Sistema de Execução Tática</span>
-          <h2 class="text-xl font-black text-white leading-tight">Bem-vindo ao My Corretor</h2>
-          <p class="text-xs text-[#BABABA] mt-2 leading-relaxed">
-            Sua meta mensal, quebrada em ações diárias inegociáveis. Sem enrolação de planilha.
+        <div class="space-y-1.5">
+          <span class="text-[9px] uppercase font-mono-num font-bold text-[#8E8E93] tracking-[0.2em] block">My Corretor • Execução Solo</span>
+          <h2 class="text-lg font-bold text-white leading-snug">"Não perca tempo discutindo o que um bom profissional deve ser. Seja um."</h2>
+          <p class="text-xs text-[#8E8E93] mt-2 leading-relaxed">
+            Você tem poder sobre as suas ações diárias, não sobre os acontecimentos externos. Execute o que está sob o seu controle.
           </p>
         </div>
 
-        <div class="bg-white/5 border border-white/5 p-3 rounded-2xl text-left text-[11px] text-[#BABABA] space-y-1.5">
-          <div class="flex items-center gap-2 text-white font-bold">
-            <span class="text-emerald-400">✓</span> <span>Cálculo estatístico de mercado</span>
+        <div class="bg-black/60 border border-white/10 p-3 rounded-2xl text-left text-[11px] text-[#8E8E93] space-y-2">
+          <div class="flex items-center gap-2 text-white font-medium">
+            <span class="text-emerald-400">✓</span> <span>Ação física de campo, não intenção</span>
           </div>
-          <div class="flex items-center gap-2 text-white font-bold">
-            <span class="text-emerald-400">✓</span> <span>Piso diário, nunca teto</span>
+          <div class="flex items-center gap-2 text-white font-medium">
+            <span class="text-emerald-400">✓</span> <span>Padrões inegociáveis: piso diário</span>
           </div>
-          <div class="flex items-center gap-2 text-white font-bold">
-            <span class="text-emerald-400">✓</span> <span>Sincronizado na nuvem (Supabase)</span>
+          <div class="flex items-center gap-2 text-white font-medium">
+            <span class="text-emerald-400">✓</span> <span>A disciplina de hoje é a venda de amanhã</span>
           </div>
         </div>
 
-        <button id="btn-start-welcome-flow" class="w-full py-3.5 rounded-full bg-[#FF6D29] text-white font-black text-xs hover:bg-[#FFAE33] transition-all shadow-xl shadow-[#FF6D29]/35 active:scale-95 uppercase tracking-wider">
+        <button id="btn-start-welcome-flow" class="w-full py-3.5 rounded-2xl bg-[#2C2C2E] hover:bg-[#3A3A3C] text-white border border-white/20 font-bold text-xs transition-all shadow-lg active:scale-95 uppercase tracking-wider">
           Configurar Minha Operação →
         </button>
       </div>
@@ -932,16 +933,16 @@
       <div class="space-y-4">
         <div class="flex justify-between items-center pt-1 border-b border-white/5 pb-3">
           <div class="flex items-center gap-2">
-            <div class="w-7 h-7 rounded-xl bg-[#FF6D29]/20 border border-[#FF6D29]/40 flex items-center justify-center text-[#FF6D29] font-black text-xs">⚡</div>
+            <div class="w-7 h-7 rounded-xl bg-[#FFFFFF]/20 border border-[#FFFFFF]/40 flex items-center justify-center text-[#FFFFFF] font-black text-xs">⚡</div>
             <h3 class="text-xs font-black text-white uppercase tracking-wider">MY CORRETOR</h3>
           </div>
-          <span class="text-[10px] font-mono-num font-bold text-[#FF6D29] bg-[#FF6D29]/10 px-2.5 py-0.5 rounded-full border border-[#FF6D29]/30" id="onboarding-step-counter">Passo 1 de 3</span>
+          <span class="text-[10px] font-mono-num font-bold text-[#FFFFFF] bg-[#FFFFFF]/10 px-2.5 py-0.5 rounded-full border border-[#FFFFFF]/30" id="onboarding-step-counter">Passo 1 de 3</span>
         </div>
 
         <!-- ETAPA 1: IDENTIFICAÇÃO DO CORRETOR (100% EM BRANCO) -->
         <div id="onboarding-step-1" class="space-y-3">
-          <div class="arounda-card p-4 border-l-4 border-l-[#FF6D29]">
-            <span class="text-[9px] uppercase font-extrabold text-[#FF6D29] tracking-wider block mb-1">Boas-Vindas do Gestor</span>
+          <div class="arounda-card p-4 border-l-4 border-l-[#FFFFFF]">
+            <span class="text-[9px] uppercase font-extrabold text-[#FFFFFF] tracking-wider block mb-1">Boas-Vindas do Gestor</span>
             <h2 class="text-base font-black text-white leading-snug">"O corretor de elite acorda sabendo exatamente o que fazer."</h2>
             <p class="text-xs text-[#BABABA] mt-1.5 leading-relaxed">
               Não somos CRM nem planilha cheia de gráficos. Aqui você acompanha a sua <strong class="text-white">disciplina diária</strong>. O básico é piso, nunca teto.
@@ -953,18 +954,18 @@
             
             <div>
               <label for="onboarding-name" class="text-[10px] font-bold text-[#BABABA] block mb-1">Seu Nome Completo</label>
-              <input type="text" id="onboarding-name" placeholder="Digite seu nome completo..." value="" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-[#FF6D29] outline-none">
+              <input type="text" id="onboarding-name" placeholder="Digite seu nome completo..." value="" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-[#FFFFFF] outline-none">
             </div>
 
             <div class="grid grid-cols-2 gap-2">
               <div>
                 <label for="onboarding-city" class="text-[10px] font-bold text-[#BABABA] block mb-1">Cidade / Praça</label>
-                <input type="text" id="onboarding-city" placeholder="Ex: Ilhéus, BA..." value="" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-[#FF6D29] outline-none">
+                <input type="text" id="onboarding-city" placeholder="Ex: Ilhéus, BA..." value="" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-[#FFFFFF] outline-none">
               </div>
 
               <div>
                 <label for="onboarding-company" class="text-[10px] font-bold text-[#BABABA] block mb-1">Imobiliária / Empresa</label>
-                <input type="text" id="onboarding-company" placeholder="Ex: Estratégia Imobiliária..." value="" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-[#FF6D29] outline-none">
+                <input type="text" id="onboarding-company" placeholder="Ex: Estratégia Imobiliária..." value="" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-[#FFFFFF] outline-none">
               </div>
             </div>
           </div>
@@ -990,19 +991,19 @@
             <div class="grid grid-cols-2 gap-2">
               <div>
                 <label for="onboarding-fat" class="text-[10px] font-bold text-[#BABABA] block mb-1">Meta Faturamento (R$)</label>
-                <input type="number" id="onboarding-fat" placeholder="10000" value="10000" min="1000" step="500" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white font-mono-num focus:border-[#FF6D29] outline-none">
+                <input type="number" id="onboarding-fat" placeholder="10000" value="10000" min="1000" step="500" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white font-mono-num focus:border-[#FFFFFF] outline-none">
               </div>
 
               <div>
                 <label for="onboarding-comissao" class="text-[10px] font-bold text-[#BABABA] block mb-1">Comissão / Venda (R$)</label>
-                <input type="number" id="onboarding-comissao" placeholder="10000" value="10000" min="1000" step="500" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white font-mono-num focus:border-[#FF6D29] outline-none">
+                <input type="number" id="onboarding-comissao" placeholder="10000" value="10000" min="1000" step="500" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white font-mono-num focus:border-[#FFFFFF] outline-none">
               </div>
             </div>
 
             <div class="bg-black/50 border border-white/5 rounded-2xl p-3 space-y-2 text-xs font-mono-num">
               <div class="flex justify-between items-center pb-1 border-b border-white/5">
                 <span class="text-[#BABABA]">01 PROSPECÇÃO (Campo)</span>
-                <span class="text-[#FF6D29] font-bold" id="funil-prospeccao-val">60 contatos (3/dia)</span>
+                <span class="text-[#FFFFFF] font-bold" id="funil-prospeccao-val">60 contatos (3/dia)</span>
               </div>
               <div class="flex justify-between items-center text-[11px]">
                 <span class="text-[#888]">02 ATENDIMENTO (33%)</span>
@@ -1037,74 +1038,76 @@
         </div>
 
         <!-- ETAPA 3: AUTORIDADE DIGITAL & ESCOLHA DO MODO -->
+        <!-- ETAPA 3: MÁQUINA DE CONTEÚDO & CHEQUE DO FUTURO -->
         <div id="onboarding-step-3" class="space-y-3 hidden">
-          <div class="arounda-card p-4 border-l-4 border-l-blue-500">
-            <span class="text-[9px] uppercase font-extrabold text-blue-400 tracking-wider block mb-1">Módulo de Autoridade Digital</span>
-            <h3 class="text-sm font-black text-white">"Autoridade é o que gera lead qualificado de graça."</h3>
-            <p class="text-xs text-[#BABABA] mt-1.5 leading-relaxed">
-              O corretor tradicional passa o dia inteiro ligando para leads frios. O corretor com autoridade atrai investidores porque já educa o público antes do primeiro aperto de mão.
+          <div class="arounda-card p-4 border-l-4 border-l-white bg-[#1C1C1E]">
+            <span class="text-[9px] uppercase font-bold text-[#8E8E93] tracking-wider block mb-1">Máquina de Conteúdo & Presença</span>
+            <h3 class="text-sm font-bold text-white">"Quem não é visto não é lembrado. Quem educa atrai investidores."</h3>
+            <p class="text-xs text-[#8E8E93] mt-1.5 leading-relaxed">
+              Vídeos no feed atraem novos compradores; stories de bastidores sustentam confiança diária.
             </p>
           </div>
 
-          <div class="arounda-card p-4 space-y-2.5">
-            <h4 class="text-xs font-black text-white uppercase tracking-wider">Como o App Mede Autoridade:</h4>
+          <!-- Metas de Conteúdo -->
+          <div class="arounda-card p-4 space-y-3 bg-[#1C1C1E]">
+            <h4 class="text-xs font-bold text-white uppercase tracking-wider">Suas Metas de Conteúdo</h4>
             
-            <div class="bg-white/5 border border-white/5 p-2.5 rounded-xl flex items-start gap-2.5">
-              <span class="text-lg">🧲</span>
-              <div class="text-xs">
-                <strong class="text-white block">O Ímã (Vídeos no Feed):</strong>
-                <span class="text-[#BABABA] text-[11px]">3 vídeos por semana de valorização, matemática e conselho de ouro. É o que atrai pessoas novas.</span>
+            <div class="grid grid-cols-2 gap-2">
+              <div class="bg-black/50 border border-white/10 p-3 rounded-xl">
+                <div class="flex items-center gap-1.5 mb-1">
+                  <span class="text-base">🎬</span>
+                  <span class="text-[10px] font-bold text-white uppercase">Feed Semanal</span>
+                </div>
+                <div class="flex items-center justify-between mt-2">
+                  <span class="text-xs text-[#8E8E93]">Meta:</span>
+                  <span class="text-sm font-bold text-white font-mono-num">3 vídeos/sem</span>
+                </div>
+              </div>
+
+              <div class="bg-black/50 border border-white/10 p-3 rounded-xl">
+                <div class="flex items-center gap-1.5 mb-1">
+                  <span class="text-base">📱</span>
+                  <span class="text-[10px] font-bold text-white uppercase">Stories Diários</span>
+                </div>
+                <div class="flex items-center justify-between mt-2">
+                  <span class="text-xs text-[#8E8E93]">Piso:</span>
+                  <span class="text-sm font-bold text-white font-mono-num">3 stories/dia</span>
+                </div>
               </div>
             </div>
 
-            <div class="bg-white/5 border border-white/5 p-2.5 rounded-xl flex items-start gap-2.5">
-              <span class="text-lg">📱</span>
-              <div class="text-xs">
-                <strong class="text-white block">A Conexão (Stories Diários):</strong>
-                <span class="text-[#BABABA] text-[11px]">Mínimo 3 stories por dia de bastidor real de campo. Constrói confiança e familiaridade.</span>
+            <!-- Cheque do Futuro no Onboarding -->
+            <div class="pt-2 border-t border-white/10">
+              <div class="bg-black/70 border border-white/15 p-3.5 rounded-2xl relative overflow-hidden">
+                <div class="flex justify-between items-start mb-1">
+                  <div>
+                    <span class="text-[9px] uppercase font-bold text-[#8E8E93] tracking-wider block">Antes de tudo, defina o seu sucesso</span>
+                    <h5 class="text-base font-bold text-white font-mono-num mt-0.5" id="onboarding-cheque-preview">R$ 20.000,00</h5>
+                  </div>
+                  <span class="text-[10px] text-emerald-400 font-bold bg-emerald-950/40 border border-emerald-500/40 px-2 py-0.5 rounded-full">Meta Ativa</span>
+                </div>
+                <p class="text-[10px] text-[#8E8E93] italic mt-1">
+                  "Não persigo o dinheiro. Executo os padrões diários que forçam a venda a acontecer."
+                </p>
               </div>
             </div>
 
-            <div class="pt-2 border-t border-white/5">
-              <span class="text-[11px] font-bold text-white block mb-2">Deseja ativar os medidores de Autoridade na sua rotina?</span>
-              
-              <div class="space-y-2">
-                <label class="cursor-pointer arounda-card p-3 flex items-center justify-between border border-[#FF6D29]/40 bg-[#FF6D29]/10 block" id="option-authority-yes">
-                  <div class="flex items-center gap-2.5">
-                    <input type="radio" name="onboarding-authority-mode" value="completo" checked class="text-[#FF6D29] accent-[#FF6D29]">
-                    <div class="text-left">
-                      <span class="text-xs font-black text-white block">Modo Completo (Vendas + Conteúdo)</span>
-                      <span class="text-[10px] text-[#BABABA]">Prospecção, Visitas, Vídeos e Stories</span>
-                    </div>
-                  </div>
-                  <span class="text-[10px] text-[#FF6D29] font-bold font-mono-num">4 Pilares</span>
-                </label>
-
-                <label class="cursor-pointer arounda-card p-3 flex items-center justify-between border border-white/10 bg-white/5 block" id="option-authority-no">
-                  <div class="flex items-center gap-2.5">
-                    <input type="radio" name="onboarding-authority-mode" value="simples" class="text-[#FF6D29] accent-[#FF6D29]">
-                    <div class="text-left">
-                      <span class="text-xs font-black text-white block">Modo Essencial (Apenas Funil Puro)</span>
-                      <span class="text-[10px] text-[#BABABA]">Foco estrito em contatos, visitas e fechamento</span>
-                    </div>
-                  </div>
-                  <span class="text-[10px] text-[#BABABA] font-bold font-mono-num">Funil Puro</span>
-                </label>
-              </div>
+            <!-- Hidden input para compatibilidade -->
+            <div class="hidden">
+              <input type="radio" name="onboarding-authority-mode" value="completo" checked>
             </div>
           </div>
         </div>
-      </div>
 
       <div class="pt-4 pb-1 space-y-2">
         <div class="flex gap-2">
           <button id="btn-onboarding-prev" class="w-1/3 py-3 rounded-full bg-white/5 border border-white/10 text-white font-bold text-xs hover:bg-white/10 transition-all hidden">
             ← Voltar
           </button>
-          <button id="btn-onboarding-next" class="flex-1 py-3.5 rounded-full bg-[#FF6D29] text-white font-black text-xs hover:bg-[#FFAE33] transition-all shadow-xl shadow-[#FF6D29]/30 active:scale-95 uppercase tracking-wider">
+          <button id="btn-onboarding-next" class="flex-1 py-3.5 rounded-full bg-[#2C2C2E] hover:bg-[#3A3A3C] text-white border border-white/20 font-black text-xs hover:bg-[#EBEBF5] transition-all shadow-xl shadow-black/50 active:scale-95 uppercase tracking-wider">
             Avançar para o Funil →
           </button>
-          <button id="btn-finish-onboarding" class="flex-1 py-3.5 rounded-full bg-[#FF6D29] text-white font-black text-xs hover:bg-[#FFAE33] transition-all shadow-xl shadow-[#FF6D29]/30 active:scale-95 uppercase tracking-wider hidden">
+          <button id="btn-finish-onboarding" class="flex-1 py-3.5 rounded-full bg-[#2C2C2E] hover:bg-[#3A3A3C] text-white border border-white/20 font-black text-xs hover:bg-[#EBEBF5] transition-all shadow-xl shadow-black/50 active:scale-95 uppercase tracking-wider hidden">
             Iniciar Minha Missão de Elite →
           </button>
         </div>
@@ -1117,12 +1120,12 @@
       <div class="arounda-card w-full max-w-[340px] p-5 relative shadow-2xl border border-white/10 max-h-[85vh] overflow-y-auto no-scrollbar">
         <button id="close-funnel-explainer" class="absolute top-4 right-4 text-[#BABABA] hover:text-white p-1 font-bold">✕</button>
         
-        <h3 class="text-sm font-black text-[#FF6D29] uppercase tracking-wider">Como Funciona o Funil</h3>
+        <h3 class="text-sm font-black text-[#FFFFFF] uppercase tracking-wider">Como Funciona o Funil</h3>
         <p class="text-xs text-[#BABABA] mt-0.5">As taxas estatísticas do seu planner físico</p>
 
         <div class="mt-4 space-y-2.5 text-xs">
           <div class="bg-white/5 p-2.5 rounded-xl border border-white/5">
-            <strong class="text-[#FF6D29] block">1. Prospecção $\rightarrow$ Atendimento (33%):</strong>
+            <strong class="text-[#FFFFFF] block">1. Prospecção $\rightarrow$ Atendimento (33%):</strong>
             <span class="text-[#BABABA] text-[11px]">De cada 3 contatos de valor que você faz, em média 1 cliente responde e abre conversa.</span>
           </div>
 
@@ -1147,7 +1150,7 @@
           </div>
         </div>
 
-        <button id="btn-close-explainer-ack" class="w-full mt-4 py-2.5 rounded-full bg-[#FF6D29] text-white font-black text-xs hover:bg-[#FFAE33] transition-all">
+        <button id="btn-close-explainer-ack" class="w-full mt-4 py-2.5 rounded-full bg-[#2C2C2E] hover:bg-[#3A3A3C] text-white border border-white/20 font-black text-xs hover:bg-[#EBEBF5] transition-all">
           Entendido, Voltar ao Funil
         </button>
       </div>
@@ -1158,12 +1161,12 @@
       <div class="arounda-card w-full max-w-[340px] p-5 relative shadow-2xl border border-white/10 text-left">
         <button id="close-pillar-info-modal" class="absolute top-4 right-4 text-[#BABABA] hover:text-white p-1 font-bold">✕</button>
         
-        <span class="text-[9px] font-mono-num font-bold uppercase tracking-wider text-[#FF6D29]" id="pillar-modal-tag">Pilar Inegociável</span>
+        <span class="text-[9px] font-mono-num font-bold uppercase tracking-wider text-[#FFFFFF]" id="pillar-modal-tag">Pilar Inegociável</span>
         <h3 class="text-base font-black text-white mt-1" id="pillar-modal-title">O Campo de Batalha</h3>
 
         <div class="mt-4 space-y-3 text-xs">
           <div class="bg-white/5 p-3 rounded-2xl border border-white/5">
-            <span class="text-[10px] font-extrabold text-[#FF6D29] uppercase tracking-wider block mb-1">Definição Técnica:</span>
+            <span class="text-[10px] font-extrabold text-[#FFFFFF] uppercase tracking-wider block mb-1">Definição Técnica:</span>
             <p class="text-white text-xs leading-relaxed" id="pillar-modal-def">Primeiro contato intencional com o cliente via WhatsApp ou ligação.</p>
           </div>
 
@@ -1178,7 +1181,7 @@
           </div>
         </div>
 
-        <button id="btn-close-pillar-modal-ack" class="w-full mt-4 py-2.5 rounded-full bg-[#FF6D29] text-white font-black text-xs hover:bg-[#FFAE33] transition-all">
+        <button id="btn-close-pillar-modal-ack" class="w-full mt-4 py-2.5 rounded-full bg-[#2C2C2E] hover:bg-[#3A3A3C] text-white border border-white/20 font-black text-xs hover:bg-[#EBEBF5] transition-all">
           Entendido
         </button>
       </div>
@@ -1190,7 +1193,7 @@
         <button id="close-broker-drilldown-modal" class="absolute top-4 right-4 text-[#BABABA] hover:text-white p-1 font-bold text-base">✕</button>
         
         <div class="flex items-center gap-3 pb-3 border-b border-white/10">
-          <div id="drilldown-broker-avatar" class="w-11 h-11 rounded-2xl bg-[#FF6D29]/20 border border-[#FF6D29]/40 flex items-center justify-center text-sm font-black text-[#FF6D29]">
+          <div id="drilldown-broker-avatar" class="w-11 h-11 rounded-2xl bg-[#FFFFFF]/20 border border-[#FFFFFF]/40 flex items-center justify-center text-sm font-black text-[#FFFFFF]">
             JS
           </div>
           <div>
@@ -1202,7 +1205,7 @@
         <!-- Seletor de Período do Corretor -->
         <div class="mt-3 space-y-2">
           <div class="flex bg-[#161215] p-1 rounded-2xl border border-white/5">
-            <button class="broker-period-tab flex-1 py-1 text-xs font-bold rounded-xl bg-[#FF6D29] text-white transition-all" data-period="semana">Semana</button>
+            <button class="broker-period-tab flex-1 py-1 text-xs font-bold rounded-xl bg-[#2C2C2E] hover:bg-[#3A3A3C] text-white border border-white/20 transition-all" data-period="semana">Semana</button>
             <button class="broker-period-tab flex-1 py-1 text-xs font-medium text-[#BABABA] rounded-xl hover:text-white transition-all" data-period="mes">Mês</button>
             <button class="broker-period-tab flex-1 py-1 text-xs font-medium text-[#BABABA] rounded-xl hover:text-white transition-all" data-period="ano">Ano</button>
           </div>
@@ -1223,7 +1226,7 @@
         <!-- Cheque do Futuro do Corretor -->
         <div class="mt-4 p-3 rounded-2xl bg-black/40 border border-white/5">
           <div class="flex justify-between items-center text-[10px]">
-            <span class="uppercase font-bold text-[#FF6D29]">Cheque do Corretor</span>
+            <span class="uppercase font-bold text-[#FFFFFF]">Cheque do Corretor</span>
             <span class="font-mono-num text-[#BABABA]" id="drilldown-cheque-pct">50% alcançado</span>
           </div>
           <div class="text-base font-black text-white font-mono-num mt-0.5" id="drilldown-cheque-val">R$ 20.000,00</div>
@@ -1245,7 +1248,7 @@
       <div class="arounda-card w-full max-w-[360px] p-5 relative shadow-2xl border border-white/10 max-h-[85vh] flex flex-col">
         <div class="flex justify-between items-center pb-3 border-b border-white/10">
           <div>
-            <h3 class="text-sm font-black text-[#FF6D29] uppercase tracking-wider">Estante APE Completa</h3>
+            <h3 class="text-sm font-black text-[#FFFFFF] uppercase tracking-wider">Estante APE Completa</h3>
             <p class="text-xs text-[#BABABA]">Gerencie, exclua ou alterne seus estudos</p>
           </div>
           <button id="close-full-ape-modal" class="text-[#BABABA] hover:text-white p-1 font-bold text-base">✕</button>
@@ -1254,7 +1257,7 @@
         <div id="ape-full-list-container" class="flex-1 overflow-y-auto no-scrollbar py-3 space-y-2.5"></div>
 
         <div class="pt-3 border-t border-white/10 flex gap-2">
-          <button id="btn-add-from-full-ape" class="flex-1 py-2.5 rounded-full bg-[#FF6D29] text-white font-black text-xs hover:bg-[#FFAE33] transition-all active:scale-95 shadow-md flex items-center justify-center gap-1.5">
+          <button id="btn-add-from-full-ape" class="flex-1 py-2.5 rounded-full bg-[#2C2C2E] hover:bg-[#3A3A3C] text-white border border-white/20 font-black text-xs hover:bg-[#EBEBF5] transition-all active:scale-95 shadow-md flex items-center justify-center gap-1.5">
             <span>+</span>
             <span>Adicionar Novo Livro ou Curso</span>
           </button>
@@ -1267,27 +1270,27 @@
       <div class="arounda-card w-full max-w-[340px] p-5 relative shadow-2xl border border-white/10">
         <button id="close-custom-mission-modal" class="absolute top-4 right-4 text-[#BABABA] hover:text-white p-1 font-bold">✕</button>
         
-        <h3 class="text-sm font-black text-[#FF6D29] uppercase tracking-wider">Nova Missão Complementar</h3>
+        <h3 class="text-sm font-black text-[#FFFFFF] uppercase tracking-wider">Nova Missão Complementar</h3>
         <p class="text-xs text-[#BABABA] mt-0.5">Ela entrará na Missão e no Volume de Execução</p>
 
         <form id="custom-mission-form" class="mt-4 space-y-3">
           <div>
             <label for="input-mission-title" class="text-[11px] font-bold text-[#BABABA] block mb-1">Título da Ação</label>
-            <input type="text" id="input-mission-title" required placeholder="Ex: Captação de Avaliação Imobiliária" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white focus:border-[#FF6D29] outline-none">
+            <input type="text" id="input-mission-title" required placeholder="Ex: Captação de Avaliação Imobiliária" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white focus:border-[#FFFFFF] outline-none">
           </div>
 
           <div>
             <label for="input-mission-desc" class="text-[11px] font-bold text-[#BABABA] block mb-1">Descrição / Instrução</label>
-            <input type="text" id="input-mission-desc" required placeholder="Ex: Laudo técnico para investidor" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white focus:border-[#FF6D29] outline-none">
+            <input type="text" id="input-mission-desc" required placeholder="Ex: Laudo técnico para investidor" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white focus:border-[#FFFFFF] outline-none">
           </div>
 
           <div>
             <label for="input-mission-target" class="text-[11px] font-bold text-[#BABABA] block mb-1">Meta Numérica</label>
-            <input type="number" id="input-mission-target" min="1" value="2" required class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white font-mono-num focus:border-[#FF6D29] outline-none">
+            <input type="number" id="input-mission-target" min="1" value="2" required class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white font-mono-num focus:border-[#FFFFFF] outline-none">
           </div>
 
           <div class="pt-2">
-            <button type="submit" class="w-full py-2.5 rounded-full bg-[#FF6D29] text-white font-black text-xs hover:bg-[#FFAE33] transition-all active:scale-95 shadow-lg shadow-[#FF6D29]/30">
+            <button type="submit" class="w-full py-2.5 rounded-full bg-[#2C2C2E] hover:bg-[#3A3A3C] text-white border border-white/20 font-black text-xs hover:bg-[#EBEBF5] transition-all active:scale-95 shadow-lg shadow-black/50">
               Criar Missão
             </button>
           </div>
@@ -1300,14 +1303,14 @@
       <div class="arounda-card w-full max-w-[340px] p-5 relative shadow-2xl border border-white/10 max-h-[85vh] overflow-y-auto no-scrollbar">
         <button id="close-volume-edit-modal" class="absolute top-4 right-4 text-[#BABABA] hover:text-white p-1 font-bold">✕</button>
         
-        <h3 class="text-sm font-black text-[#FF6D29] uppercase tracking-wider">Ajustar Volume de Execução</h3>
+        <h3 class="text-sm font-black text-[#FFFFFF] uppercase tracking-wider">Ajustar Volume de Execução</h3>
         <p class="text-xs text-[#BABABA] mt-0.5">Corrija os valores realizados no período</p>
 
         <form id="volume-edit-form" class="mt-4 space-y-3">
           <div id="volume-edit-inputs-container" class="space-y-2.5"></div>
 
           <div class="pt-2">
-            <button type="submit" class="w-full py-2.5 rounded-full bg-[#FF6D29] text-white font-black text-xs hover:bg-[#FFAE33] transition-all active:scale-95 shadow-lg">
+            <button type="submit" class="w-full py-2.5 rounded-full bg-[#2C2C2E] hover:bg-[#3A3A3C] text-white border border-white/20 font-black text-xs hover:bg-[#EBEBF5] transition-all active:scale-95 shadow-lg">
               Salvar Ajustes de Volume
             </button>
           </div>
@@ -1320,21 +1323,21 @@
       <div class="arounda-card w-full max-w-[340px] p-5 relative shadow-2xl border border-white/10">
         <button id="close-ape-modal" class="absolute top-4 right-4 text-[#BABABA] hover:text-white p-1 font-bold">✕</button>
         
-        <h3 class="text-sm font-black text-[#FF6D29] uppercase tracking-wider">Adicionar à Agenda (APE)</h3>
+        <h3 class="text-sm font-black text-[#FFFFFF] uppercase tracking-wider">Adicionar à Agenda (APE)</h3>
         <p class="text-xs text-[#BABABA] mt-0.5">Busque um livro clássico ou digite seu curso</p>
 
         <form id="ape-form" class="mt-4 space-y-3">
           <div>
             <label for="input-ape-title" class="text-[11px] font-bold text-[#BABABA] block mb-1">Título da Obra ou Formação</label>
-            <input type="text" id="input-ape-title" required placeholder="Digite ex: Bíblia das Vendas" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-[#FF6D29] outline-none">
+            <input type="text" id="input-ape-title" required placeholder="Digite ex: Bíblia das Vendas" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-[#FFFFFF] outline-none">
           </div>
 
           <div>
             <span class="text-[10px] text-[#BABABA] uppercase font-bold block mb-1.5">Sugestões com Capa:</span>
             <div class="flex flex-wrap gap-1.5">
-              <button type="button" class="preset-book-btn text-[10px] bg-white/5 border border-white/10 px-2 py-1 rounded text-[#BABABA] hover:border-[#FF6D29] hover:text-white" data-title="Bíblia das Vendas" data-author="Jeffrey Gitomer" data-color="#b91c1c">Bíblia das Vendas</button>
-              <button type="button" class="preset-book-btn text-[10px] bg-white/5 border border-white/10 px-2 py-1 rounded text-[#BABABA] hover:border-[#FF6D29] hover:text-white" data-title="Receita Previsível" data-author="Aaron Ross" data-color="#1e3a8a">Receita Previsível</button>
-              <button type="button" class="preset-book-btn text-[10px] bg-white/5 border border-white/10 px-2 py-1 rounded text-[#BABABA] hover:border-[#FF6D29] hover:text-white" data-title="As Armas da Persuasão" data-author="Robert Cialdini" data-color="#78350f">Armas da Persuasão</button>
+              <button type="button" class="preset-book-btn text-[10px] bg-white/5 border border-white/10 px-2 py-1 rounded text-[#BABABA] hover:border-[#FFFFFF] hover:text-white" data-title="Bíblia das Vendas" data-author="Jeffrey Gitomer" data-color="#b91c1c">Bíblia das Vendas</button>
+              <button type="button" class="preset-book-btn text-[10px] bg-white/5 border border-white/10 px-2 py-1 rounded text-[#BABABA] hover:border-[#FFFFFF] hover:text-white" data-title="Receita Previsível" data-author="Aaron Ross" data-color="#1e3a8a">Receita Previsível</button>
+              <button type="button" class="preset-book-btn text-[10px] bg-white/5 border border-white/10 px-2 py-1 rounded text-[#BABABA] hover:border-[#FFFFFF] hover:text-white" data-title="As Armas da Persuasão" data-author="Robert Cialdini" data-color="#78350f">Armas da Persuasão</button>
             </div>
           </div>
 
@@ -1345,7 +1348,7 @@
                 <input type="radio" name="ape-status" value="afazer" class="hidden" checked>
                 Irei Fazer
               </label>
-              <label class="cursor-pointer text-center p-2 rounded-xl border border-white/10 bg-white/5 text-[10px] font-bold text-[#BABABA] has-[:checked]:border-[#FF6D29] has-[:checked]:bg-[#FF6D29]/20 has-[:checked]:text-[#FF6D29]">
+              <label class="cursor-pointer text-center p-2 rounded-xl border border-white/10 bg-white/5 text-[10px] font-bold text-[#BABABA] has-[:checked]:border-[#FFFFFF] has-[:checked]:bg-[#FFFFFF]/20 has-[:checked]:text-[#FFFFFF]">
                 <input type="radio" name="ape-status" value="fazendo" class="hidden">
                 Fazendo
               </label>
@@ -1357,7 +1360,7 @@
           </div>
 
           <div class="pt-2">
-            <button type="submit" class="w-full py-2.5 rounded-full bg-[#FF6D29] text-white font-black text-xs hover:bg-[#FFAE33] transition-all active:scale-95 shadow-lg">
+            <button type="submit" class="w-full py-2.5 rounded-full bg-[#2C2C2E] hover:bg-[#3A3A3C] text-white border border-white/20 font-black text-xs hover:bg-[#EBEBF5] transition-all active:scale-95 shadow-lg">
               Registrar na Estante
             </button>
           </div>
@@ -1370,13 +1373,13 @@
       <div class="arounda-card w-full max-w-[340px] p-5 relative shadow-2xl border border-white/10">
         <button id="close-notif-modal" class="absolute top-4 right-4 text-[#BABABA] hover:text-white p-1 font-bold">✕</button>
         
-        <h3 class="text-sm font-black text-[#FF6D29] uppercase tracking-wider">Alertas do Treinador</h3>
+        <h3 class="text-sm font-black text-[#FFFFFF] uppercase tracking-wider">Alertas do Treinador</h3>
         <p class="text-xs text-[#BABABA] mt-0.5">Lembretes automáticos no horário de campo</p>
 
         <div class="mt-4 space-y-3">
           <div class="bg-white/5 border border-white/10 p-3 rounded-2xl">
             <div class="flex justify-between items-center mb-1">
-              <span class="text-xs font-black text-[#FF6D29] font-mono-num">09:00 — Início do Campo</span>
+              <span class="text-xs font-black text-[#FFFFFF] font-mono-num">09:00 — Início do Campo</span>
               <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
             </div>
             <p class="text-[11px] text-[#BABABA] leading-snug">
@@ -1386,7 +1389,7 @@
 
           <div class="bg-white/5 border border-white/10 p-3 rounded-2xl">
             <div class="flex justify-between items-center mb-1">
-              <span class="text-xs font-black text-[#FF6D29] font-mono-num">17:00 — Fechamento Comercial</span>
+              <span class="text-xs font-black text-[#FFFFFF] font-mono-num">17:00 — Fechamento Comercial</span>
               <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
             </div>
             <p class="text-[11px] text-[#BABABA] leading-snug">
@@ -1395,7 +1398,7 @@
           </div>
         </div>
 
-        <button id="btn-save-notif" class="w-full mt-4 py-2.5 rounded-full bg-[#FF6D29] text-white font-black text-xs hover:bg-[#FFAE33] transition-all shadow-md">
+        <button id="btn-save-notif" class="w-full mt-4 py-2.5 rounded-full bg-[#2C2C2E] hover:bg-[#3A3A3C] text-white border border-white/20 font-black text-xs hover:bg-[#EBEBF5] transition-all shadow-md">
           Confirmar Horários Ativos
         </button>
       </div>
@@ -1406,27 +1409,27 @@
       <div class="arounda-card w-full max-w-[320px] p-5 relative shadow-2xl border border-white/10">
         <button id="close-profile-modal" class="absolute top-4 right-4 text-[#BABABA] hover:text-white p-1 font-bold">✕</button>
         
-        <h3 class="text-sm font-black text-[#FF6D29] uppercase tracking-wider">Editar Perfil</h3>
+        <h3 class="text-sm font-black text-[#FFFFFF] uppercase tracking-wider">Editar Perfil</h3>
         <p class="text-xs text-[#BABABA] mt-0.5">Seus dados como corretor</p>
 
         <form id="profile-edit-form" class="mt-4 space-y-3">
           <div>
             <label for="input-profile-name" class="text-[11px] font-bold text-[#BABABA] block mb-1">Nome Completo</label>
-            <input type="text" id="input-profile-name" value="Gabriel Novaes" required class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-[#FF6D29] outline-none">
+            <input type="text" id="input-profile-name" value="Gabriel Novaes" required class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-[#FFFFFF] outline-none">
           </div>
 
           <div>
             <label for="input-profile-city" class="text-[11px] font-bold text-[#BABABA] block mb-1">Cidade / Praça</label>
-            <input type="text" id="input-profile-city" value="Ilhéus, BA" required class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-[#FF6D29] outline-none">
+            <input type="text" id="input-profile-city" value="Ilhéus, BA" required class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-[#FFFFFF] outline-none">
           </div>
 
           <div>
             <label for="input-profile-company" class="text-[11px] font-bold text-[#BABABA] block mb-1">Imobiliária / Empresa</label>
-            <input type="text" id="input-profile-company" value="Estratégia Imobiliária" required class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-[#FF6D29] outline-none">
+            <input type="text" id="input-profile-company" value="Estratégia Imobiliária" required class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:border-[#FFFFFF] outline-none">
           </div>
 
           <div class="pt-2">
-            <button type="submit" class="w-full py-2.5 rounded-full bg-[#FF6D29] text-white font-black text-xs hover:bg-[#FFAE33] transition-all active:scale-95 shadow-md">
+            <button type="submit" class="w-full py-2.5 rounded-full bg-[#2C2C2E] hover:bg-[#3A3A3C] text-white border border-white/20 font-black text-xs hover:bg-[#EBEBF5] transition-all active:scale-95 shadow-md">
               Salvar Alterações
             </button>
           </div>
@@ -1441,11 +1444,11 @@
         
         <div id="modal-badge-icon" class="w-24 h-24 mx-auto mb-3 flex items-center justify-center"></div>
 
-        <span id="modal-badge-cat" class="text-[10px] font-black uppercase tracking-[0.16em] text-[#FF6D29] bg-[#FF6D29]/10 px-2.5 py-0.5 rounded-full border border-[#FF6D29]/30">Performance</span>
+        <span id="modal-badge-cat" class="text-[10px] font-black uppercase tracking-[0.16em] text-[#FFFFFF] bg-[#FFFFFF]/10 px-2.5 py-0.5 rounded-full border border-[#FFFFFF]/30">Performance</span>
         <h3 id="modal-badge-title" class="text-base font-extrabold text-white mt-2">110% por 3 dias</h3>
         
         <div class="my-3 py-3 border-y border-white/5 text-left">
-          <span class="text-[10px] font-bold uppercase tracking-wider text-[#FF6D29] block mb-1">Requisito do App:</span>
+          <span class="text-[10px] font-bold uppercase tracking-wider text-[#FFFFFF] block mb-1">Requisito do App:</span>
           <p id="modal-badge-desc" class="text-xs text-[#BABABA] leading-relaxed">
             Superar a meta diária estipulada em 110% durante 3 dias consecutivos.
           </p>
@@ -1453,10 +1456,10 @@
 
         <div class="flex justify-between items-center text-[11px]">
           <span class="text-[#BABABA]" id="modal-badge-status">Status: Bloqueada</span>
-          <span class="text-[#FF6D29] font-bold">Piso, nunca teto</span>
+          <span class="text-[#FFFFFF] font-bold">Piso, nunca teto</span>
         </div>
 
-        <button id="btn-modal-entendido" class="w-full mt-4 py-2.5 rounded-full bg-[#FF6D29] text-white font-black text-xs hover:bg-[#FFAE33] transition-all">
+        <button id="btn-modal-entendido" class="w-full mt-4 py-2.5 rounded-full bg-[#2C2C2E] hover:bg-[#3A3A3C] text-white border border-white/20 font-black text-xs hover:bg-[#EBEBF5] transition-all">
           Entendido
         </button>
       </div>
@@ -1467,22 +1470,22 @@
       <div class="arounda-card w-full max-w-[340px] p-5 relative shadow-2xl border border-white/10">
         <button id="close-cheque-modal" class="absolute top-4 right-4 text-[#BABABA] hover:text-white p-1 font-bold">✕</button>
         
-        <h3 class="text-sm font-black text-[#FF6D29] uppercase tracking-wider">Cheque do Futuro</h3>
+        <h3 class="text-sm font-black text-[#FFFFFF] uppercase tracking-wider">Cheque do Futuro</h3>
         <p class="text-xs text-[#BABABA] mt-0.5">Defina seu alvo financeiro de longo prazo</p>
 
         <form id="cheque-form" class="mt-4 space-y-3">
           <div>
             <label for="input-cheque-valor" class="text-[11px] font-bold text-[#BABABA] block mb-1">Valor da Conquista (R$)</label>
-            <input type="text" id="input-cheque-valor" value="50.000,00" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-sm text-white font-mono-num focus:border-[#FF6D29] outline-none">
+            <input type="text" id="input-cheque-valor" value="50.000,00" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-sm text-white font-mono-num focus:border-[#FFFFFF] outline-none">
           </div>
 
           <div>
             <label for="input-cheque-data" class="text-[11px] font-bold text-[#BABABA] block mb-1">Mês / Ano Alvo</label>
-            <input type="text" id="input-cheque-data" value="Dezembro / 2026" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-sm text-white focus:border-[#FF6D29] outline-none">
+            <input type="text" id="input-cheque-data" value="Dezembro / 2026" class="w-full bg-[#1c181b] border border-white/10 rounded-xl px-3 py-2 text-sm text-white focus:border-[#FFFFFF] outline-none">
           </div>
 
           <div class="pt-2">
-            <button type="submit" class="w-full py-2.5 rounded-full bg-[#FF6D29] text-white font-black text-xs hover:bg-[#FFAE33] transition-all shadow-md">
+            <button type="submit" class="w-full py-2.5 rounded-full bg-[#2C2C2E] hover:bg-[#3A3A3C] text-white border border-white/20 font-black text-xs hover:bg-[#EBEBF5] transition-all shadow-md">
               Salvar Cheque
             </button>
           </div>
@@ -1509,8 +1512,8 @@
     </div>
 
     <!-- Toast Flutuante -->
-    <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-[#221c1f] border border-[#FF6D29] text-white text-xs px-4 py-2 rounded-full shadow-2xl opacity-0 pointer-events-none transition-opacity duration-300 z-50 whitespace-nowrap font-medium flex items-center gap-2">
-      <span class="w-1.5 h-1.5 rounded-full bg-[#FF6D29]"></span>
+    <div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-[#221c1f] border border-[#FFFFFF] text-white text-xs px-4 py-2 rounded-full shadow-2xl opacity-0 pointer-events-none transition-opacity duration-300 z-50 whitespace-nowrap font-medium flex items-center gap-2">
+      <span class="w-1.5 h-1.5 rounded-full bg-[#FFFFFF]"></span>
       <span id="toast-text">Ação registrada!</span>
     </div>
 
@@ -1523,18 +1526,18 @@
       const unlocked = badge.unlocked;
       const cat = badge.cat;
 
-      let ribbonColor1 = '#FF6D29';
-      let ribbonColor2 = '#FFAE33';
+      let ribbonColor1 = '#FFFFFF';
+      let ribbonColor2 = '#EBEBF5';
       let centerIcon = '';
 
       if (cat === 'Batalha') {
-        ribbonColor1 = '#FF6D29';
+        ribbonColor1 = '#FFFFFF';
         ribbonColor2 = '#C25318';
         centerIcon = `
           <circle cx="50" cy="64" r="14" stroke="#FFF" stroke-width="1.5" stroke-dasharray="3 2" fill="none"/>
           <line x1="50" y1="46" x2="50" y2="82" stroke="#FFF" stroke-width="1.8"/>
           <line x1="32" y1="64" x2="68" y2="64" stroke="#FFF" stroke-width="1.8"/>
-          <circle cx="50" cy="64" r="4" fill="#FFAE33"/>
+          <circle cx="50" cy="64" r="4" fill="#EBEBF5"/>
         `;
       } else if (cat === 'Ponteiro') {
         ribbonColor1 = '#E5C158';
@@ -1558,13 +1561,13 @@
         centerIcon = `
           <rect x="38" y="52" width="24" height="24" rx="6" stroke="#FFF" stroke-width="1.8" fill="none"/>
           <circle cx="50" cy="64" r="6" stroke="#FFF" stroke-width="1.8" fill="none"/>
-          <circle cx="56" cy="58" r="1.5" fill="#FF6D29"/>
+          <circle cx="56" cy="58" r="1.5" fill="#FFFFFF"/>
         `;
       } else if (cat === 'Constância') {
         ribbonColor1 = '#10b981';
         ribbonColor2 = '#047857';
         centerIcon = `
-          <path d="M50 49 C46 56 42 60 42 67 C42 72 45 77 50 77 C55 77 58 72 58 67 C58 60 54 56 50 49 Z" fill="#FFAE33"/>
+          <path d="M50 49 C46 56 42 60 42 67 C42 72 45 77 50 77 C55 77 58 72 58 67 C58 60 54 56 50 49 Z" fill="#EBEBF5"/>
           <path d="M50 57 C48 61 46 64 46 68 C46 71 48 74 50 74 C52 74 54 71 54 68 C54 64 52 61 50 57 Z" fill="#FFF"/>
         `;
       } else if (cat === 'Resultado') {
@@ -1592,7 +1595,7 @@
               </linearGradient>
               <linearGradient id="goldMetal" x1="0" y1="0" x2="100" y2="100">
                 <stop offset="0%" stop-color="#FFF0D4"/>
-                <stop offset="35%" stop-color="#FFAE33"/>
+                <stop offset="35%" stop-color="#EBEBF5"/>
                 <stop offset="70%" stop-color="#C25318"/>
                 <stop offset="100%" stop-color="#5A2307"/>
               </linearGradient>
@@ -1651,7 +1654,7 @@
           const targetVisits = (period === 'semana') ? appState.missions.reuniao.target : (appState.missions.reuniao.target * 4);
 
           return [
-            { label: 'O Campo de Batalha (Contatos)', count: currentProsp, target: targetProsp, color: '#FF6D29' },
+            { label: 'O Campo de Batalha (Contatos)', count: currentProsp, target: targetProsp, color: '#FFFFFF' },
             { label: 'O Ponteiro (Visitas)', count: currentVisits, target: targetVisits, color: '#E5C158' },
             { label: 'O Ímã (Vídeos no Feed)', count: appState.missions.feed.count, target: 3, color: '#3b82f6' },
             { label: 'A Conexão (Stories)', count: appState.missions.stories.count, target: 3, color: '#ec4899' },
@@ -1773,7 +1776,7 @@
       streak: 0,
       gridOpen: false,
       selectedPeriod: 'semana',
-      hasAuthority: true,
+      hasAuthority: false,
       isManagerView: false,
       funil: {
         faturamento: 10000,
@@ -1788,15 +1791,19 @@
         weeklyVisits: 1
       },
       missions: {
-        prospeccao: { id: 'prospeccao', label: 'O Campo de Batalha', desc: 'Contatos com clientes', target: 3, unit: 'contatos', count: 0, periodVolume: { semana: 0, mes: 0, ano: 0 } },
-        reuniao: { id: 'reuniao', label: 'O Ponteiro', desc: 'Apresentação ou visita', target: 1, unit: 'na semana', count: 0, periodVolume: { semana: 0, mes: 0, ano: 0 } },
-        feed: { id: 'feed', label: 'O Ímã', desc: 'Vídeos publicados no feed', target: 3, unit: 'na semana', count: 0, periodVolume: { semana: 0, mes: 0, ano: 0 } },
-        stories: { id: 'stories', label: 'A Conexão', desc: 'Stories e bastidores', target: 3, unit: 'stories', count: 0, periodVolume: { semana: 0, mes: 0, ano: 0 } }
+        locacao: { id: 'locacao', label: 'Novos Contatos Locação', desc: 'Prospecção e atração para aluguel', target: 5, unit: 'contatos', count: 0, periodVolume: { semana: 0, mes: 0, ano: 0 }, icon: '👥' },
+        venda: { id: 'venda', label: 'Novos Contatos Venda', desc: 'Compradores e investidores', target: 3, unit: 'contatos', count: 0, periodVolume: { semana: 0, mes: 0, ano: 0 }, icon: '🎯' },
+        qualificados: { id: 'qualificados', label: 'Atendimentos Qualificados', desc: 'Filtro de perfil e capacidade real', target: 2, unit: 'leads', count: 0, periodVolume: { semana: 0, mes: 0, ano: 0 }, icon: '⭐' },
+        visitas: { id: 'visitas', label: 'Visitas Presenciais', desc: 'Apresentação no imóvel físico', target: 1, unit: 'visitas', count: 0, periodVolume: { semana: 0, mes: 0, ano: 0 }, icon: '🏠' },
+        reunioes: { id: 'reunioes', label: 'Reuniões Online', desc: 'Chamadas de vídeo e pitch remoto', target: 1, unit: 'reuniões', count: 0, periodVolume: { semana: 0, mes: 0, ano: 0 }, icon: '📹' },
+        followup: { id: 'followup', label: 'Follow-ups Executados', desc: 'Nutrição de base e reativação', target: 5, unit: 'follow-ups', count: 0, periodVolume: { semana: 0, mes: 0, ano: 0 }, icon: '🔁' },
+        // Aliases para compatibilidade total de funções internas:
+        prospeccao: { id: 'prospeccao', label: 'Prospecção Geral', desc: 'Contatos totais', target: 8, unit: 'contatos', count: 0, periodVolume: { semana: 0, mes: 0, ano: 0 } },
+        reuniao: { id: 'reuniao', label: 'Apresentações Totais', desc: 'Visitas e reuniões', target: 2, unit: 'na semana', count: 0, periodVolume: { semana: 0, mes: 0, ano: 0 } },
+        feed: { id: 'feed', label: 'Vídeos no Feed', desc: 'Conteúdo autoral', target: 3, unit: 'na semana', count: 0, periodVolume: { semana: 0, mes: 0, ano: 0 } },
+        stories: { id: 'stories', label: 'Stories e Bastidores', desc: 'Publicações diárias', target: 3, unit: 'stories', count: 0, periodVolume: { semana: 0, mes: 0, ano: 0 } }
       },
-      complementaryMissions: [
-        { id: 'captacao', label: 'Captação de Imóvel', desc: 'Meta: 1 imóvel novo', target: 1, unit: 'imóvel', count: 0, isCustom: false, periodVolume: { semana: 0, mes: 0, ano: 0 } },
-        { id: 'followup', label: 'Follow-up Cirúrgico', desc: 'Nutrição de leads quentes', target: 5, unit: 'follow-ups', count: 0, isCustom: false, periodVolume: { semana: 0, mes: 0, ano: 0 } }
-      ],
+      complementaryMissions: [],
       badges: [
         { id: 1, title: 'Primeiro Alvo', cat: 'Batalha', unlocked: false, desc: 'Fez o primeiro contato de valor do dia no Campo de Batalha.' },
         { id: 2, title: '50 Conexões', cat: 'Batalha', unlocked: false, desc: 'Alcançou a marca de 50 contatos de valor ativos com clientes.' },
@@ -1884,6 +1891,15 @@
       const inviteUrl = getBrokerInviteUrl();
       const displayLink = document.getElementById('display-broker-invite-link');
       const anchorLink = document.getElementById('link-anchor-broker-invite');
+      if (anchorLink) {
+        anchorLink.addEventListener('click', () => {
+          appState.profile.role = 'corretor';
+          applyRolePermissions();
+          const welcomeModal = document.getElementById('welcome-splash-modal');
+          if (welcomeModal) welcomeModal.classList.remove('hidden');
+          showToast('👁️ Visão de corretor ativada! Veja o novo layout.');
+        });
+      }
 
       if (displayLink) displayLink.textContent = inviteUrl;
       if (anchorLink) anchorLink.href = inviteUrl;
@@ -1910,8 +1926,8 @@
         if (roleSwitcherCard) roleSwitcherCard.classList.remove('hidden');
 
         if (profileRoleTag) {
-          profileRoleTag.textContent = '👑 Gestor da Equipe';
-          profileRoleTag.className = 'inline-block text-[9px] uppercase tracking-wider font-extrabold text-[#FF6D29] bg-[#FF6D29]/15 border border-[#FF6D29]/40 px-2 py-0.5 rounded-full';
+          profileRoleTag.textContent = '👑 Membro Fundador';
+          profileRoleTag.className = 'inline-block text-[9px] uppercase tracking-wider font-extrabold text-[#FFFFFF] bg-[#FFFFFF]/15 border border-[#FFFFFF]/40 px-2 py-0.5 rounded-full';
         }
         if (profileRoleDesc) {
           profileRoleDesc.textContent = 'Gestor (Painel da Equipe e Auditoria Liberados)';
@@ -2101,6 +2117,8 @@
 
       const formattedFat = res.faturamento.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
       document.getElementById('onboarding-cheque-display').textContent = `R$ ${formattedFat}`;
+      const chequePrev = document.getElementById('onboarding-cheque-preview');
+      if (chequePrev) chequePrev.textContent = `R$ ${formattedFat}`;
       document.getElementById('onboarding-cheque').value = formattedFat;
     }
 
@@ -2142,40 +2160,23 @@
 
     function renderMissions() {
       let batidos = 0;
-      const activeKeys = appState.hasAuthority 
-        ? ['prospeccao', 'reuniao', 'feed', 'stories'] 
-        : ['prospeccao', 'reuniao'];
+      const coreKeys = ['locacao', 'venda', 'qualificados', 'visitas', 'reunioes', 'followup', 'feed', 'stories'];
 
-      activeKeys.forEach(key => {
+      coreKeys.forEach(key => {
         const m = appState.missions[key];
+        if (!m) return;
         const countEl = document.getElementById(`count-${key}`);
         const labelEl = document.getElementById(`label-${key}`);
-        const barEl = document.getElementById(`bar-${key}`);
         const cardEl = document.getElementById(`card-${key}`);
-        const statusBadge = document.getElementById(`badge-status-${key}`);
 
         if (countEl) countEl.textContent = m.count;
-        if (labelEl) labelEl.textContent = `${m.count} de ${m.target} ${m.unit}`;
-
-        const pct = Math.min(100, Math.round((m.count / m.target) * 100));
-        if (barEl) {
-          barEl.style.width = `${pct}%`;
-          barEl.className = m.count >= m.target ? 'progress-bar gradient-progress-success h-full rounded-full transition-all duration-300' : 'progress-bar gradient-progress h-full rounded-full transition-all duration-300';
-        }
+        if (labelEl) labelEl.textContent = `${m.count} de ${m.target} ${m.unit || 'ações'}`;
 
         if (cardEl) {
           if (m.count >= m.target) {
             cardEl.classList.add('arounda-card-active');
-            if (statusBadge) {
-              statusBadge.textContent = 'Cumprido ✓';
-              statusBadge.className = 'text-emerald-400 text-[10px] uppercase font-black';
-            }
           } else {
             cardEl.classList.remove('arounda-card-active');
-            if (statusBadge) {
-              statusBadge.textContent = key === 'reuniao' || key === 'feed' ? 'Meta Semanal' : 'Piso Diário';
-              statusBadge.className = 'text-[#BABABA] text-[10px] uppercase font-bold';
-            }
           }
         }
 
@@ -2184,7 +2185,7 @@
 
       const totalLabel = document.getElementById('total-progress-label');
       if (totalLabel) {
-        totalLabel.textContent = `${batidos} de ${activeKeys.length} batidos`;
+        totalLabel.textContent = `${batidos} de ${coreKeys.length} batidas`;
       }
 
       // Atualiza card do gestor na tela de equipe
@@ -2219,7 +2220,7 @@
         div.innerHTML = `
           <div class="flex items-center gap-2.5 min-w-0 pr-2">
             <div class="w-8 h-8 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
-              <svg class="w-4 h-4 text-[#FF6D29]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              <svg class="w-4 h-4 text-[#FFFFFF]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
             </div>
             <div class="truncate">
               <h5 class="text-xs font-bold text-white truncate">${cm.label}</h5>
@@ -2278,10 +2279,9 @@
 
       const period = appState.selectedPeriod;
       
+      const coreKeys = ['locacao', 'venda', 'qualificados', 'visitas', 'reunioes', 'followup', 'feed', 'stories'];
       const allActivities = [
-        appState.missions.prospeccao,
-        appState.missions.reuniao,
-        ...(appState.hasAuthority ? [appState.missions.feed, appState.missions.stories] : []),
+        ...coreKeys.map(k => appState.missions[k]).filter(Boolean),
         ...appState.complementaryMissions
       ];
 
@@ -2304,7 +2304,7 @@
         barRow.innerHTML = `
           <div class="flex justify-between text-xs">
             <span class="text-[#BABABA] truncate pr-2">${act.label}</span>
-            <span class="font-mono-num text-[#FF6D29] font-bold shrink-0">${currentVal} / ${periodTarget}</span>
+            <span class="font-mono-num text-[#FFFFFF] font-bold shrink-0">${currentVal} / ${periodTarget}</span>
           </div>
           <div class="w-full bg-[#110e11] h-2 rounded-full overflow-hidden p-0.5 border border-white/5">
             <div class="${currentVal >= periodTarget ? 'gradient-progress-success' : 'gradient-progress'} h-full rounded-full transition-all duration-300" style="width: ${pct}%"></div>
@@ -2349,7 +2349,7 @@
         if (i < 28) {
           square.className += ' bg-[#1e1b1e] border border-white/5 text-[#BABABA]/30';
         } else if (i === 28) {
-          square.className += ' bg-[#281812] border-2 border-[#FF6D29] text-[#FF6D29] shadow-[0_0_12px_rgba(255,109,41,0.6)] font-black scale-105';
+          square.className += ' bg-[#281812] border-2 border-[#FFFFFF] text-[#FFFFFF] shadow-[0_0_12px_rgba(255,109,41,0.6)] font-black scale-105';
         } else {
           square.className += ' bg-[#161316] border border-white/5 text-[#BABABA]/20';
         }
@@ -2379,7 +2379,7 @@
       filtered.forEach(b => {
         const btn = document.createElement('button');
         btn.className = `p-3 rounded-2xl flex flex-col items-center text-center transition-all active:scale-95 ${
-          b.unlocked ? 'cs-medal hover:border-[#FFAE33]' : 'cs-medal-locked hover:opacity-70'
+          b.unlocked ? 'cs-medal hover:border-[#EBEBF5]' : 'cs-medal-locked hover:opacity-70'
         }`;
         
         btn.innerHTML = `
@@ -2387,7 +2387,7 @@
             ${generateInsigniaSVG(b)}
           </div>
           <span class="text-[11px] font-extrabold text-white leading-tight line-clamp-1 mt-1">${b.title}</span>
-          <span class="text-[9px] text-[#FF6D29] font-mono-num font-bold uppercase mt-0.5">${b.cat}</span>
+          <span class="text-[9px] text-[#FFFFFF] font-mono-num font-bold uppercase mt-0.5">${b.cat}</span>
         `;
 
         btn.addEventListener('click', () => openBadgeModal(b));
@@ -2419,7 +2419,7 @@
         if (item.status === 'afazer') {
           statusBadgeHTML = '<span class="text-[9px] font-black uppercase text-[#BABABA] bg-white/5 border border-white/10 px-2.5 py-1 rounded-full">Irei Fazer</span>';
         } else if (item.status === 'fazendo') {
-          statusBadgeHTML = '<span class="text-[9px] font-black uppercase text-[#FF6D29] bg-[#FF6D29]/15 border border-[#FF6D29]/40 px-2.5 py-1 rounded-full">Fazendo</span>';
+          statusBadgeHTML = '<span class="text-[9px] font-black uppercase text-[#FFFFFF] bg-[#FFFFFF]/15 border border-[#FFFFFF]/40 px-2.5 py-1 rounded-full">Fazendo</span>';
         } else {
           statusBadgeHTML = '<span class="text-[9px] font-black uppercase text-emerald-400 bg-emerald-950/40 border border-emerald-500/40 px-2.5 py-1 rounded-full">Concluído ✓</span>';
         }
@@ -2429,7 +2429,7 @@
             <div class="book-mockup flex flex-col justify-between p-1 text-[8px] font-extrabold text-white text-center" style="background: linear-gradient(135deg, ${item.color} 0%, #111 100%);">
               <span class="truncate block opacity-75 uppercase tracking-tighter">APE</span>
               <span class="text-[7px] leading-tight line-clamp-2">${item.title}</span>
-              <span class="text-[6px] text-[#FF6D29] truncate font-mono-num">ELITE</span>
+              <span class="text-[6px] text-[#FFFFFF] truncate font-mono-num">ELITE</span>
             </div>
             <div class="truncate">
               <h5 class="text-xs font-bold text-white truncate">${item.title}</h5>
@@ -2483,7 +2483,7 @@
         if (item.status === 'afazer') {
           statusBadgeHTML = '<span class="text-[9px] font-black uppercase text-[#BABABA] bg-white/5 border border-white/10 px-2.5 py-1 rounded-full">Irei Fazer</span>';
         } else if (item.status === 'fazendo') {
-          statusBadgeHTML = '<span class="text-[9px] font-black uppercase text-[#FF6D29] bg-[#FF6D29]/15 border border-[#FF6D29]/40 px-2.5 py-1 rounded-full">Fazendo</span>';
+          statusBadgeHTML = '<span class="text-[9px] font-black uppercase text-[#FFFFFF] bg-[#FFFFFF]/15 border border-[#FFFFFF]/40 px-2.5 py-1 rounded-full">Fazendo</span>';
         } else {
           statusBadgeHTML = '<span class="text-[9px] font-black uppercase text-emerald-400 bg-emerald-950/40 border border-emerald-500/40 px-2.5 py-1 rounded-full">Concluído ✓</span>';
         }
@@ -2493,7 +2493,7 @@
             <div class="book-mockup flex flex-col justify-between p-1 text-[8px] font-extrabold text-white text-center" style="background: linear-gradient(135deg, ${item.color} 0%, #111 100%);">
               <span class="truncate block opacity-75 uppercase tracking-tighter">APE</span>
               <span class="text-[7px] leading-tight line-clamp-2">${item.title}</span>
-              <span class="text-[6px] text-[#FF6D29] truncate font-mono-num">ELITE</span>
+              <span class="text-[6px] text-[#FFFFFF] truncate font-mono-num">ELITE</span>
             </div>
             <div class="truncate">
               <h5 class="text-xs font-bold text-white truncate">${item.title}</h5>
@@ -2537,10 +2537,9 @@
       container.innerHTML = '';
 
       const period = appState.selectedPeriod;
+      const coreKeys = ['locacao', 'venda', 'qualificados', 'visitas', 'reunioes', 'followup', 'feed', 'stories'];
       const allActivities = [
-        appState.missions.prospeccao,
-        appState.missions.reuniao,
-        ...(appState.hasAuthority ? [appState.missions.feed, appState.missions.stories] : []),
+        ...coreKeys.map(k => appState.missions[k]).filter(Boolean),
         ...appState.complementaryMissions
       ];
 
@@ -2552,7 +2551,7 @@
             <span class="text-xs font-bold text-white block truncate">${act.label}</span>
             <span class="text-[10px] text-[#BABABA]">Período: ${period}</span>
           </div>
-          <input type="number" min="0" value="${act.periodVolume[period] || 0}" data-id="${act.id}" class="volume-input w-16 bg-[#161316] border border-white/20 rounded-lg px-2 py-1 text-xs text-white font-mono-num text-center focus:border-[#FF6D29] outline-none">
+          <input type="number" min="0" value="${act.periodVolume[period] || 0}" data-id="${act.id}" class="volume-input w-16 bg-[#161316] border border-white/20 rounded-lg px-2 py-1 text-xs text-white font-mono-num text-center focus:border-[#FFFFFF] outline-none">
         `;
         container.appendChild(div);
       });
@@ -2592,10 +2591,160 @@
       }, 2000);
     }
 
+    // Sincronização Real Supabase: Salvar Perfil de Corretor
+    async function syncBrokerProfileToSupabase(nameVal, cityVal) {
+      if (!supabaseClient) return;
+      try {
+        let brokerId = localStorage.getItem('mycorretor_user_id');
+        if (!brokerId) {
+          brokerId = 'corretor_' + Math.random().toString(36).substring(2, 9);
+          localStorage.setItem('mycorretor_user_id', brokerId);
+        }
+        await supabaseClient.from('perfis').upsert({
+          id: brokerId,
+          nome: nameVal,
+          cidade: cityVal,
+          organizacao: 'Estratégia Imobiliária',
+          cargo: 'corretor',
+          meta_faturamento: (appState && appState.funil && appState.funil.faturamento) || 20000,
+          comissao_media: (appState && appState.funil && appState.funil.comissao) || 10000,
+          atualizado_em: new Date().toISOString()
+        });
+      } catch (err) {
+        console.warn('Sync perfil Supabase', err);
+      }
+    }
+
+    // Sincronização Real Supabase: Salvar Métricas Diárias
+    let syncDebounceTimer = null;
+    function queueSyncDailyMetrics() {
+      if (syncDebounceTimer) clearTimeout(syncDebounceTimer);
+      syncDebounceTimer = setTimeout(async () => {
+        if (!supabaseClient) return;
+        try {
+          const brokerId = localStorage.getItem('mycorretor_user_id') || 'fundador_gabriel';
+          const todayStr = new Date().toISOString().split('T')[0];
+          const payload = {};
+          if (appState && appState.missions) {
+            Object.keys(appState.missions).forEach(k => {
+              payload[k] = appState.missions[k].count;
+            });
+          }
+          await supabaseClient.from('registros_diarios').upsert({
+            perfil_id: brokerId,
+            data: todayStr,
+            metricas: payload,
+            atualizado_em: new Date().toISOString()
+          });
+        } catch (e) {
+          console.warn('Sync métricas Supabase', e);
+        }
+      }, 1500);
+    }
+
+    // Leitura Real da Equipe do Supabase
+    async function loadRealTeamBrokersFromSupabase() {
+      if (!supabaseClient) return;
+      try {
+        const { data, error } = await supabaseClient.from('perfis').select('*').eq('organizacao', 'Estratégia Imobiliária');
+        if (data && data.length > 0) {
+          const container = document.getElementById('team-brokers-list');
+          if (!container) return;
+          // Renderiza corretores encontrados
+          const brokersHTML = data.map(b => `
+            <div class="arounda-card p-3 flex justify-between items-center cursor-pointer hover:border-white/30 transition-all broker-team-card" data-broker-id="${b.id}">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-[#2C2C2E] border border-white/20 flex items-center justify-center text-xs font-bold text-white">
+                  ${(b.nome || 'C').substring(0,2).toUpperCase()}
+                </div>
+                <div>
+                  <h4 class="text-xs font-bold text-white">${b.nome || 'Corretor'}</h4>
+                  <p class="text-[10px] text-[#8E8E93]">${b.cidade || 'Ilhéus'} • Estratégia Imobiliária</p>
+                </div>
+              </div>
+              <span class="text-[10px] font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-500/40 px-2 py-0.5 rounded-full">Ativo</span>
+            </div>
+          `).join('');
+          container.innerHTML = brokersHTML;
+        }
+      } catch (err) {
+        console.warn('Erro ao carregar equipe', err);
+      }
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       loadAppState();
       applyAuthorityMode();
       applyRolePermissions();
+
+      // Membro Fundador & PIN Mestre
+      const isBrokerParam = new URLSearchParams(window.location.search).get('cargo') === 'corretor';
+      const founderCard = document.getElementById('founder-panel-card');
+      const btnUnlockPin = document.getElementById('btn-unlock-founder-pin');
+      const pinModal = document.getElementById('founder-pin-modal');
+      const formPin = document.getElementById('form-founder-pin');
+      const inputPin = document.getElementById('input-founder-pin');
+      const lockIcon = document.getElementById('founder-lock-icon');
+      const lockLabel = document.getElementById('founder-lock-label');
+      const managerToggleBtn = document.getElementById('btn-toggle-manager-mode');
+
+      const isFounderUnlocked = localStorage.getItem('mycorretor_founder_unlocked') === 'true';
+
+      if (isBrokerParam) {
+        if (founderCard) founderCard.classList.add('hidden');
+        if (managerToggleBtn) managerToggleBtn.classList.add('hidden');
+      } else {
+        if (isFounderUnlocked) {
+          if (lockIcon) lockIcon.textContent = '✓';
+          if (lockLabel) lockLabel.textContent = 'Gestão Ativa';
+          if (btnUnlockPin) {
+            btnUnlockPin.className = 'text-xs font-semibold px-3 py-1.5 rounded-xl bg-emerald-950/40 text-emerald-400 border border-emerald-500/40 transition-all flex items-center gap-1.5';
+          }
+          if (managerToggleBtn) managerToggleBtn.classList.remove('hidden');
+        }
+      }
+
+      if (btnUnlockPin) {
+        btnUnlockPin.addEventListener('click', () => {
+          if (localStorage.getItem('mycorretor_founder_unlocked') === 'true') {
+            showToast('👑 Gestão de Fundador já está ativa no cabeçalho!');
+            if (managerToggleBtn) {
+              managerToggleBtn.click();
+            }
+          } else {
+            pinModal.classList.remove('hidden');
+            inputPin.value = '';
+            inputPin.focus();
+          }
+        });
+      }
+
+      const closePinModal = document.getElementById('close-founder-pin-modal');
+      const cancelPin = document.getElementById('btn-cancel-founder-pin');
+      if (closePinModal) closePinModal.addEventListener('click', () => pinModal.classList.add('hidden'));
+      if (cancelPin) cancelPin.addEventListener('click', () => pinModal.classList.add('hidden'));
+
+      if (formPin) {
+        formPin.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const val = inputPin.value.trim();
+          if (val === '1020') {
+            localStorage.setItem('mycorretor_founder_unlocked', 'true');
+            pinModal.classList.add('hidden');
+            if (lockIcon) lockIcon.textContent = '✓';
+            if (lockLabel) lockLabel.textContent = 'Gestão Ativa';
+            if (btnUnlockPin) {
+              btnUnlockPin.className = 'text-xs font-semibold px-3 py-1.5 rounded-xl bg-emerald-950/40 text-emerald-400 border border-emerald-500/40 transition-all flex items-center gap-1.5';
+            }
+            if (managerToggleBtn) managerToggleBtn.classList.remove('hidden');
+            showToast('👑 Acesso de Membro Fundador desbloqueado!');
+            loadRealTeamBrokersFromSupabase();
+          } else {
+            showToast('PIN incorreto. Tente 1020.');
+            inputPin.value = '';
+          }
+        });
+      }
 
       let onboardingDone = false;
       try {
@@ -2650,7 +2799,7 @@
 
           managerLabel.textContent = 'Minha Missão';
           managerIcon.textContent = '⚡';
-          btnToggleManager.classList.add('border-[#FF6D29]', 'text-[#FF6D29]');
+          btnToggleManager.classList.add('border-[#FFFFFF]', 'text-[#FFFFFF]');
           document.getElementById('top-title-indicator').textContent = 'Comando da Equipe';
           showToast('Painel do Gestor ativado (Visão da Equipe)');
         } else {
@@ -2658,7 +2807,7 @@
           missaoSec.classList.remove('hidden');
           managerLabel.textContent = 'Equipe';
           managerIcon.textContent = '👥';
-          btnToggleManager.classList.remove('border-[#FF6D29]', 'text-[#FF6D29]');
+          btnToggleManager.classList.remove('border-[#FFFFFF]', 'text-[#FFFFFF]');
           document.getElementById('top-title-indicator').textContent = 'Execução Diária';
           showToast('Visão individual do corretor ativada');
         }
@@ -2748,6 +2897,14 @@
 
         appState.missions.prospeccao.target = funilRes.dailyProsp;
         appState.missions.reuniao.target = funilRes.weeklyVisits;
+        if (appState.missions.locacao) appState.missions.locacao.target = Math.max(2, Math.ceil(funilRes.dailyProsp * 0.6));
+        if (appState.missions.venda) appState.missions.venda.target = Math.max(2, Math.ceil(funilRes.dailyProsp * 0.4));
+        if (appState.missions.qualificados) appState.missions.qualificados.target = Math.max(1, Math.ceil(funilRes.qualificados / 20));
+        if (appState.missions.visitas) appState.missions.visitas.target = funilRes.weeklyVisits;
+        if (appState.missions.reunioes) appState.missions.reunioes.target = Math.max(1, Math.ceil(funilRes.weeklyVisits / 2));
+        if (appState.missions.followup) appState.missions.followup.target = Math.max(3, funilRes.dailyProsp);
+        if (appState.missions.feed) appState.missions.feed.target = 3;
+        if (appState.missions.stories) appState.missions.stories.target = 3;
 
         document.getElementById('profile-name-text').textContent = nameVal;
         document.getElementById('profile-city-text').textContent = cityVal;
@@ -2771,6 +2928,8 @@
         updateTemporalCalculations();
         onboardingScreen.classList.add('hidden');
         showToast(`Bem-vindo, ${nameVal}! Missão pronta.`);
+        syncBrokerProfileToSupabase(nameVal, cityVal);
+        queueSyncDailyMetrics();
       });
 
       // Alternar Autoridade no Perfil
@@ -2827,7 +2986,7 @@
           document.querySelectorAll('.broker-period-tab').forEach(b => {
             b.className = 'broker-period-tab flex-1 py-1 text-xs font-medium text-[#BABABA] rounded-xl hover:text-white transition-all';
           });
-          bpt.className = 'broker-period-tab flex-1 py-1 text-xs font-bold rounded-xl bg-[#FF6D29] text-white transition-all';
+          bpt.className = 'broker-period-tab flex-1 py-1 text-xs font-bold rounded-xl bg-[#2C2C2E] hover:bg-[#3A3A3C] text-white border border-white/20 transition-all';
           renderBrokerDrilldown(selectedDrilldownBroker, bpt.getAttribute('data-period'));
         });
       });
@@ -2853,7 +3012,7 @@
             painelGestorSec.classList.add('hidden');
             managerLabel.textContent = 'Equipe';
             managerIcon.textContent = '👥';
-            btnToggleManager.classList.remove('border-[#FF6D29]', 'text-[#FF6D29]');
+            btnToggleManager.classList.remove('border-[#FFFFFF]', 'text-[#FFFFFF]');
           }
 
           const target = btn.getAttribute('data-target');
@@ -2896,6 +3055,7 @@
           renderMissions();
           renderVolumeExecution();
           showToast(`+1 em ${appState.missions[mission].label}`);
+          queueSyncDailyMetrics();
         });
       });
 
@@ -2996,7 +3156,7 @@
           document.querySelectorAll('.period-tab').forEach(b => {
             b.className = 'period-tab flex-1 py-1.5 text-xs font-medium text-[#BABABA] rounded-xl hover:text-white transition-all';
           });
-          pt.className = 'period-tab flex-1 py-1.5 text-xs font-bold rounded-xl bg-[#FF6D29] text-white shadow-md transition-all';
+          pt.className = 'period-tab flex-1 py-1.5 text-xs font-bold rounded-xl bg-[#2C2C2E] hover:bg-[#3A3A3C] text-white border border-white/20 shadow-md transition-all';
           appState.selectedPeriod = pt.getAttribute('data-period');
           renderVolumeExecution();
 
@@ -3021,7 +3181,7 @@
           document.querySelectorAll('.badge-filter').forEach(btn => {
             btn.className = 'badge-filter px-3 py-1 rounded-full text-xs font-semibold text-[#BABABA] bg-white/5 border border-white/5 whitespace-nowrap hover:text-white';
           });
-          f.className = 'badge-filter px-3 py-1 rounded-full text-xs font-bold bg-[#FF6D29] text-white whitespace-nowrap shadow-md';
+          f.className = 'badge-filter px-3 py-1 rounded-full text-xs font-bold bg-[#2C2C2E] hover:bg-[#3A3A3C] text-white border border-white/20 whitespace-nowrap shadow-md';
           renderBadges(f.getAttribute('data-cat'));
         });
       });
@@ -3182,5 +3342,30 @@
       updateTemporalCalculations();
     });
   </script>
+    <!-- ================= MODAL DE PIN MESTRE (MEMBRO FUNDADOR) ================= -->
+    <div id="founder-pin-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+      <div class="arounda-card w-full max-w-[320px] p-5 relative shadow-2xl border border-white/15 text-center space-y-3.5 bg-[#1C1C1E]">
+        <button id="close-founder-pin-modal" class="absolute top-3 right-3 text-[#8E8E93] hover:text-white p-1 font-bold">✕</button>
+        
+        <div class="w-12 h-12 mx-auto rounded-2xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-xl text-amber-300">
+          👑
+        </div>
+
+        <div>
+          <h3 class="text-sm font-bold text-white">Comando de Fundador</h3>
+          <p class="text-[11px] text-[#8E8E93] mt-1">Digite seu PIN Mestre de 4 dígitos para gerenciar a equipe</p>
+        </div>
+
+        <form id="form-founder-pin" class="space-y-3">
+          <input type="password" id="input-founder-pin" maxlength="4" placeholder="••••" required class="w-32 mx-auto bg-black/60 border border-white/20 rounded-xl px-3 py-2 text-center text-xl font-bold tracking-[0.4em] text-white focus:border-white outline-none">
+          <p class="text-[9px] text-[#8E8E93]">PIN padrão: 1020</p>
+          <div class="flex gap-2 pt-1">
+            <button type="button" id="btn-cancel-founder-pin" class="flex-1 py-2 rounded-xl bg-white/5 border border-white/10 text-xs text-[#8E8E93] hover:text-white">Cancelar</button>
+            <button type="submit" class="flex-1 py-2 rounded-xl bg-[#2C2C2E] hover:bg-[#3A3A3C] border border-white/20 text-xs font-bold text-white">Confirmar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
 </body>
 </html>
